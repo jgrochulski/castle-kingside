@@ -96,9 +96,7 @@ function ChessBoard({ labelToggle }) {
     return final
 
   }
-
-  moveLateral("c4", -2)
-
+  // moveLateral("c4", -2)
 
   function moveVertical(start, distance) {
     let x_value = start.split('')[0];
@@ -114,8 +112,7 @@ function ChessBoard({ labelToggle }) {
     return final
 
   }
-
-  moveVertical("c4", 1)
+  // moveVertical("c4", 1)
 
   function moveDiagonal(start, distance, x, y) {
     let lateralTransform = moveLateral(start, distance * x);
@@ -123,8 +120,7 @@ function ChessBoard({ labelToggle }) {
     console.log("Diagonal: " + verticalTransoform)
     return verticalTransoform;
   }
-
-  moveDiagonal("c4", 4, 1, 1)
+  // moveDiagonal("c4", 4, 1, 1)
 
   function validMove(piece, attack, start) {
     let position = start.split('')
@@ -138,37 +134,42 @@ function ChessBoard({ labelToggle }) {
       }
     }
   }
-
   validMove("white-pawn", false, "a2")
 
-  
 
   function clickHandler(e) {
     let id = e.target.id
     console.log(id)
-    if (holderFull) {
-      setClickHolder([])
-      setHolderFull(false)
-      console.log("here")
-    }
-    else if (clickHolder.length > 0) {
-      setHolderFull(true)
-      setClickHolder([...clickHolder, id])
-      // setGame({...game, "d2": "", "d4": "white-pawn"})
-      let firstClick = clickHolder[0]
-      let secondClick = id
+    
+    if (clickHolder.length > 0) {
+      if (id === clickHolder[0]) {
+        console.log('deselected')
+        setClickHolder([])
 
-      let piece = game[firstClick]
-      // console.log("fristCLick: " + firstClick)
-      // console.log("secondClick: " + secondClick)
-      // console.log("piece: " + piece)
+      }
+      else {
+        setClickHolder([...clickHolder, id])
+        let firstClick = clickHolder[0]
+        let secondClick = id
+
+        let piece = game[firstClick]
+        // console.log("fristCLick: " + firstClick)
+        // console.log("secondClick: " + secondClick)
+        // console.log("piece: " + piece)
+
+        // if (isValidMove(piece, firstClick, secondClick)) {
+          
+        // }
 
 
-      let newGame = {...game}
-      newGame[firstClick] = ""
-      newGame[secondClick] = piece
+        let newGame = {...game}
+        newGame[firstClick] = ""
+        newGame[secondClick] = piece
 
-      setGame(newGame)
+        setGame(newGame)
+        setClickHolder([])
+      }
+
 
 
       // console.log("here")
@@ -176,12 +177,11 @@ function ChessBoard({ labelToggle }) {
     else if (game[id] && clickHolder.length == 0) {
       console.log(gameObj[id])
       setClickHolder([id])
+      
     }
   }
 
   console.log(clickHolder)
-  console.log(holderFull)
-  // console.log()
 
 
 
@@ -198,7 +198,7 @@ function ChessBoard({ labelToggle }) {
     for (let j = 0; j < 8; j++) {
       let color = toggle ? "black-square" : "white-square";
 
-      grid.push(<Square game={game} color={color} code_x={j + 97} y={8 - i} key={`${i}${j}`} labelToggle={labelToggle} clickHandler={clickHandler}/>)
+      grid.push(<Square game={game} color={color} code_x={j + 97} y={8 - i} key={`${i}${j}`} labelToggle={labelToggle} clickHolder={clickHolder} clickHandler={clickHandler}/>)
 
       if (j !== 7) {
         toggle = !toggle;

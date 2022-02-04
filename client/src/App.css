@@ -41,9 +41,9 @@
   border: rgb(123, 146, 216) 4px solid;
 }
 
-.square:focus {
+/* .square:focus {
   border: royalblue 4px solid;
-}
+} */
 
 .piece {
   position: absolute;
