@@ -4,7 +4,7 @@ import Square from "./Square.js";
 import { useState } from "react";
 
 
-function ChessBoard({ labelToggle }) {
+function ChessBoard({ labelToggle, turn, setTurn }) {
 
   let gameObj = {
     "a1": "",
@@ -103,11 +103,11 @@ function ChessBoard({ labelToggle }) {
     let y_value = parseInt(start[1])
     let y_value_end = y_value + distance
 
-    console.log("y_value_end: " + y_value_end)
+    // console.log("y_value_end: " + y_value_end)
 
     let final = x_value + y_value_end
 
-    console.log("veritcal return: " + final)
+    // console.log("veritcal return: " + final)
 
     return final
 
@@ -122,19 +122,45 @@ function ChessBoard({ labelToggle }) {
   }
   // moveDiagonal("c4", 4, 1, 1)
 
-  function validMove(piece, attack, start) {
-    let position = start.split('')
-    // console.log(position)
-    // let pawnStandard = st
-    // let pawnFirst
-    // let pawnAttack
-    if (piece === 'white-pawn' || piece === 'black-pawn') {
-      if (attack) {
+  function isValidMove(piece, start, end) {
+    let validMoves = [];
+    if (piece === 'white-pawn' && turn === 'white') {
+      if (game[moveVertical(start, 1)] === "") {
+        if (parseInt(start[1]) == 2) {
+          validMoves.push(moveVertical(start, 2))
+        }
+        validMoves.push(moveVertical(start, 1))
+        console.log(validMoves)
+      }
+    }
+    if (piece === 'black-pawn' && turn === 'black') {
+      if (game[moveVertical(start, -1)] === "") {
+        if (parseInt(start[1]) == 7) {
+          validMoves.push(moveVertical(start, -2))
+        }
+        validMoves.push(moveVertical(start, -1))
+        console.log(validMoves)
+      }
+    }
+    return validMoves.includes(end)
+  }
 
+  function isValidAttack(piece, start, end) {
+    if (piece = 'white-pawn' && turn === 'white') {
+      if (game[end] === 'black-pawn') {
+        if (end === moveDiagonal(start, 1, 1, 1) || end == moveDiagonal(start, 1, -1, 1)) {
+          return true
+        }
+      }
+    }
+    if (piece = 'black-pawn' && turn === 'black') {
+      if (game[end] === 'white-pawn') {
+        if (end === moveDiagonal(start, 1, 1, -1) || end == moveDiagonal(start, 1, -1, -1)) {
+          return true
+        }
       }
     }
   }
-  validMove("white-pawn", false, "a2")
 
 
   function clickHandler(e) {
@@ -157,16 +183,18 @@ function ChessBoard({ labelToggle }) {
         // console.log("secondClick: " + secondClick)
         // console.log("piece: " + piece)
 
-        // if (isValidMove(piece, firstClick, secondClick)) {
-          
-        // }
+        if (isValidMove(piece, firstClick, secondClick) || isValidAttack(piece, firstClick, secondClick)) {
+          console.log('valid move')
+          let newGame = {...game}
+          newGame[firstClick] = ""
+          newGame[secondClick] = piece
 
+          setGame(newGame)
+          setTurn(turn == 'white' ? 'black' : 'white')
+        }
 
-        let newGame = {...game}
-        newGame[firstClick] = ""
-        newGame[secondClick] = piece
-
-        setGame(newGame)
+        
+        
         setClickHolder([])
       }
 

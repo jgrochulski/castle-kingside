@@ -75,3 +75,12 @@ button.label-toggle:hover {
 button.label-toggle:active {
   background-color: rgb(224, 181, 143);
 }
+
+.turn-indicator {
+  width: 100px;
+  height: 20px;
+  margin: 10px auto 0 auto;
+  /* background-color: rgb(216, 216, 216); */
+  border: none;
+  /* border-radius: 5px; */
+}
