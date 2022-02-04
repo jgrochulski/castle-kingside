@@ -202,7 +202,7 @@ function ChessBoard({ labelToggle, turn, setTurn }) {
 
       // console.log("here")
     }
-    else if (game[id] && clickHolder.length == 0) {
+    else if (game[id].slice(0, 5) === turn && clickHolder.length == 0) {
       console.log(gameObj[id])
       setClickHolder([id])
       
