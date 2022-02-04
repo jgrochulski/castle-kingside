@@ -1,26 +1,23 @@
+// import React from "react"
+import { useState } from "react"
 
-function Square({ color, code_x, y }) {
+function Square({ game, color, code_x, y, labelToggle, clickHandler }) {
+
 
   let x = String.fromCharCode(code_x)
 
   let id = `${x}${y}`
 
-  let gameObj = {
-    "a2": "pawn",
-    "b2": "pawn",
-    "c2": "pawn",
-    "d2": "pawn",
-    "e2": "pawn",
-    "f2": "pawn",
-    "g2": "pawn",
-    // "h2": "pawn"
-  }
+  let classes = `square ${color}`
 
-  console.log(gameObj[id])
+  console.log(labelToggle)
 
   return (
-    <div className={color} tabIndex="0" id={id}>{id}
-      {gameObj[id] === "pawn" ? <img src="./pawn.png" alt="pawn" /> : null}
+    <div className={classes} tabIndex="0" id={id} onClick={clickHandler}>
+      <div className="square-label" style={{ display: labelToggle ? 'block' : 'none' }}>{id}</div>
+      {game[id] === "white-pawn" ? <img className="piece" src="./WhitePawn.png" alt="pawn" id={id}/> : null}
+      {game[id] === "black-pawn" ? <img className="piece" src="./BlackPawn.png" alt="pawn" id={id}/> : null}
+
     </div>
   );
 }

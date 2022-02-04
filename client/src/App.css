@@ -1,62 +1,77 @@
+.game-container {
+  width: 500px;
+  height: 500px;
+  margin: 20% auto 0 auto;
+}
+
 .chess-board {
   width: 400px;
   height: 400px;
-  margin: 20% auto 0 auto;
+  margin: 0 auto 0 auto;
   background-color: rgb(224, 181, 143);
   padding: 10px;
-
+  /* display: flex; */
+  font-size: 0px;
 }
 
-.board-row {
-  width: 400px;
+.square {
+  display: inline-block;
+  width: 50px;
   height: 50px;
-}
+  cursor: pointer;
+  box-sizing: border-box;
+  position: relative;
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
 
+}
 
 .white-square {
-  display: inline-block;
-  width: 42px;
-  height: 42px;
   background-color: rgb(221, 221, 221);
   border: rgb(221, 221, 221) 4px solid;
-  color: rgb(185, 146, 146);
-  cursor: pointer;
 }
 
 .black-square {
-  display: inline-block;
-  width: 42px;
-  height: 42px;
-  background-color: rgb(42, 42, 42);
-  border:rgb(42, 42, 42) 4px solid;
-  color: rgb(168, 122, 122);
-  cursor: pointer;
+  background-color: rgb(97, 97, 97);
+  border:rgb(97, 97, 97) 4px solid;
 }
 
-.white-square:hover {
+.square:hover {
   border: rgb(123, 146, 216) 4px solid;
 }
 
-.white-square:focus {
+.square:focus {
   border: royalblue 4px solid;
 }
 
-.black-square:hover {
-  border: rgb(123, 146, 216) 4px solid;
+.piece {
+  position: absolute;
+  left: -2px;
+  height: 45px;
+  width: 45px;
 }
 
-.black-square:focus {
-  border: royalblue 4px solid;
+div.square-label {
+  font-size: 14px;
+  position:absolute;
+  color:rgb(0, 25, 100);
+  /* display: 'none' */
 }
 
+button.label-toggle {
+  width: 100px;
+  height: 20px;
+  margin: 10px auto 0 200px;
+  background-color: rgb(216, 216, 216);
+  border: none;
+  border-radius: 5px;
+}
 
+button.label-toggle:hover {
+  background-color: rgb(170, 170, 170);
+}
 
-.pawn {
-  width: 15px;
-  height: 30px;
-  /* background-color: red; */
-  margin: auto;
-  background-image: url(../public/pawn.png);
-  background-size: 15px;
-  /* padding-bottom: 5px; */
+button.label-toggle:active {
+  background-color: rgb(224, 181, 143);
 }
