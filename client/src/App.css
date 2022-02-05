@@ -84,3 +84,13 @@ button.label-toggle:active {
   border: none;
   /* border-radius: 5px; */
 }
+
+.history {
+  width: 300px;
+  height: 40px;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin: 0 auto 0 auto;
+  /* text-align: right; */
+  /* direction: rtl; */
+}
