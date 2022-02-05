@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import GameContainer from "./GameContainer/GameContainer";
+import Login from "./GameContainer/Login";
+import Signup from "./GameContainer/Signup";
 
 import "./App.css"
 
@@ -19,6 +21,12 @@ function App() {
         <Switch>
           <Route path="/testing">
             <h1>Page Count: {count}</h1>
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/signup">
+            <Signup />
           </Route>
           <Route path="/">
             <GameContainer />
