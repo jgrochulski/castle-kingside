@@ -60,7 +60,7 @@ function Login() {
           </label>
           <input id="login-submit" type="submit" value="sign in" />
         </form>
-        <a className="login-link" href="/signup">create an account</a>
+        <a className="login-link" href="/signup">dont have an account? create one instead</a>
       </div>
     </div>
     

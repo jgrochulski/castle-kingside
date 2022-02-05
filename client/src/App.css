@@ -105,12 +105,13 @@ button.label-toggle:active {
 /* ###################### LOGIN ############################ */
 
 .login-container {
-  width: 600px;
+  width: fit-content;
   height: fit-content;
   background-color: rgb(236, 238, 243);
   border-radius: 5px;
+  /* outline: solid 1px rgb(217, 218, 223); */
   margin: 100px auto 0 auto;
-  padding: 10px;
+  padding: 10px 80px 10px 80px;
 }
 
 #login-logo {
@@ -118,7 +119,7 @@ button.label-toggle:active {
   width: 40px;
   border-radius: 50%;
   background-color: rgb(55, 90, 243);
-  margin: 20px auto 0 auto;
+  margin: 30px auto 0 auto;
   font-size: 30px;
   text-align: center;
 }
@@ -137,33 +138,61 @@ h1#login-h1 {
 
 #login-input-container {
   height: fit-content;
-  width: 70%;
+  width: 380px;
   margin: 0 auto 100px auto;
   /* background-color: white; */
 }
 
 .input-label {
+  font-size: 0px;
+  margin-left: 12px;
+  color:rgba(0, 0, 0, 0.787);
+  font-weight: 600;
+}
+
+.input-label:focus-within {
   font-size: 14px;
-  margin-left: 5px;
+  transition: 0.3s;
+
 }
 
 input.login-input {
   box-sizing: border-box;
   width: 100%;
-  height: 40px;
+  height: fit-content;
   margin: 3px 0 5px 0;
-  padding: 3px 10px 3px 10px;
+  padding: 15px 15px 15px 15px;
   font-size: 16px;
   border-radius: 5px;
   border: none;
+  box-shadow: 0 0 2px 0px rgba(0, 0, 0, 0.137);
 
+}
+
+input.login-input:hover {
+  outline: solid 2px rgb(221, 221, 221);
+
+}
+
+input.login-input:focus {
+  outline: none;
+}
+
+input.login-input:focus::placeholder {
+  font-size: 0;
+  transition: 0.3s;
+}
+
+::placeholder {
+  color: black;
+  opacity: 0.4;
 }
 
 #login-submit {
   width: 100%;
-  height: 46px;
+  height: 60px;
   text-transform: uppercase;
-  margin: 10px 0 0 0;
+  margin: 22px 0 10px 0;
   border-radius: 5px;
   border: none;
   background-color: rgb(55, 90, 243);
@@ -171,9 +200,6 @@ input.login-input {
   font-size: 14px;
   font-weight: 600;
   transition: 0.3s;
-
-  /* box-shadow: 0 0 2px 0px rgb(100, 100, 100); */
-
 }
 
 #login-submit:hover {
@@ -187,8 +213,6 @@ input.login-input {
 #login-submit:active {
   background-color: rgb(97, 126, 255);
   color: white;
-  /* box-shadow: 0 0 3px 0px rgb(54, 54, 54); */
-  /* transition: 0.3s; */
 }
 
 a.login-link {

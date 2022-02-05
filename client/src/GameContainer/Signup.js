@@ -80,7 +80,7 @@ function Signup() {
               className="login-input"
               type="password"
               name="confirm"
-              placeholder="confirm password"
+              placeholder="password"
               autoComplete="off"
               value={formData.confirm}
               onChange={handleChange} />
