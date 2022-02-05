@@ -142,7 +142,7 @@ function ChessBoard({ labelToggle, turn, setTurn, setHistory, history, turnNum, 
   }
 
   function isValidAttack(piece, start, end) {
-    if (piece = 'white-pawn' && turn === 'white') {
+    if (piece === 'white-pawn' && turn === 'white') {
       if (game[end] === 'black-pawn') {
         if (end === moveDiagonal(start, 1, 1, 1) || end == moveDiagonal(start, 1, -1, 1)) {
           return true
@@ -158,7 +158,7 @@ function ChessBoard({ labelToggle, turn, setTurn, setHistory, history, turnNum, 
         }
       }
     }
-    if (piece = 'black-pawn' && turn === 'black') {
+    if (piece === 'black-pawn' && turn === 'black') {
       if (game[end] === 'white-pawn') {
         if (end === moveDiagonal(start, 1, 1, -1) || end == moveDiagonal(start, 1, -1, -1)) {
           return true
@@ -175,7 +175,6 @@ function ChessBoard({ labelToggle, turn, setTurn, setHistory, history, turnNum, 
       }
     }
   }
-
 
   function clickHandler(e) {
     let id = e.target.id
