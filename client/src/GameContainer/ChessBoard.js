@@ -1,8 +1,5 @@
-import Row from "./Row.js";
 import Square from "./Square.js";
-
 import { useState } from "react";
-
 
 function ChessBoard({ labelToggle, turn, setTurn, setHistory, history, turnNum, setTurnNum, numberedHistory, setNumberedHistory }) {
 
@@ -74,7 +71,6 @@ function ChessBoard({ labelToggle, turn, setTurn, setHistory, history, turnNum, 
   }
 
   const [clickHolder, setClickHolder] = useState([])
-  const [holderFull, setHolderFull] = useState(false)
   const [game, setGame] = useState(gameObj)
 
   function moveLateral(start, distance) {
@@ -126,7 +122,7 @@ function ChessBoard({ labelToggle, turn, setTurn, setHistory, history, turnNum, 
     let validMoves = [];
     if (piece === 'white-pawn' && turn === 'white') {
       if (game[moveVertical(start, 1)] === "") {
-        if (parseInt(start[1]) == 2) {
+        if (parseInt(start[1]) == 2 && game[moveVertical(start, 2)] === "") {
           validMoves.push(moveVertical(start, 2))
         }
         validMoves.push(moveVertical(start, 1))
@@ -135,7 +131,7 @@ function ChessBoard({ labelToggle, turn, setTurn, setHistory, history, turnNum, 
     }
     if (piece === 'black-pawn' && turn === 'black') {
       if (game[moveVertical(start, -1)] === "") {
-        if (parseInt(start[1]) == 7) {
+        if (parseInt(start[1]) == 7 && game[moveVertical(start, -2)] === "") {
           validMoves.push(moveVertical(start, -2))
         }
         validMoves.push(moveVertical(start, -1))
@@ -229,7 +225,7 @@ function ChessBoard({ labelToggle, turn, setTurn, setHistory, history, turnNum, 
     }
   }
 
-  console.log(clickHolder)
+  // console.log(clickHolder)
 
 
 
