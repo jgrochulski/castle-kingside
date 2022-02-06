@@ -8,6 +8,15 @@ import "./App.css"
 
 function App() {
   const [count, setCount] = useState(0);
+  const [user, setUser] = useState(null);
+
+  // useEffect(() => {
+  //   fetch("/me").then((response) => {
+  //     if (response.ok) {
+  //       response.json().then((user) => setUser(user));
+  //     }
+  //   });
+  // }, []);
 
   useEffect(() => {
     fetch("/hello")
@@ -26,7 +35,7 @@ function App() {
             <Login />
           </Route>
           <Route path="/signup">
-            <Signup />
+            <Signup setUser={setUser} />
           </Route>
           <Route path="/">
             <GameContainer />

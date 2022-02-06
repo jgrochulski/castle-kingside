@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 
 
 
-function Signup() {
+function Signup({ setUser }) {
 
   const [redirect, setRedirect] = useState(false);
 
@@ -31,10 +31,30 @@ function Signup() {
       }
       console.log("confirmed - created")
       console.log(confirmedData)
-      setRedirect(true)
+
+      fetch("/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(confirmedData),
+      }).then((res) => {
+        if (res.ok) {
+          res.json().then((user) => {
+            setUser(user);
+            // redirect to home on successful signin
+            setRedirect(true)
+          });
+        } else {
+          res.json().then((errors) => {
+            console.error(errors);
+          });
+        }
+      });
     }
     else {
       console.log("error - passwords do not match")
+      // create error popup
       setFormData({
         username: formData.username,
         password: "",
