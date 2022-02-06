@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
+
 
 
 function Signup() {
+
+  const [redirect, setRedirect] = useState(false);
+
 
   const [formData, setFormData] = useState({
     username: "",
@@ -26,6 +31,7 @@ function Signup() {
       }
       console.log("confirmed - created")
       console.log(confirmedData)
+      setRedirect(true)
     }
     else {
       console.log("error - passwords do not match")
@@ -80,7 +86,7 @@ function Signup() {
               className="login-input"
               type="password"
               name="confirm"
-              placeholder="password"
+              placeholder="confirm password"
               autoComplete="off"
               value={formData.confirm}
               onChange={handleChange} />
@@ -89,6 +95,7 @@ function Signup() {
         </form>
         <a className="login-link" href="/login">already have an account? login instead</a>
       </div>
+      {redirect? <Redirect to="/login"/> : null}
     </div>
     
   );

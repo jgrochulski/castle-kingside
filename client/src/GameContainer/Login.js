@@ -1,7 +1,12 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
+
 
 
 function Login() {
+
+  const [redirect, setRedirect] = useState(false);
+
 
   const [formData, setFormData] = useState({
     username: "",
@@ -20,7 +25,7 @@ function Login() {
     event.preventDefault();
     console.log("submitted")
     console.log(formData)
-
+    setRedirect(true)
   };
 
 
@@ -62,6 +67,7 @@ function Login() {
         </form>
         <a className="login-link" href="/signup">dont have an account? create one instead</a>
       </div>
+      {redirect? <Redirect to="/"/> : null}
     </div>
     
   );
