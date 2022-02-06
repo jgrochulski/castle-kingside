@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 
 
 
-function Login() {
+function Login({ setUser }) {
 
   const [redirect, setRedirect] = useState(false);
 
@@ -25,7 +25,24 @@ function Login() {
     event.preventDefault();
     console.log("submitted")
     console.log(formData)
-    setRedirect(true)
+    fetch("/login", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(formData),
+    })
+    .then((res) => {
+      if (res.ok) {
+        res.json().then((user) => {
+          setUser(user);
+          // redirect to home on successful signin
+          setRedirect(true)
+        });
+      } else {
+        res.json().then((errors) => {
+          console.error(errors);
+        });
+      }
+    });
   };
 
 

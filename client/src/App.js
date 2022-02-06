@@ -10,18 +10,12 @@ function App() {
   const [count, setCount] = useState(0);
   const [user, setUser] = useState(null);
 
-  // useEffect(() => {
-  //   fetch("/me").then((response) => {
-  //     if (response.ok) {
-  //       response.json().then((user) => setUser(user));
-  //     }
-  //   });
-  // }, []);
-
   useEffect(() => {
-    fetch("/hello")
-      .then((r) => r.json())
-      .then((data) => setCount(data.count));
+    fetch("/me").then((response) => {
+      if (response.ok) {
+        response.json().then((user) => setUser(user));
+      }
+    });
   }, []);
 
   return (
@@ -32,13 +26,13 @@ function App() {
             <h1>Page Count: {count}</h1>
           </Route>
           <Route path="/login">
-            <Login />
+            <Login setUser={setUser} />
           </Route>
           <Route path="/signup">
             <Signup setUser={setUser} />
           </Route>
           <Route path="/">
-            <GameContainer />
+            <GameContainer user={user} setUser={setUser}/>
           </Route>
         </Switch>
       </div>
