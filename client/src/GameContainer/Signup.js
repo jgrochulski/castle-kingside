@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
+import Alert from "./Alert";
 
 
 
 function Signup({ setUser }) {
 
   const [redirect, setRedirect] = useState(false);
+  const [alert, setAlert] = useState("");
+
 
 
   const [formData, setFormData] = useState({
@@ -19,7 +22,7 @@ function Signup({ setUser }) {
       ...formData,
       [e.target.name]: e.target.value,
     });
-    console.log(formData)
+    // console.log(formData)
   };
 
   const handleSubmit = (event) => {
@@ -29,9 +32,6 @@ function Signup({ setUser }) {
         username: formData.username,
         password: formData.password
       }
-      console.log("confirmed - created")
-      console.log(confirmedData)
-
       fetch("/users", {
         method: "POST",
         headers: {
@@ -47,7 +47,11 @@ function Signup({ setUser }) {
           });
         } else {
           res.json().then((errors) => {
-            console.error(errors);
+            console.log(errors.error);  // here dfhladljfkask djfhasd fhkjafhlashfas
+            setAlert(errors.error);
+            return setTimeout(() => {
+              setAlert("");
+            }, 3000);
           });
         }
       });
@@ -55,11 +59,16 @@ function Signup({ setUser }) {
     else {
       console.log("error - passwords do not match")
       // create error popup
+      
       setFormData({
         username: formData.username,
         password: "",
         confirm: ""
       })
+      setAlert("passwords must match");
+      return setTimeout(() => {
+        setAlert("");
+      }, 2000);
     }
     
 
@@ -116,6 +125,7 @@ function Signup({ setUser }) {
         <a className="login-link" href="/login">already have an account? login instead</a>
       </div>
       {redirect? <Redirect to="/login"/> : null}
+      {alert ? <Alert status={alert} /> : null}
     </div>
     
   );

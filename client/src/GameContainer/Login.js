@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
+import Alert from "./Alert";
+import ExistingLogin from "./ExistingLogin";
 
 
-
-function Login({ setUser }) {
+function Login({ user, setUser }) {
 
   const [redirect, setRedirect] = useState(false);
-
+  const [alert, setAlert] = useState("");
 
   const [formData, setFormData] = useState({
     username: "",
@@ -38,9 +39,11 @@ function Login({ setUser }) {
           setRedirect(true)
         });
       } else {
-        res.json().then((errors) => {
-          console.error(errors);
-        });
+        // console.log(res)
+        setAlert("incorrect username or password");
+        return setTimeout(() => {
+          setAlert("");
+        }, 2000);
       }
     });
   };
@@ -52,39 +55,45 @@ function Login({ setUser }) {
       <div id="login-logo">
         {/* insert logo here */}
       </div>
-      <div id="login-h1-container">
-        <h1 id="login-h1">Sign in</h1>
-      </div>
-      <div id="login-input-container">
-        <form onSubmit={handleSubmit}>
-          <label className="input-label">
-            username:
-            <input
-              className="login-input"
-              autoFocus
-              type="text"
-              name="username"
-              placeholder="username"
-              autoComplete="off"
-              value={formData.username}
-              onChange={handleChange} />
-          </label>
-          <label className="input-label">
-            password:
-            <input
-              className="login-input"
-              type="password"
-              name="password"
-              placeholder="password"
-              autoComplete="off"
-              value={formData.password}
-              onChange={handleChange} />
-          </label>
-          <input id="login-submit" type="submit" value="sign in" />
-        </form>
-        <a className="login-link" href="/signup">dont have an account? create one instead</a>
-      </div>
+      {user ? <ExistingLogin user={user} setUser={setUser} setRedirect={setRedirect}/> :
+      <div>
+          <div id="login-h1-container">
+            <h1 id="login-h1">Sign in</h1>
+          </div>
+          <div id="login-input-container">
+            <form onSubmit={handleSubmit}>
+              <label className="input-label">
+                username:
+                <input
+                  className="login-input"
+                  autoFocus
+                  type="text"
+                  name="username"
+                  placeholder="username"
+                  autoComplete="off"
+                  value={formData.username}
+                  onChange={handleChange} />
+              </label>
+              <label className="input-label">
+                password:
+                <input
+                  className="login-input"
+                  type="password"
+                  name="password"
+                  placeholder="password"
+                  autoComplete="off"
+                  value={formData.password}
+                  onChange={handleChange} />
+              </label>
+              <input id="login-submit" type="submit" value="sign in" />
+            </form>
+            <a className="login-link" href="/signup">dont have an account? create one instead</a>
+          </div>
+          {alert ? <Alert status={alert} /> : null}
+        </div>
+      }
       {redirect? <Redirect to="/"/> : null}
+      {/*  ------------------------------------------   to this  */}
     </div>
     
   );

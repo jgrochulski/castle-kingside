@@ -15,11 +15,6 @@ function GameContainer({ user, setUser }) {
   const [numberedHistory, setNumberedHistory] = useState([])
   const [redirect, setRedirect] = useState(false);
 
-
-
-  console.log("user")
-  console.log(user)
-
   function handleLogout() {
     fetch("/logout", { method: "DELETE" })
     .then((res) => {
@@ -28,8 +23,6 @@ function GameContainer({ user, setUser }) {
       }
     });
   };
-
-
 
   return (
     <div className="game-container">

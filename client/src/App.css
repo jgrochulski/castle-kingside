@@ -219,3 +219,37 @@ a.login-link {
   float: right;
   margin: 5px 0 0 0;
 }
+
+#alert {
+  opacity: 1.0;
+  position: absolute;
+  top: 175px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  pointer-events: none;
+  width: fit-content;
+  background-color: #e24545;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.alert-message {
+  display: block;
+  width: 100%;
+  margin: 10px;
+}
+
+div.existing-login {
+  margin: 10px 0 0 0;
+  width: 350px;
+  font-size: 14px;
+  color:rgba(0, 0, 0, 0.787);
+  font-weight: 600;
+}
+
+div.existing-login-text {
+  width: 350px;
+  margin-top: 10px;
+}
+

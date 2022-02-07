@@ -26,13 +26,13 @@ function App() {
             <h1>Page Count: {count}</h1>
           </Route>
           <Route path="/login">
-            <Login setUser={setUser} />
+            <Login user={user} setUser={setUser} />
           </Route>
           <Route path="/signup">
-            <Signup setUser={setUser} />
+            <Signup user={user} setUser={setUser} />
           </Route>
           <Route path="/">
-            <GameContainer user={user} setUser={setUser}/>
+            <GameContainer user={user} setUser={setUser} />
           </Route>
         </Switch>
       </div>
