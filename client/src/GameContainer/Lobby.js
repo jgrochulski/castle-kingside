@@ -12,8 +12,8 @@ function Lobby({ }) {
   
 
   return (
-    <div id="login-h1-container">
-      
+    <div id="lobby-container">
+      This is the lobby
     </div>
   );
 }
