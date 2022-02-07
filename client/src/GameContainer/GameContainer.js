@@ -95,7 +95,10 @@ function GameContainer({ user, setUser }) {
     h8: ""
   }
 
-  console.log(JSON.stringify(gameObj))
+  let gamepack = {game_state: JSON.stringify(gameObj)}
+
+  // console.log(gamepack)
+
 
   function postGame() {
 
@@ -104,13 +107,13 @@ function GameContainer({ user, setUser }) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({game_state: JSON.stringify(gameObj)}),
+      body: JSON.stringify(gamepack),
     }).then((res) => {
       if (res.ok) {
         res.json().then((game) => {
           // log game resp
-          // console.log(game)
-          setGameState(JSON.parse(gameState.game_state))
+          console.log(JSON.parse(game.game_state))
+          setGameState(JSON.parse(game.game_state))
         });
       } else {
         res.json().then((errors) => {
@@ -120,7 +123,7 @@ function GameContainer({ user, setUser }) {
     });
   }
 
-  console.log(gameState)
+  console.log(gameState.b7)
 
 
   return (
@@ -139,7 +142,8 @@ function GameContainer({ user, setUser }) {
         turnNum={turnNum}
         setTurnNum={setTurnNum}
         numberedHistory={numberedHistory}
-        setNumberedHistory={setNumberedHistory}/>
+        setNumberedHistory={setNumberedHistory}
+      />
       <History numberedHistory={numberedHistory}/>
       <LabelButton labelToggle={labelToggle} setLabelToggle={setLabelToggle} />
       {redirect? <Redirect to="/login"/> : null}

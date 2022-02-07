@@ -4,6 +4,7 @@ import { useState } from "react"
 function Square({ game, color, code_x, y, labelToggle, clickHolder, clickHandler }) {
 
 
+
   let x = String.fromCharCode(code_x)
 
   let id = `${x}${y}`

@@ -1,5 +1,5 @@
 import Square from "./Square.js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function ChessBoard({ labelToggle, turn, setTurn, setHistory, history, turnNum, setTurnNum, numberedHistory, setNumberedHistory }) {
 
@@ -72,6 +72,17 @@ function ChessBoard({ labelToggle, turn, setTurn, setHistory, history, turnNum, 
 
   const [clickHolder, setClickHolder] = useState([])
   const [game, setGame] = useState(gameObj)
+
+  // useEffect(() => {
+  //   fetch("/games/50").then((response) => {
+  //     if (response.ok) {
+  //       response.json().then((game) => {
+  //         console.log(JSON.parse(game.game_state))
+  //         setGame(JSON.parse(game.game_state))
+  //       });
+  //     }
+  //   });
+  // }, []);
 
   function moveLateral(start, distance) {
     let x_value = start.split('')[0];
