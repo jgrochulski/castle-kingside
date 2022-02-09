@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react"
-
+import GameChecker from "./GameChecker"
 function TestGame({ user }){
 
   const [gameStatus, setGameStatus] = useState("game is running")
-  const [game, setGame] = useState({
-    history: "",
-    turn: "player1"
-  })
+  const [game, setGame] = useState({})
 
   if (!game.player1) {
     reloadGame()
+    console.log('first set')
   }
 
   let patch = {
@@ -17,6 +15,7 @@ function TestGame({ user }){
     history: "",
     counter: 10
   }
+
 
   function testPatch(){
     fetch("/games/53", {
@@ -29,33 +28,13 @@ function TestGame({ user }){
     .then(j => console.log(j))
   }
 
-  function checkGame(){
-    fetch('/games/53')
-    .then(resp => {
-      if (resp.ok) {
-        resp.json()
-        .then(check => {
-          console.log("here")
-          console.log(check)
-          if (check != game) {
-            setGame(check)
-          }
-          // setGame(game) // setGame from server
-        })
-      }
-      else {
-        console.log('fetch error')
-      }
-    })
-  }
-
   function reloadGame(){
     fetch('/games/53')
     .then(resp => {
       if (resp.ok) {
         resp.json()
         .then(game => {
-          console.log(game)
+          // console.log(game)
           setGame(game) // setGame from server
         })
       }
@@ -76,7 +55,7 @@ function TestGame({ user }){
     .then(j => console.log(j))
   }
 
-  console.log(game)
+  // console.log(game)
 
   let userTurn = "no one"
   let userNotice = "there is no user logged in"
@@ -133,6 +112,7 @@ function TestGame({ user }){
         <button onClick={gameEnd}>End Game</button>
         <div id="test-game-state">{game.history}history</div>
         <button onClick={testPatch}>Test Patch</button>
+        {user && game[game.turn] != user.username && gameStatus != 'game is over' ? <GameChecker game={game} setGame={setGame} reloadGame={reloadGame}/> : null}
     </div>
         );
 
