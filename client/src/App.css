@@ -258,10 +258,18 @@ div.existing-login-text {
 
 /* testing  */
 
-#test-game-container{
+#test-game-container-blue{
   width: 400px;
   height: 400px;
   background-color: rgb(204, 213, 255);
+  margin: 10% auto 20px auto;
+  padding: 10px;
+}
+
+#test-game-container-red{
+  width: 400px;
+  height: 400px;
+  background-color: rgb(255, 204, 204);
   margin: 10% auto 20px auto;
   padding: 10px;
 }

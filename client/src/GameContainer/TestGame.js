@@ -101,7 +101,7 @@ function TestGame({ user }){
   }
 
   return (
-    <div id="test-game-container">
+    <div id={`test-game-container-${user && game[game.turn] == user.username ? "blue" : "red"}`}>
         <div id="test-user-notice">{userNotice}</div>
         {/* <button onClick={gameStart}>Start Game</button> */}
         <div id="test-game-status">{gameStatus}</div>
@@ -119,54 +119,3 @@ function TestGame({ user }){
 };
 
 export default TestGame;
-
-
-
-
-
-
-  //   let user1 = {
-  //     username: "janek"
-  //   }
-    
-  //   let user2 = {
-  //     username: "franci"
-  //   }
-  
-  //   let user = user1;
-  
-  //   let gameSeed = {
-  //     player1: user,
-  //     player2: user2,
-  //     currentTurn: true,
-  //     gameIsWon: false,
-  //     gameState: 10
-  //   }
-  
-  //   const [game, setGame] = useState(gameSeed)
-  
-  //   let notice = "there is no user"
-  //   let turn = "there is no game started"
-  //   let currentTurnPlayer = "nobody"
-    
-  //   notice = "the user is " + user.username
-  
-  //   currentTurnPlayer = game.currentTurn ? game.player1 : game.player2
-  //   turn = "it is " + currentTurnPlayer.username + "'s turn"
-  
-  
-  // function handleTurn() {
-  //   console.log("next turn")
-  //   setGame({...game, currentTurn: !game.currentTurn, gameState: game.gameState - 1})
-  // }
-  
-  
-  //     return (
-  //         <div id="test-game-container">
-  //             <div id="test-notice">{notice}</div>
-  //             <div id="test-turn-indicator">{turn}</div>
-              
-  //             {game.gameState < 1 ? <div id="test-game-over">GAME OVER</div> 
-  //             : <button id="test-button" onClick={handleTurn}>end turn</button>}
-  //         </div>
-  //     );
