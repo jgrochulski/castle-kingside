@@ -43,6 +43,8 @@ function GameChecker({ game, setGame, reloadGame }) {
     })
   }
 
+
+
   useEffect(() => {
     
     const gameInterval = setInterval(() => {

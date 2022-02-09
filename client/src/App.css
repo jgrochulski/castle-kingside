@@ -71,7 +71,7 @@ button.label-toggle {
   margin: 10px auto 0 200px;
   background-color: rgb(216, 216, 216);
   border: none;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 
 button.label-toggle:hover {
@@ -99,6 +99,32 @@ button.label-toggle:active {
   margin: 0 auto 0 auto;
   /* text-align: right; */
   /* direction: rtl; */
+}
+
+.login-button{
+  display: block;
+  height: fit-content;
+  width: 200px;
+  margin: 0 auto 10px auto;
+  font-size: 18px;
+  color: white;
+  padding: 5px 0 5px 0;
+  border: none;
+  background-color: rgb(97, 126, 255);
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.login-button:hover{
+  color: white;
+  border: none;
+  background-color: rgb(67, 102, 255);
+  outline:rgb(67, 102, 255) solid 1px;
+}
+
+.login-button:active{
+  background-color: rgb(32, 72, 251);
+
 }
 
 
@@ -260,22 +286,198 @@ div.existing-login-text {
 
 #test-game-container-blue{
   width: 400px;
-  height: 400px;
+  height: fit-content;
   background-color: rgb(204, 213, 255);
   margin: 10% auto 20px auto;
   padding: 10px;
+  border-radius: 5px;
 }
 
 #test-game-container-red{
   width: 400px;
-  height: 400px;
+  height: fit-content;
   background-color: rgb(255, 204, 204);
   margin: 10% auto 20px auto;
   padding: 10px;
+  border-radius: 5px;
+}
+
+#test-game-internal{
+  box-sizing: border-box;
+  padding: 10px;
+  width: 100%;
+  height: fit-content;
+  background-color: rgb(249, 251, 255);
+  border-radius: 4px;
 }
 
 #test-user-notice{
+  /* font-size: 20px; */
+  color:rgb(122, 122, 122);
+  font-weight: 600;
   width:fit-content;
   height: fit-content;
   margin: 0 auto 10px auto;
+}
+
+#test-game-title{
+  /* font-size: 20px; */
+  color: rgb(0, 0, 0);
+  font-weight: 600;
+  font-size: 30px;
+  width:fit-content;
+  height: fit-content;
+  margin: 0 auto 10px auto;
+}
+
+#test-game-status{
+  /* font-size: 20px; */
+  color:rgb(122, 122, 122);
+  width:fit-content;
+  height: fit-content;
+  margin: 0 auto 10px auto;
+}
+
+#checker-status{
+  /* font-size: 20px; */
+  color:rgb(122, 122, 122);
+  width:fit-content;
+  height: fit-content;
+  margin: 0 auto 10px auto;
+}
+
+#test-game-turn{
+  /* font-size: 20px; */
+  color: rgb(55, 90, 243);
+  font-weight: 600;
+  font-size: 30px;
+  width:fit-content;
+  height: fit-content;
+  margin: 0 auto 10px auto;
+}
+
+#test-game-state{
+  /* font-size: 20px; */
+  color: rgb(79, 88, 129);
+  font-weight: 600;
+  font-size: 16px;
+  width:fit-content;
+  height: fit-content;
+  margin: 0 auto 10px auto;
+}
+
+.test-button{
+  display: block;
+  height: fit-content;
+  width: 200px;
+  margin: 0 auto 10px auto;
+  font-size: 18px;
+  color: white;
+  padding: 5px 0 5px 0;
+  border: none;
+  background-color: rgb(97, 126, 255);
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.test-button:hover{
+  color: white;
+  border: none;
+  background-color: rgb(67, 102, 255);
+  outline:rgb(67, 102, 255) solid 1px;
+}
+
+/* ------------ LOBBY ----------- */
+
+#lobby-container{
+  width: fit-content;
+  height: fit-content;
+  background-color: rgb(236, 238, 243);
+  border-radius: 5px;
+  /* outline: solid 1px rgb(217, 218, 223); */
+  margin: 100px auto 0 auto;
+  padding: 10px 80px 10px 80px;
+}
+
+#lobby-games-list {
+  height: fit-content;
+  width: 380px;
+  margin: 0 auto 70px auto;
+  background-color: white;
+  padding: 10px;
+}
+
+.lobby-game-item{
+  width: 80%;
+  height: fit-content;
+  margin: 5px auto 5px auto;
+  border-radius: 5px;
+  background-color: rgb(236, 238, 243);
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.lobby-game-item:hover{
+  background-color: rgb(227, 230, 233);
+  outline:rgb(227, 230, 233) solid 1px;
+}
+
+.game-item-title{
+  display: inline-flex;
+  font-weight: 700;
+  font-size: 16px;
+  margin: 0 0 0 3px;
+}
+
+/* .game-item-title-full{
+  display: inline-flex;
+  font-weight: 700;
+  font-size: 16px;
+  color: rgb(184, 184, 184);
+  margin: 0 0 0 3px;
+} */
+
+.game-item-text{
+  display: inline-flex;
+  color: rgb(122, 122, 122);
+  font-weight: 600;
+}
+
+.game-item-host{
+  display: inline-flex;
+  color: rgb(97, 126, 255);
+  font-weight: 600;
+
+}
+
+.game-item-button{
+  height: 20px;
+  width: 80px;
+  font-size: 14px;
+  color: white;
+  padding: 0 7px 2px 7px;
+  border: none;
+  background-color: rgb(97, 126, 255);
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.game-item-button:hover{
+  color: white;
+  border: none;
+  background-color: rgb(67, 102, 255);
+  outline:rgb(67, 102, 255) solid 1px;
+}
+
+.game-item-button-full{
+  height: 20px;
+  width: 80px;
+  font-size: 14px;
+  color: white;
+  padding: 0 7px 2px 7px;
+  border: none;
+  background-color: rgb(184, 184, 184);
+  border-radius: 3px;
+  font-weight: 600;
 }

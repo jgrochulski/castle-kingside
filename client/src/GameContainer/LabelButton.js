@@ -6,7 +6,7 @@ function LabelButton({ labelToggle, setLabelToggle }) {
   }
 
   return (
-    <button className="label-toggle" onClick={handleToggle}>toggle labels</button>
+    <button className="login-button" onClick={handleToggle}>toggle labels</button>
   );
 }
 

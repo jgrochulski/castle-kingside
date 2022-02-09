@@ -129,9 +129,9 @@ function GameContainer({ user, setUser }) {
   return (
     <div className="game-container">
       {user ?
-        <button className="logout-button" onClick={handleLogout}>logout {user.username}</button> :
+        <button className="login-button" onClick={handleLogout}>logout {user.username}</button> :
         <button className="login-button" onClick={() => {setRedirect(true)}}>login</button>}
-      <button onClick={postGame}>post game</button>
+      {/* <button onClick={postGame}>post game</button> */}
       <TurnIndicator turn={turn}/>
       <ChessBoard 
         labelToggle={labelToggle} 
@@ -147,7 +147,7 @@ function GameContainer({ user, setUser }) {
       <History numberedHistory={numberedHistory}/>
       <LabelButton labelToggle={labelToggle} setLabelToggle={setLabelToggle} />
       {redirect? <Redirect to="/login"/> : null}
-      <Lobby />
+      {/* <Lobby /> */}
     </div>
     
   );

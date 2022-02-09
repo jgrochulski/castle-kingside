@@ -92,7 +92,7 @@ function Login({ user, setUser }) {
           {alert ? <Alert status={alert} /> : null}
         </div>
       }
-      {redirect? <Redirect to="/"/> : null}
+      {redirect? <Redirect to="/lobby"/> : null}
       {/*  ------------------------------------------   to this  */}
     </div>
     

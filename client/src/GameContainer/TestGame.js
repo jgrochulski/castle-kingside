@@ -75,13 +75,13 @@ function TestGame({ user }){
     }
   }
 
-  // function simTurn() {
-  //   if (game.turn === 'player2') {
-  //     // setGame({...game, turn: 'player1', history: game.history + userTurn[0], counter: game.counter - 1})
-  //     quickPatch({turn: 'player1', history: game.history + userTurn[0], counter: game.counter - 1})
-  //     reloadGame()
-  //   }
-  // }
+  function simTurn() {
+    if (game.turn === 'player2') {
+      // setGame({...game, turn: 'player1', history: game.history + userTurn[0], counter: game.counter - 1})
+      quickPatch({turn: 'player1', history: game.history + userTurn[0], counter: game.counter - 1})
+      reloadGame()
+    }
+  }
 
   function gameEnd() {
     setGameStatus('game is over')
@@ -102,17 +102,21 @@ function TestGame({ user }){
 
   return (
     <div id={`test-game-container-${user && game[game.turn] == user.username ? "blue" : "red"}`}>
-        <div id="test-user-notice">{userNotice}</div>
-        {/* <button onClick={gameStart}>Start Game</button> */}
-        <div id="test-game-status">{gameStatus}</div>
-        <button onClick={endTurn}>End Turn</button>
-        {/* <button onClick={simTurn}>Sim Turn</button> */}
+        <div id='test-game-internal'>
+          <div id="test-user-notice">{userNotice}</div>
+          <div id="test-game-title">game#1337</div>
+          {/* <button onClick={gameStart}>Start Game</button> */}
+          <div id="test-game-status">{gameStatus}</div>
+          <div id="test-game-turn">{userTurn}'s turn</div>
 
-        <div id="test-game-turn">{userTurn}'s turn</div>
-        <button onClick={gameEnd}>End Game</button>
-        <div id="test-game-state">{game.history}history</div>
-        <button onClick={testPatch}>Test Patch</button>
-        {user && game[game.turn] != user.username && gameStatus != 'game is over' ? <GameChecker game={game} setGame={setGame} reloadGame={reloadGame}/> : null}
+          <button className="test-button" onClick={endTurn}>End Turn</button>
+          {/* <button onClick={simTurn}>Sim Turn</button> */}
+
+          {/* <button className="test-button" onClick={gameEnd}>End Game</button> */}
+          <div id="test-game-state">history: {game.history}</div>
+          <button className="test-button" onClick={testPatch}>Reset Game</button>
+          {user && game[game.turn] != user.username && gameStatus != 'game is over' ? <GameChecker game={game} setGame={setGame} reloadGame={reloadGame}/> : null}
+        </div>
     </div>
         );
 
