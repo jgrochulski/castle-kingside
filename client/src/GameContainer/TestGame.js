@@ -2,68 +2,138 @@ import { useState, useEffect } from "react"
 
 function TestGame({ user }){
 
-  const [gameStatus, setGameStatus] = useState("game has not started")
+  const [gameStatus, setGameStatus] = useState("game is running")
   const [game, setGame] = useState({
-    player1: {username: "jantje"},
-    player2: {username: "franci"},
-    currentTurn: true,
-    gameIsWon: false,
-    gameHistory: "",
-    gameState: 10
+    history: "",
+    turn: "player1"
   })
+
+  if (!game.player1) {
+    reloadGame()
+  }
+
+  let patch = {
+    turn: 'player1',
+    history: "",
+    counter: 10
+  }
+
+  function testPatch(){
+    fetch("/games/53", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(patch)
+    }).then((res) => res.json())
+    .then(j => console.log(j))
+  }
+
+  function checkGame(){
+    fetch('/games/53')
+    .then(resp => {
+      if (resp.ok) {
+        resp.json()
+        .then(check => {
+          console.log("here")
+          console.log(check)
+          if (check != game) {
+            setGame(check)
+          }
+          // setGame(game) // setGame from server
+        })
+      }
+      else {
+        console.log('fetch error')
+      }
+    })
+  }
+
+  function reloadGame(){
+    fetch('/games/53')
+    .then(resp => {
+      if (resp.ok) {
+        resp.json()
+        .then(game => {
+          console.log(game)
+          setGame(game) // setGame from server
+        })
+      }
+      else {
+        console.log('fetch error')
+      }
+    })
+  }
+
+  function quickPatch(info){
+    fetch("/games/53", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(info)
+    }).then((res) => res.json())
+    .then(j => console.log(j))
+  }
+
+  console.log(game)
 
   let userTurn = "no one"
   let userNotice = "there is no user logged in"
+  const nextTurn = game.turn === 'player1' ? 'player2' : 'player1';
 
-  function gameStart() {
-    setGameStatus("game is running")
-  }
+
+
+  // function gameStart() {
+  //   setGameStatus("game is running")
+  // }
 
   function endTurn() {
-    if (game.currentTurn) {
-      setGame({...game, currentTurn: !game.currentTurn, gameHistory: game.gameHistory + userTurn[0], gameState: game.gameState - 1})
+    if (game[game.turn] == user.username) {
+      // setGame({...game, turn: 'player2', history: game.history + userTurn[0], counter: game.counter - 1})
+      quickPatch({turn: nextTurn, history: game.history + userTurn[0], counter: game.counter - 1})
+      reloadGame()
     }
   }
 
-  function simTurn() {
-    if (!game.currentTurn) {
-      setGame({...game, currentTurn: !game.currentTurn, gameHistory: game.gameHistory + userTurn[0], gameState: game.gameState - 1})
-    }
-  }
+  // function simTurn() {
+  //   if (game.turn === 'player2') {
+  //     // setGame({...game, turn: 'player1', history: game.history + userTurn[0], counter: game.counter - 1})
+  //     quickPatch({turn: 'player1', history: game.history + userTurn[0], counter: game.counter - 1})
+  //     reloadGame()
+  //   }
+  // }
 
   function gameEnd() {
     setGameStatus('game is over')
   }
   
   if (gameStatus === 'game is running') {
-    userTurn = game.currentTurn ? game.player1.username : game.player2.username
+    userTurn = game.turn === 'player1' ? game.player1 : game.player2
   }
 
-  if ( gameStatus != 'game is over' && game.gameState === 0) {
+  if ( gameStatus != 'game is over' && game.counter < 1) {
     console.log('gameState < 1')
     setGameStatus('game is over')
   }
   
-  
-
   if (user) {
     userNotice = user.username + " is logged in"
   }
 
   return (
-            <div id="test-game-container">
-                <div id="test-user-notice">{userNotice}</div>
-                <button onClick={gameStart}>Start Game</button>
-                <div id="test-game-status">{gameStatus}</div>
-                <button onClick={endTurn}>End Turn</button>
-                <button onClick={simTurn}>Sim Turn</button>
+    <div id="test-game-container">
+        <div id="test-user-notice">{userNotice}</div>
+        {/* <button onClick={gameStart}>Start Game</button> */}
+        <div id="test-game-status">{gameStatus}</div>
+        <button onClick={endTurn}>End Turn</button>
+        {/* <button onClick={simTurn}>Sim Turn</button> */}
 
-                <div id="test-game-turn">{userTurn}'s turn</div>
-                <button onClick={gameEnd}>End Game</button>
-                <div id="test-game-state">{game.gameHistory} history</div>
-                
-
-            </div>
+        <div id="test-game-turn">{userTurn}'s turn</div>
+        <button onClick={gameEnd}>End Game</button>
+        <div id="test-game-state">{game.history}history</div>
+        <button onClick={testPatch}>Test Patch</button>
+    </div>
         );
 
 };
