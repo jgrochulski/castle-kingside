@@ -253,3 +253,21 @@ div.existing-login-text {
   margin-top: 10px;
 }
 
+/* login done */
+
+
+/* testing  */
+
+#test-game-container{
+  width: 400px;
+  height: 400px;
+  background-color: rgb(204, 213, 255);
+  margin: 10% auto 20px auto;
+  padding: 10px;
+}
+
+#test-user-notice{
+  width:fit-content;
+  height: fit-content;
+  margin: 0 auto 10px auto;
+}

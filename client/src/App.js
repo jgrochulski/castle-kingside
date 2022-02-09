@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import GameContainer from "./GameContainer/GameContainer";
 import Login from "./GameContainer/Login";
 import Signup from "./GameContainer/Signup";
+import TestGame from "./GameContainer/TestGame";
 
 import "./App.css"
 
@@ -22,8 +23,8 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Switch>
-          <Route path="/testing">
-            <h1>Page Count: {count}</h1>
+          <Route path="/test">
+            <TestGame user={user} setUser={setUser} />
           </Route>
           <Route path="/login">
             <Login user={user} setUser={setUser} />
@@ -34,6 +35,7 @@ function App() {
           <Route path="/">
             <GameContainer user={user} setUser={setUser} />
           </Route>
+          
         </Switch>
       </div>
     </BrowserRouter>
