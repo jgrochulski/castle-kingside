@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react"
 import GameChecker from "./GameChecker"
-function TestGame({ user }){
+function TestGame({ user, game, setGame }){
 
   const [gameStatus, setGameStatus] = useState("game is running")
-  const [game, setGame] = useState({})
-
-  if (!game.player1) {
+  // const [game, setGame] = useState({turn: "none", players: [{user: {username: 'n/a'}}, {user: {username: 'n/a'}}]})
+  console.log(game)
+  if (!game) {
     reloadGame()
     console.log('first set')
+
   }
 
   let patch = {
@@ -15,10 +16,11 @@ function TestGame({ user }){
     history: "",
     counter: 10
   }
+  // console.log(game)
 
 
   function testPatch(){
-    fetch("/games/53", {
+    fetch(`/games/${game.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -26,10 +28,11 @@ function TestGame({ user }){
       body: JSON.stringify(patch)
     }).then((res) => res.json())
     .then(j => console.log(j))
+    reloadGame()
   }
 
   function reloadGame(){
-    fetch('/games/53')
+    fetch(`/games/${game.id}`)
     .then(resp => {
       if (resp.ok) {
         resp.json()
@@ -45,7 +48,7 @@ function TestGame({ user }){
   }
 
   function quickPatch(info){
-    fetch("/games/53", {
+    fetch(`/games/${game.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -68,7 +71,7 @@ function TestGame({ user }){
   // }
 
   function endTurn() {
-    if (game[game.turn] == user.username) {
+    if (userTurn == user.username) {
       // setGame({...game, turn: 'player2', history: game.history + userTurn[0], counter: game.counter - 1})
       quickPatch({turn: nextTurn, history: game.history + userTurn[0], counter: game.counter - 1})
       reloadGame()
@@ -88,7 +91,7 @@ function TestGame({ user }){
   }
   
   if (gameStatus === 'game is running') {
-    userTurn = game.turn === 'player1' ? game.player1 : game.player2
+    userTurn = game.turn === 'player1' ? game.players[0].user.username : game.players[1].user.username
   }
 
   if ( gameStatus != 'game is over' && game.counter < 1) {
@@ -101,7 +104,7 @@ function TestGame({ user }){
   }
 
   return (
-    <div id={`test-game-container-${user && game[game.turn] == user.username ? "blue" : "red"}`}>
+    <div id={`test-game-container-${user && userTurn == user.username ? "blue" : "red"}`}>
         <div id='test-game-internal'>
           <div id="test-user-notice">{userNotice}</div>
           <div id="test-game-title">game#1337</div>
@@ -115,7 +118,7 @@ function TestGame({ user }){
           {/* <button className="test-button" onClick={gameEnd}>End Game</button> */}
           <div id="test-game-state">history: {game.history}</div>
           <button className="test-button" onClick={testPatch}>Reset Game</button>
-          {user && game[game.turn] != user.username && gameStatus != 'game is over' ? <GameChecker game={game} setGame={setGame} reloadGame={reloadGame}/> : null}
+          {user && userTurn != user.username && gameStatus != 'game is over' ? <GameChecker game={game} setGame={setGame} reloadGame={reloadGame}/> : null}
         </div>
     </div>
         );

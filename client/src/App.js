@@ -5,12 +5,17 @@ import Login from "./GameContainer/Login";
 import Signup from "./GameContainer/Signup";
 import TestGame from "./GameContainer/TestGame";
 import Lobby from "./GameContainer/Lobby";
+import Game from "./GameContainer/Game.js";
 
 import "./App.css"
 
 function App() {
   const [count, setCount] = useState(0);
   const [user, setUser] = useState(null);
+  // const [gameId, setGameId] = useState(null);
+  const [game, setGame] = useState(null);
+
+  console.log(game)
 
   useEffect(() => {
     fetch("/me").then((response) => {
@@ -24,11 +29,14 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Switch>
+          <Route path="/game">
+            <Game user={user} game={game} />
+          </Route>
           <Route path="/test">
-            <TestGame user={user} setUser={setUser} />
+            <TestGame user={user} game={game} setGame={setGame}/>
           </Route>
           <Route path="/lobby">
-            <Lobby user={user} />
+            <Lobby user={user} setGame={setGame}/>
           </Route>
           <Route path="/login">
             <Login user={user} setUser={setUser} />

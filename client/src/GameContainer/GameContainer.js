@@ -213,7 +213,7 @@ function GameContainer({ user, setUser }) {
 
 
   function patchGame(info){
-    fetch("/games/61", {
+    fetch("/games/67", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -233,8 +233,8 @@ function GameContainer({ user, setUser }) {
         <button className="login-button" onClick={() => {setRedirect(true)}}>login</button>}
       <button onClick={postGame2}>post game</button>
       <button onClick={() => postPlayer(player1)}>post player</button>
-      <button onClick={() => deleteGame(54)}>delete game</button>
-      <button onClick={() => patchGame({status: "running"})}>patch game</button>
+      <button onClick={() => deleteGame(68)}>delete game</button>
+      <button onClick={() => patchGame({status: "completed-draw"})}>patch game</button>
 
 
 

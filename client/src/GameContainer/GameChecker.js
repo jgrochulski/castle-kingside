@@ -2,10 +2,16 @@ import { useState, useEffect } from "react"
 
 function GameChecker({ game, setGame, reloadGame }) {
 
-  const [latestStatus, setLatestStatus] = useState(null)
+  
 
-  if (!latestStatus) {
-    fetch('/games/53')
+  const [latestStatus, setLatestStatus] = useState(game)
+
+  console.log(game.id)
+  // console.log(latestStatus.id)
+
+
+  if (!latestStatus && game.id) {
+    fetch(`/games/${game.id}`)
       .then(resp => {
         if (resp.ok) {
           resp.json()
@@ -16,6 +22,7 @@ function GameChecker({ game, setGame, reloadGame }) {
         }
         else {
           console.log('fetch error')
+          // reloadGame()
         }
       })
     }
@@ -23,7 +30,7 @@ function GameChecker({ game, setGame, reloadGame }) {
 
 
   function checkGame(){
-    fetch('/games/53')
+    fetch(`/games/${latestStatus.id}`)
     .then(resp => {
       if (resp.ok) {
         resp.json()
@@ -39,6 +46,7 @@ function GameChecker({ game, setGame, reloadGame }) {
       }
       else {
         console.log('fetch error')
+        // reloadGame()
       }
     })
   }
@@ -48,8 +56,8 @@ function GameChecker({ game, setGame, reloadGame }) {
   useEffect(() => {
     
     const gameInterval = setInterval(() => {
-      console.log('tic2');
-      checkGame();
+        console.log('tic2');
+        checkGame();
     }, 2000);
 
     return () => clearInterval(gameInterval);

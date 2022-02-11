@@ -38,7 +38,7 @@ class GamesController < ApplicationController
   private 
 
   def game_params
-    params.permit(:id, :turn, :history, :counter, :state, :status, :player1, :player2)
+    params.permit(:id, :turn, :history, :counter, :state, :status)
   end
 
 end
