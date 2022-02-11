@@ -133,6 +133,16 @@ function GameContainer({ user, setUser }) {
     counter: 10
   }
 
+  let gamepack3 = {
+    state: "chess",
+    status: "pending",
+    player1: "ssd",
+    player2: "ssd",
+    turn: "player1",
+    history: "",
+    counter: 10
+  }
+
   function postGame2() {
 
     fetch("/games", {
@@ -140,7 +150,7 @@ function GameContainer({ user, setUser }) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(gamepack2),
+      body: JSON.stringify(gamepack3),
     }).then((res) => {
       if (res.ok) {
         res.json().then((game) => {
@@ -157,13 +167,13 @@ function GameContainer({ user, setUser }) {
   }
 
   let player1 = {
-    user_id: 2,
+    user_id: 5,
     role: "player1",
-    game_id: 61
+    game_id: 67
   }
 
   let player2 = {
-    user_id: 5,
+    user_id: 2,
     role: "player2",
     game_id: 61
   }
@@ -222,7 +232,7 @@ function GameContainer({ user, setUser }) {
         <button className="login-button" onClick={handleLogout}>logout {user.username}</button> :
         <button className="login-button" onClick={() => {setRedirect(true)}}>login</button>}
       <button onClick={postGame2}>post game</button>
-      <button onClick={() => postPlayer(player2)}>post player</button>
+      <button onClick={() => postPlayer(player1)}>post player</button>
       <button onClick={() => deleteGame(54)}>delete game</button>
       <button onClick={() => patchGame({status: "running"})}>patch game</button>
 
