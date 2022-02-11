@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_09_011359) do
+ActiveRecord::Schema.define(version: 2022_02_10_230214) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "games", force: :cascade do |t|
-    t.text "game_state"
+    t.text "state"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "player1"
@@ -24,6 +24,17 @@ ActiveRecord::Schema.define(version: 2022_02_09_011359) do
     t.string "turn"
     t.string "history"
     t.integer "counter"
+    t.string "status"
+  end
+
+  create_table "players", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "game_id", null: false
+    t.string "role"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_players_on_game_id"
+    t.index ["user_id"], name: "index_players_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -33,4 +44,6 @@ ActiveRecord::Schema.define(version: 2022_02_09_011359) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "players", "games"
+  add_foreign_key "players", "users"
 end

@@ -123,6 +123,96 @@ function GameContainer({ user, setUser }) {
     });
   }
 
+  let gamepack2 = {
+    state: "chess",
+    status: "pending",
+    player1: "franci",
+    player2: "janek",
+    turn: "player1",
+    history: "",
+    counter: 10
+  }
+
+  function postGame2() {
+
+    fetch("/games", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(gamepack2),
+    }).then((res) => {
+      if (res.ok) {
+        res.json().then((game) => {
+          // log game resp
+          console.log(game)
+          // setGameState(JSON.parse(game.game_state))
+        });
+      } else {
+        res.json().then((errors) => {
+          console.log(errors.error);  // log errors
+        });
+      }
+    });
+  }
+
+  let player1 = {
+    user_id: 2,
+    role: "player1",
+    game_id: 61
+  }
+
+  let player2 = {
+    user_id: 5,
+    role: "player2",
+    game_id: 61
+  }
+
+  function postPlayer(player) {
+
+    fetch("/players", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(player),
+    }).then((res) => {
+      if (res.ok) {
+        res.json().then((game) => {
+          // log game resp
+          console.log(game)
+          // setGameState(JSON.parse(game.game_state))
+        });
+      } else {
+        res.json().then((errors) => {
+          console.log(errors.error);  // log errors
+        });
+      }
+    });
+  }
+
+  function deleteGame(id) {
+    fetch(`/games/${id}`, { method: "DELETE" })
+    .then((res) => {
+      if (res.ok) {
+        console.log("DELETED game " + id)
+      }
+    });
+  };
+
+
+
+  function patchGame(info){
+    fetch("/games/61", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(info)
+    }).then((res) => res.json())
+    .then(j => console.log(j))
+  }
+
   console.log(gameState.b7)
 
 
@@ -131,7 +221,13 @@ function GameContainer({ user, setUser }) {
       {user ?
         <button className="login-button" onClick={handleLogout}>logout {user.username}</button> :
         <button className="login-button" onClick={() => {setRedirect(true)}}>login</button>}
-      {/* <button onClick={postGame}>post game</button> */}
+      <button onClick={postGame2}>post game</button>
+      <button onClick={() => postPlayer(player2)}>post player</button>
+      <button onClick={() => deleteGame(54)}>delete game</button>
+      <button onClick={() => patchGame({status: "running"})}>patch game</button>
+
+
+
       <TurnIndicator turn={turn}/>
       <ChessBoard 
         labelToggle={labelToggle} 

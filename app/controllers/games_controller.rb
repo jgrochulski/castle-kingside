@@ -2,12 +2,12 @@ class GamesController < ApplicationController
 
   def index
     games = Game.all
-    render json: games
+    render json: games, include: ['players.role', 'players.user']
   end
 
   def show
     game = Game.find(params[:id])
-    render json: game
+    render json: game, include: ['players.role', 'players.user']
   end
 
   def create
@@ -25,10 +25,19 @@ class GamesController < ApplicationController
     end
   end
 
+  def destroy
+    game = Game.find(params[:id])
+    if game
+      game.destroy
+    else
+      render json: { error: "game not found" }, status: :not_found
+    end
+  end
+
   private 
 
   def game_params
-    params.permit(:id, :turn, :history, :counter)
+    params.permit(:id, :turn, :history, :counter, :state, :status, :player1, :player2)
   end
 
 end

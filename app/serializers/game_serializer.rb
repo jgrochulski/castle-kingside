@@ -1,3 +1,5 @@
 class GameSerializer < ActiveModel::Serializer
-  attributes :id, :game_state, :player1, :player2, :turn, :history, :counter
+  attributes :id, :state, :status, :player1, :player2, :turn, :history, :counter
+
+  has_many :players
 end
