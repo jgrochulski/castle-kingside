@@ -7,6 +7,8 @@ function GameChecker({ game, setGame, reloadGame }) {
   const [latestStatus, setLatestStatus] = useState(game)
 
   console.log(game.id)
+  console.log(game.status)
+
   // console.log(latestStatus.id)
 
 

@@ -53,7 +53,7 @@ function Lobby({ user, setGameId, setGame }) {
     let player = {
       user_id: user.id,
       role: "player2",
-      game_id: gameId
+      game_id: gameId,
     }
     
     fetch("/players", {
@@ -66,24 +66,33 @@ function Lobby({ user, setGameId, setGame }) {
       if (res.ok) {
         res.json().then((player) => {
           console.log(player)
-          loadGames()
-          // inner fetch ---- set game ---------------- start
-          fetch(`/games/${gameId}`)
-          .then(resp => {
-            if (resp.ok) {
-              resp.json()
-              .then(game => {
-                setGame(game)
-                setRedirect(true)
-                console.log('game is set')
-              })
-            }
-            else {
-              console.log('fetch error')
-            }
+          // mid fetch ---- set player 2 ------------- start
+          fetch(`/games/${gameId}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({status: 'in progress'})
+          }).then((res) => res.json())
+          .then(game => {
+            // inner fetch ---- set game w/ player 2 --------------- start
+            fetch(`/games/${gameId}`)
+            .then(resp => {
+              if (resp.ok) {
+                resp.json()
+                .then(game => {
+                  setGame(game)
+                  setRedirect(true)
+                  console.log('game is set')
+                })
+              }
+              else {
+                console.log('fetch error')
+              }
+            })
+            // inner fetch ---- set game w/ player 2 --------------- end
           })
-          // inner fetch ---- set game ---------------- end
-          
+          // mid fetch ---- set player 2 ------------- end
         });
       } else {
         res.json().then((errors) => {

@@ -1,25 +1,34 @@
 import { useState, useEffect } from "react"
 import GameChecker from "./GameChecker"
+import { Redirect } from "react-router-dom";
+
+
 function TestGame({ user, game, setGame }){
 
-  const [gameStatus, setGameStatus] = useState("game is running")
+  // const [gameStatus, setGameStatus] = useState("game is running")
   // const [game, setGame] = useState({turn: "none", players: [{user: {username: 'n/a'}}, {user: {username: 'n/a'}}]})
-  console.log(game)
-  if (!game) {
-    reloadGame()
-    console.log('first set')
-
-  }
-
-  let patch = {
-    turn: 'player1',
-    history: "",
-    counter: 10
-  }
+  
   // console.log(game)
+  // if (!game) {
+  //   reloadGame()
+  //   console.log('first set')
+
+  // }
+
+  const [redirect, setRedirect] = useState(false);
+
+  
 
 
-  function testPatch(){
+  function resetGame(){
+    
+    let patch = {
+      turn: 'player1',
+      history: "",
+      counter: 10,
+      status: "in progress"
+    }
+
     fetch(`/games/${game.id}`, {
       method: "PATCH",
       headers: {
@@ -27,8 +36,11 @@ function TestGame({ user, game, setGame }){
       },
       body: JSON.stringify(patch)
     }).then((res) => res.json())
-    .then(j => console.log(j))
-    reloadGame()
+    .then(newGame => {
+      console.log(newGame)
+      // setGameStatus("game is running")
+      reloadGame()
+    })
   }
 
   function reloadGame(){
@@ -65,11 +77,6 @@ function TestGame({ user, game, setGame }){
   const nextTurn = game.turn === 'player1' ? 'player2' : 'player1';
 
 
-
-  // function gameStart() {
-  //   setGameStatus("game is running")
-  // }
-
   function endTurn() {
     if (userTurn == user.username) {
       // setGame({...game, turn: 'player2', history: game.history + userTurn[0], counter: game.counter - 1})
@@ -86,17 +93,25 @@ function TestGame({ user, game, setGame }){
     }
   }
 
-  function gameEnd() {
-    setGameStatus('game is over')
+  function endGame() {
+    // setGameStatus('game is over')
+    quickPatch({status: "ended"})
+  }
+
+  function returnToLobby() {
+    if (game.status == "in progress") {
+      quickPatch({status: `${user.username} resigned`})
+    }
+    setRedirect(true)
   }
   
-  if (gameStatus === 'game is running') {
+  if (game.status === 'in progress') {
     userTurn = game.turn === 'player1' ? game.players[0].user.username : game.players[1].user.username
   }
 
-  if ( gameStatus != 'game is over' && game.counter < 1) {
+  if ( game.status != 'ended' && game.counter < 1) {
     console.log('gameState < 1')
-    setGameStatus('game is over')
+    endGame()
   }
   
   if (user) {
@@ -107,18 +122,22 @@ function TestGame({ user, game, setGame }){
     <div id={`test-game-container-${user && userTurn == user.username ? "blue" : "red"}`}>
         <div id='test-game-internal'>
           <div id="test-user-notice">{userNotice}</div>
-          <div id="test-game-title">game#1337</div>
+          <div id="test-game-title">Game#{game.id}</div>
           {/* <button onClick={gameStart}>Start Game</button> */}
-          <div id="test-game-status">{gameStatus}</div>
+          <div id="test-game-status">{game.status}</div>
           <div id="test-game-turn">{userTurn}'s turn</div>
 
           <button className="test-button" onClick={endTurn}>End Turn</button>
           {/* <button onClick={simTurn}>Sim Turn</button> */}
 
-          {/* <button className="test-button" onClick={gameEnd}>End Game</button> */}
+          {/* <button className="test-button" onClick={endGame}>End Game</button> */}
           <div id="test-game-state">history: {game.history}</div>
-          <button className="test-button" onClick={testPatch}>Reset Game</button>
-          {user && userTurn != user.username && gameStatus != 'game is over' ? <GameChecker game={game} setGame={setGame} reloadGame={reloadGame}/> : null}
+          <button className="test-button" onClick={resetGame}>Reset Game</button>
+          <button className="test-button" onClick={returnToLobby}>Return to Lobby</button>
+
+          {user && userTurn != user.username && game.status != 'ended' ? <GameChecker game={game} setGame={setGame} reloadGame={reloadGame}/> : null}
+          {/* {gameStatus == 'waiting for other' ? <GameChecker game={game} setGame={setGame} reloadGame={reloadGame}/> : null} */}
+          {redirect? <Redirect to="/lobby"/> : null}
         </div>
     </div>
         );
