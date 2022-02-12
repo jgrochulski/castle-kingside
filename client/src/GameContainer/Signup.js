@@ -30,7 +30,8 @@ function Signup({ setUser }) {
     if (formData.password === formData.confirm) {
       let confirmedData = {
         username: formData.username,
-        password: formData.password
+        password: formData.password,
+        elo_rating: 1500
       }
       fetch("/users", {
         method: "POST",

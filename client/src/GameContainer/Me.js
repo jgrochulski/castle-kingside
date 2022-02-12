@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import Alert from "./Alert";
 
 
-function Me({ user }) {
+function Me({ user, setUser }) {
 
   const [redirect, setRedirect] = useState(false);
   const [alert, setAlert] = useState("");
@@ -55,9 +55,10 @@ function Me({ user }) {
     
     gameHistory.map((game) => {
       
-      let opponent = game.players[0].user.username == user.username ? game.players[1].user.username : game.players[0].user.username
+      let opponent = game.players[0].user.username == user.username ? game.players[1].user : game.players[0].user
 
       console.log(opponent)
+
 
       let outcome;
 
@@ -117,6 +118,24 @@ function Me({ user }) {
 
   }
 
+  function resetRating() {
+
+    let value = 1500
+
+    let patch = {
+      elo_rating: value
+    }
+    
+    fetch(`/users/${user.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(patch)
+    }).then((res) => res.json())
+    .then(j => setUser(j))
+  }
+
 
 
 
@@ -139,11 +158,16 @@ function Me({ user }) {
                 {game.outcome == "win" ? <div className="me-history-item-outcome-win">{game.outcome}</div> : null}
                 {game.outcome == "draw" ? <div className="me-history-item-outcome-draw">{game.outcome}</div> : null}
                 {game.outcome == "loss" ? <div className="me-history-item-outcome-loss">{game.outcome}</div> : null}
-                <div className="me-history-item-opponent">{game.opponent}</div>
+                <div className="me-history-item-opponent">
+                  <div className="me-history-item-opponent-username">{game.opponent.username}</div>
+                  <div className="me-history-item-opponent-rating">{Math.round(game.opponent.elo_rating)}</div>
+
+                </div>
                 <div className="me-history-item-time">{game.time} ago</div>
               </div>
             ))}
           </div>
+          <button className="me-button" onClick={() => resetRating()}>Reset Rating</button>
           <button className="me-button" onClick={() => setRedirect(true)}>Return to Lobby</button>
         </div>
         {alert ? <Alert status={alert} /> : null}

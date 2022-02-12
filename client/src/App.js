@@ -33,7 +33,7 @@ function App() {
             <Game user={user} game={game} />
           </Route>
           <Route path="/me">
-            <Me user={user}/>
+            <Me user={user} setUser={setUser}/>
           </Route>
           <Route path="/test">
             <TestGame user={user} game={game} setGame={setGame}/>

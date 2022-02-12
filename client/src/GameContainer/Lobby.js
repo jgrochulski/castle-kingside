@@ -43,8 +43,10 @@ function Lobby({ user, setGameId, setGame }) {
           resp.json()
           .then(lobby => {
             console.log(lobby)
-            let lobbyUsernames = lobby.map(user => user.username)
-            setLobbyUsers(lobbyUsernames)
+            // let lobbyUsernames = lobby.map(user => user.username)
+            // setLobbyUsers(lobbyUsernames)
+            setLobbyUsers(lobby)
+
           })
         }
         else {
@@ -53,9 +55,7 @@ function Lobby({ user, setGameId, setGame }) {
       })
   }
 
-  console.log(lobbyUsers)
-
-  
+  // console.log(lobbyUsers)
 
   function postUserLobby(){
     console.log(user.username + " has joined the lobby")
@@ -64,7 +64,7 @@ function Lobby({ user, setGameId, setGame }) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({username: user.username}),
+      body: JSON.stringify({username: user.username, score: Math.round(user.elo_rating)}),
     }).then((res) => res.json())
     .then((json) => console.log(json))
   }
@@ -247,6 +247,7 @@ function Lobby({ user, setGameId, setGame }) {
       <div id="lobby-container">
         <h1>{greeting}</h1>
         <div id="lobby-games-list">
+        <h2 id="me-history-h2">current games</h2>
           {gamesList.map((game) => (
             <div className="lobby-game-item" key={game.id}>
               <div className="game-item-title">Game {game.id}</div>
@@ -262,9 +263,14 @@ function Lobby({ user, setGameId, setGame }) {
           ))}
         </div>
         <div id="lobby-games-list">
+        <h2 id="me-history-h2">current users</h2>
+
           {!lobbyUsers ? "error: no users in lobby" : 
           lobbyUsers.map(user => (
-            <div>{user}</div>
+            <div className="lobby-game-item">
+              <div className="game-item-host">{user.username}</div>
+              <div className="game-item-text">rank: {user.score ? user.score : "n/a"}</div>
+            </div>
           ))}
         </div>
         <button className="login-button" onClick={() => createGame()}>create new game</button>

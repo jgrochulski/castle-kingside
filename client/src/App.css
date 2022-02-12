@@ -544,7 +544,7 @@ h2#me-history-h2 {
 .me-history-item {
   box-sizing: border-box;
   width: 310px;
-  height: fit-content;
+  height: 28px;
   margin: 5px auto 5px auto;
   border-radius: 5px;
   background-color: rgb(236, 238, 243);
@@ -590,6 +590,27 @@ h2#me-history-h2 {
   color: rgb(97, 126, 255);
   font-weight: 600;
 }
+
+.me-history-item-opponent-username{
+  width: fit-content;
+  height: fit-content;
+  color: rgb(97, 126, 255);
+  font-weight: 600;
+  display: inline-flex;
+
+}
+
+.me-history-item-opponent-rating{
+  width: fit-content;
+  height: fit-content;
+  color: rgb(78, 78, 78);
+  font-weight: 600;
+  font-size: 10px;
+  display: inline-flex;
+  vertical-align: super;
+}
+
+
 
 .me-history-item-time{
   margin: 2px 3px 0 0;
