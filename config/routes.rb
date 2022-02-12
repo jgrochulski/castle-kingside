@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :lobbies
+  resources :lobbies, only: [:index, :create]
   resources :players
   resources :games
   resources :users, only: [:index, :show, :create]
@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#delete"
   get '/me', to: "users#show"
+  delete "/lobbies/:username", to: "lobbies#delete"
 
 
   # Defines the root path route ("/")

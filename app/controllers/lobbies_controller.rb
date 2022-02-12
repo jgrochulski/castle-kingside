@@ -5,21 +5,25 @@ class LobbiesController < ApplicationController
     render json: user
   end
 
-  def show
-    users = Lobby.find_by(params[:username])
-    # Book.where("LENGTH(title) > ?", params[:min_length])
-    render json: users
-  end
+  # def show
+  #   users = Lobby.where(username: 'jantje')
+  #   # Book.where("LENGTH(title) > ?", params[:min_length])
+  #   if users
+  #     render json: users
+  #   else
+  #     render json: 'oops'
+  #   end
+  # end
 
   def create
     user = Lobby.create!(lobby_params)
     render json: user
   end
 
-  def destroy
-    users = Lobby.find_by(params[:username])
+  def delete
+    users = Lobby.where(username: params[:username])
     if users
-      users.destroy
+      users.destroy_all
     else
       render json: { error: "user not found in lobby" }, status: :not_found
     end
