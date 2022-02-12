@@ -402,7 +402,7 @@ div.existing-login-text {
 #lobby-games-list {
   height: fit-content;
   width: 380px;
-  margin: 0 auto 70px auto;
+  margin: 0 auto 20px auto;
   background-color: white;
   padding: 10px;
 }

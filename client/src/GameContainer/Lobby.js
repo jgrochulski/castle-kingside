@@ -7,6 +7,7 @@ function Lobby({ user, setGameId, setGame }) {
 
   const [redirect, setRedirect] = useState(false);
   const [gamesList, setGamesList] = useState([{id: 0, players: [], status: "pending"}])
+  const [lobbyUsers, setLobbyUsers] = useState(null);
 
 
   const greeting = user ? 
@@ -16,15 +17,51 @@ function Lobby({ user, setGameId, setGame }) {
   useEffect(() => {
     loadGames()
     postUserLobby()
+    fetchUserLobby()
     return () => deleteUserLobby()
   }, []);
 
+  function fetchUserLobby(){
+
+    fetch('/lobbies')
+      .then(resp => {
+        if (resp.ok) {
+          resp.json()
+          .then(lobby => {
+            console.log(lobby)
+            let lobbyUsernames = lobby.map(user => user.username)
+            setLobbyUsers(lobbyUsernames)
+          })
+        }
+        else {
+          console.log('fetch error')
+        }
+      })
+  }
+
+  console.log(lobbyUsers)
+
+  
+
   function postUserLobby(){
     console.log(user.username + " has joined the lobby")
+    fetch("/lobbies", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({username: user.username}),
+    }).then((res) => res.json())
+    .then((json) => console.log(json))
   }
 
   function deleteUserLobby(){
-    console.log(user.username + " has left the lobby")
+    fetch(`/lobbies/${user.username}`, { method: "DELETE" })
+    .then((res) => {
+      if (res.ok) {
+        console.log(user.username + " has left the lobby")
+      }
+    });
   }
 
   function loadGames(){
@@ -206,8 +243,14 @@ function Lobby({ user, setGameId, setGame }) {
           </div>
           ))}
         </div>
+        {}
+        <div id="lobby-games-list">
+          
+        </div>
         <button className="login-button" onClick={() => createGame()}>create new game</button>
         <button className="login-button" onClick={() => loadGames()}>refresh games</button>
+        {/* <button className="login-button" onClick={() => deleteUserLobby()}>del user lobby</button> */}
+
         {redirect? <Redirect to="/test"/> : null}
       </div>
   );

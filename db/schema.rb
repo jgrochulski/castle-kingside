@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2022_02_12_034401) do
 
   create_table "lobbies", force: :cascade do |t|
     t.string "username"
-    t.string "record"
+    t.string "score"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
