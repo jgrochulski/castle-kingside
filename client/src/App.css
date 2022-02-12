@@ -506,6 +506,13 @@ div.existing-login-text {
   text-align: center;
 }
 
+#me-history-container {
+  height: fit-content;
+  width: 380px;
+  margin: 0 auto 10px auto;
+  background-color: rgb(236, 238, 243);
+}
+
 #me-h1-container {
   width: fit-content;
   height: fit-content;
@@ -515,14 +522,101 @@ div.existing-login-text {
 
 h1#me-h1 {
   text-align: center;
-  margin: 0;
+  margin: 0 0 20px 0;
 }
 
-#me-history-container {
+h2#me-history-h2 {
+  text-align: center;
+  margin: 0 0 10px 0;
+  color: rgb(117, 117, 117);
+}
+
+
+#me-history-list {
   height: fit-content;
-  width: 380px;
-  margin: 0 auto 100px auto;
-  /* background-color: white; */
+  width: 340px;
+  margin: 0 auto 20px auto;
+  background-color: white;
+  border-radius: 4px;
+  padding: 10px 15px 10px 15px;
+}
+
+.me-history-item {
+  box-sizing: border-box;
+  width: 310px;
+  height: fit-content;
+  margin: 5px auto 5px auto;
+  border-radius: 5px;
+  background-color: rgb(236, 238, 243);
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.me-history-item:hover{
+  background-color: rgb(227, 230, 233);
+  outline:rgb(227, 230, 233) solid 1px;
+}
+
+.me-history-item-title{
+  display: inline-flex;
+  font-weight: 700;
+  font-size: 16px;
+  margin: 0 0 0 3px;
+}
+
+.me-history-item-outcome-win {
+  width: 40px;
+  text-align: center;
+  color: rgb(0, 158, 79);
+  font-weight: 600;
+}
+
+.me-history-item-outcome-draw {
+  width: 40px;
+  text-align: center;
+  color: rgb(116, 116, 116);
+  font-weight: 600;
+}
+
+.me-history-item-outcome-loss {
+  width: 40px;
+  text-align: center;
+  color: rgb(230, 118, 118);
+  font-weight: 600;
+}
+
+.me-history-item-opponent{
+  color: rgb(97, 126, 255);
+  font-weight: 600;
+}
+
+.me-history-item-time{
+  margin: 2px 3px 0 0;
+  color: rgb(136, 136, 136);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.me-button{
+  display: block;
+  height: fit-content;
+  width: 200px;
+  margin: 0 auto 20px auto;
+  font-size: 18px;
+  color: white;
+  padding: 5px 0 5px 0;
+  border: none;
+  background-color: rgb(97, 126, 255);
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.me-button:hover{
+  color: white;
+  border: none;
+  background-color: rgb(67, 102, 255);
+  outline:rgb(67, 102, 255) solid 1px;
 }
 
 /* me done */

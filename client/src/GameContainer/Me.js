@@ -121,17 +121,27 @@ function Me({ user }) {
       </div>
       {user && formattedGameHistory ?
       <div>
-          <div id="me-h1-container">
-            <h1 id="me-h1">hi, {user.username}</h1>
-          </div>
-          <div id="me-history-container">
-            <h2>game history</h2>
+        <div id="me-h1-container">
+          <h1 id="me-h1">hi, {user.username}</h1>
+        </div>
+        <div id="me-history-container">
+          <div id="me-history-list">
+            <h2 id="me-history-h2">game history</h2>
             {formattedGameHistory.map((game, i) => (
-              <div key={i}>game {game.id}: {game.outcome} vs {game.opponent} {game.time}</div>
+              <div className="me-history-item" key={i}>
+                <div className="me-history-item-title">Game {game.id}</div>
+                {game.outcome == "win" ? <div className="me-history-item-outcome-win">{game.outcome}</div> : null}
+                {game.outcome == "draw" ? <div className="me-history-item-outcome-draw">{game.outcome}</div> : null}
+                {game.outcome == "loss" ? <div className="me-history-item-outcome-loss">{game.outcome}</div> : null}
+                <div className="me-history-item-opponent">{game.opponent}</div>
+                <div className="me-history-item-time">{game.time} ago</div>
+              </div>
             ))}
           </div>
-          {alert ? <Alert status={alert} /> : null}
+          <button className="me-button" onClick={() => setRedirect(true)}>Return to Lobby</button>
         </div>
+        {alert ? <Alert status={alert} /> : null}
+      </div>
       : <div>null</div>}
       {redirect? <Redirect to="/lobby"/> : null}
       {/*  ------------------------------------------   to this  */}
