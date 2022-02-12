@@ -6,6 +6,7 @@ import Signup from "./GameContainer/Signup";
 import TestGame from "./GameContainer/TestGame";
 import Lobby from "./GameContainer/Lobby";
 import Game from "./GameContainer/Game.js";
+import Me from "./GameContainer/Me";
 
 import "./App.css"
 
@@ -15,7 +16,6 @@ function App() {
   // const [gameId, setGameId] = useState(null);
   const [game, setGame] = useState(null);
 
-  console.log(game)
 
   useEffect(() => {
     fetch("/me").then((response) => {
@@ -31,6 +31,9 @@ function App() {
         <Switch>
           <Route path="/game">
             <Game user={user} game={game} />
+          </Route>
+          <Route path="/me">
+            <Me user={user}/>
           </Route>
           <Route path="/test">
             <TestGame user={user} game={game} setGame={setGame}/>

@@ -98,6 +98,14 @@ function TestGame({ user, game, setGame }){
     quickPatch({status: "ended"})
   }
 
+  function generateResult() {
+    let results = ["draw", `${game.players[0].user.username} won`, `${game.players[1].user.username} won`]
+    let result = results[Math.floor(Math.random() * (results.length))]
+    console.log(result)
+    quickPatch({status: result})
+
+  }
+
   function returnToLobby() {
     if (game.status == "in progress") {
       quickPatch({status: `${user.username} resigned`})
@@ -133,6 +141,7 @@ function TestGame({ user, game, setGame }){
           {/* <button className="test-button" onClick={endGame}>End Game</button> */}
           <div id="test-game-state">history: {game.history}</div>
           <button className="test-button" onClick={resetGame}>Reset Game</button>
+          <button className="test-button" onClick={generateResult}>Generate Result</button>
           <button className="test-button" onClick={returnToLobby}>Return to Lobby</button>
 
           {user && userTurn != user.username && game.status != 'ended' ? <GameChecker game={game} setGame={setGame} reloadGame={reloadGame}/> : null}

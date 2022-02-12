@@ -481,3 +481,48 @@ div.existing-login-text {
   border-radius: 3px;
   font-weight: 600;
 }
+
+/* lobby done  */
+
+/* ###################### ME ############################ */
+
+.me-container {
+  width: fit-content;
+  height: fit-content;
+  background-color: rgb(236, 238, 243);
+  border-radius: 5px;
+  /* outline: solid 1px rgb(217, 218, 223); */
+  margin: 100px auto 0 auto;
+  padding: 10px 80px 10px 80px;
+}
+
+#me-logo {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background-color: rgb(55, 90, 243);
+  margin: 30px auto 0 auto;
+  font-size: 30px;
+  text-align: center;
+}
+
+#me-h1-container {
+  width: fit-content;
+  height: fit-content;
+  margin: 10px auto 15px auto;
+  /* background-color: red; */
+}
+
+h1#me-h1 {
+  text-align: center;
+  margin: 0;
+}
+
+#me-history-container {
+  height: fit-content;
+  width: 380px;
+  margin: 0 auto 100px auto;
+  /* background-color: white; */
+}
+
+/* me done */
