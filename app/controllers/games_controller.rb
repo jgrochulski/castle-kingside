@@ -2,7 +2,7 @@ class GamesController < ApplicationController
 
 
   def index
-    games = Game.all
+    games = Game.order(updated_at: :desc)
     render json: games, include: ['players.role', 'players.user']
   end
 

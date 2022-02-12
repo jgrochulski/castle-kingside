@@ -50,6 +50,8 @@ function Me({ user }) {
   }
 
   function formatGameHistory() {
+
+    let holder = [];
     
     gameHistory.map((game) => {
       
@@ -62,7 +64,7 @@ function Me({ user }) {
       if (game.status == 'draw') {
         outcome = 'draw'
       }
-      else if (game.status == `${opponent} won` ) {
+      else if (game.status == `${opponent} won` || game.status == `${user.username} resigned`) {
         outcome = 'loss'
       }
       else {
@@ -103,8 +105,18 @@ function Me({ user }) {
         time: formattedTimeSinceGame
       }
 
-      setFormattedGameHistory(formattedGameHistory => [...formattedGameHistory, formattedGame])
+      holder.push(formattedGame)
+      console.log(holder)
+
     })
+
+    holder.sort((a, b) => (
+      b.id - a.id
+    ))
+    setFormattedGameHistory(holder)
+    console.log(holder)
+
+
   }
 
 
