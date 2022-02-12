@@ -510,7 +510,11 @@ div.existing-login-text {
   height: fit-content;
   width: 380px;
   margin: 0 auto 10px auto;
-  background-color: rgb(236, 238, 243);
+  padding: 10px 15px 10px 15px;
+
+  /* background-color: rgb(236, 238, 243); */
+  background-color: white;
+  border-radius: 4px;
 }
 
 #me-h1-container {
@@ -534,11 +538,12 @@ h2#me-history-h2 {
 
 #me-history-list {
   height: fit-content;
+  max-height: 400px;
+  overflow-y: auto;
   width: 340px;
   margin: 0 auto 20px auto;
-  background-color: white;
-  border-radius: 4px;
-  padding: 10px 15px 10px 15px;
+  
+  padding: 10px 5px 10px 5px;
 }
 
 .me-history-item {
@@ -551,6 +556,18 @@ h2#me-history-h2 {
   padding: 5px;
   display: flex;
   justify-content: space-between;
+}
+
+.me-history-none {
+  box-sizing: border-box;
+  width: 310px;
+  height: 28px;
+  margin: 5px auto 5px auto;
+  border-radius: 5px;
+  background-color: rgb(236, 238, 243);
+  padding: 5px 5px 5px 15px;
+  display: flex;
+  font-weight: 600;
 }
 
 .me-history-item:hover{

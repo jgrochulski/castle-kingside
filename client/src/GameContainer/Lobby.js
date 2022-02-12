@@ -269,7 +269,7 @@ function Lobby({ user, setGameId, setGame }) {
           lobbyUsers.map(user => (
             <div className="lobby-game-item">
               <div className="game-item-host">{user.username}</div>
-              <div className="game-item-text">rank: {user.score ? user.score : "n/a"}</div>
+              <div className="game-item-text">rating: {user.score ? user.score : "n/a"}</div>
             </div>
           ))}
         </div>
