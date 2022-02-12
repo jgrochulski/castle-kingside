@@ -15,7 +15,17 @@ function Lobby({ user, setGameId, setGame }) {
 
   useEffect(() => {
     loadGames()
+    postUserLobby()
+    return () => deleteUserLobby()
   }, []);
+
+  function postUserLobby(){
+    console.log(user.username + " has joined the lobby")
+  }
+
+  function deleteUserLobby(){
+    console.log(user.username + " has left the lobby")
+  }
 
   function loadGames(){
     fetch('/games')

@@ -51,7 +51,7 @@ function Me({ user }) {
 
   function formatGameHistory() {
 
-    let holder = [];
+    let sortHolder = [];
     
     gameHistory.map((game) => {
       
@@ -105,26 +105,20 @@ function Me({ user }) {
         time: formattedTimeSinceGame
       }
 
-      holder.push(formattedGame)
-      console.log(holder)
+      sortHolder.push(formattedGame)
 
     })
 
-    holder.sort((a, b) => (
+    sortHolder.sort((a, b) => (
       b.id - a.id
     ))
-    setFormattedGameHistory(holder)
-    console.log(holder)
 
+    setFormattedGameHistory(sortHolder)
 
   }
 
 
 
-
-
-
-  
 
   return (
     <div className="me-container">
