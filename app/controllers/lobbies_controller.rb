@@ -6,7 +6,8 @@ class LobbiesController < ApplicationController
   end
 
   def show
-    users = Lobby.where(params[:username])
+    users = Lobby.find_by(params[:username])
+    # Book.where("LENGTH(title) > ?", params[:min_length])
     render json: users
   end
 
@@ -16,9 +17,9 @@ class LobbiesController < ApplicationController
   end
 
   def destroy
-    users = Lobby.where(params[:username])
+    users = Lobby.find_by(params[:username])
     if users
-      users.destroy_all
+      users.destroy
     else
       render json: { error: "user not found in lobby" }, status: :not_found
     end

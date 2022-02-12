@@ -107,8 +107,11 @@ function TestGame({ user, game, setGame }){
   }
 
   function returnToLobby() {
-    if (game.status == "in progress") {
+    if (game.status == "in progress" && game.players.length == 2) {
       quickPatch({status: `${user.username} resigned`})
+    }
+    else if (game.players.length < 2) {
+      quickPatch({status: 'voided'})
     }
     setRedirect(true)
   }

@@ -31,7 +31,7 @@ function Me({ user }) {
           let validGames = [];
           for (let i = 0; i < games.length; i++) {
             // if (!games[i].status.includes('pending') && !games[i].status.includes('in progress')) {
-            if (true) {
+            if (games[i].status != "voided") {
               validGames.push(games[i])
             }
           }

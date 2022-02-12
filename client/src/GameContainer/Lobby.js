@@ -18,8 +18,22 @@ function Lobby({ user, setGameId, setGame }) {
     loadGames()
     postUserLobby()
     fetchUserLobby()
-    return () => deleteUserLobby()
+
+
+    const lobbyInterval = setInterval(() => {
+      console.log('tic2');
+      loadGames();
+      fetchUserLobby();
+  }, 2000);
+
+    // fetchUserLobby()
+    return () => cleanup(lobbyInterval)
   }, []);
+
+  function cleanup(lobbyInterval){
+    deleteUserLobby()
+    clearInterval(lobbyInterval)
+  }
 
   function fetchUserLobby(){
 
@@ -60,6 +74,10 @@ function Lobby({ user, setGameId, setGame }) {
     .then((res) => {
       if (res.ok) {
         console.log(user.username + " has left the lobby")
+        // console.log(res.json())
+      }
+      else {
+        console.log(res.json())
       }
     });
   }
@@ -129,7 +147,7 @@ function Lobby({ user, setGameId, setGame }) {
                 resp.json()
                 .then(game => {
                   setGame(game)
-                  setRedirect(true)
+                  setRedirect('/test')
                   console.log('game is set')
                 })
               }
@@ -195,7 +213,7 @@ function Lobby({ user, setGameId, setGame }) {
                       resp.json()
                       .then(game => {
                         setGame(game) // ------ set game w/ player ------- here !!
-                        setRedirect(true)
+                        setRedirect('/test')
                         console.log('game is set')
                       })
                     }
@@ -243,15 +261,18 @@ function Lobby({ user, setGameId, setGame }) {
           </div>
           ))}
         </div>
-        {}
         <div id="lobby-games-list">
-          
+          {!lobbyUsers ? "error: no users in lobby" : 
+          lobbyUsers.map(user => (
+            <div>{user}</div>
+          ))}
         </div>
         <button className="login-button" onClick={() => createGame()}>create new game</button>
         <button className="login-button" onClick={() => loadGames()}>refresh games</button>
+        <button className="login-button" onClick={() => setRedirect('/me')}>view profile</button>
         {/* <button className="login-button" onClick={() => deleteUserLobby()}>del user lobby</button> */}
 
-        {redirect? <Redirect to="/test"/> : null}
+        {redirect? <Redirect to={redirect}/> : null}
       </div>
   );
 }
