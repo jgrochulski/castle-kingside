@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 // import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 
-function Lobby({ user, setGameId, setGame }) {
+function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloadRatingToggle }) {
 
   const [redirect, setRedirect] = useState(false);
   const [gamesList, setGamesList] = useState([{id: 0, players: [], status: "pending"}])
@@ -16,7 +16,7 @@ function Lobby({ user, setGameId, setGame }) {
 
   useEffect(() => {
     loadGames()
-    postUserLobby()
+    reloadRatingToggle ? reloadRating() : postUserLobby()
     fetchUserLobby()
 
 
@@ -33,6 +33,25 @@ function Lobby({ user, setGameId, setGame }) {
   function cleanup(lobbyInterval){
     deleteUserLobby()
     clearInterval(lobbyInterval)
+  }
+
+  function reloadRating(){
+    fetch(`/users/${user.id}`)
+    .then(resp => {
+      if (resp.ok) {
+        resp.json()
+        .then(reloadedUser => {
+          setUser({...user, elo_rating: reloadedUser.elo_rating})
+          console.log("user rating updated")
+          console.log(reloadedUser.elo_rating)
+          postUserLobby(reloadedUser.elo_rating)
+          setReloadRatingToggle(false)
+        })
+      }
+      else {
+        console.log('fetch error')
+      }
+    })
   }
 
   function fetchUserLobby(){
@@ -57,14 +76,14 @@ function Lobby({ user, setGameId, setGame }) {
 
   // console.log(lobbyUsers)
 
-  function postUserLobby(){
+  function postUserLobby(rating = user.elo_rating){
     console.log(user.username + " has joined the lobby")
     fetch("/lobbies", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({username: user.username, score: Math.round(user.elo_rating)}),
+      body: JSON.stringify({username: user.username, score: Math.round(rating)}),
     }).then((res) => res.json())
     .then((json) => console.log(json))
   }
@@ -252,7 +271,13 @@ function Lobby({ user, setGameId, setGame }) {
             <div className="lobby-game-item" key={game.id}>
               <div className="game-item-title">Game {game.id}</div>
               <div className="game-item-text">{game.players.length}/2</div>
-              <div className="game-item-host">{game.players.length > 0 ? game.players[0].user.username : "pending..."}</div>
+              {game.players.length === 0 ?
+              <div className="game-item-host">pending...</div> :
+              <div className="game-item-host">
+                <div className="game-item-host-username">{game.players[0].user.username}</div>
+                <div className="game-item-host-rating">{Math.round(game.players[0].user.elo_rating)}</div>
+              </div>
+              }
               {game.players.length == 2 ?
               <button className="game-item-button-full">game full</button> : null}
               {game.players.length == 1 ?

@@ -3,7 +3,7 @@ import GameChecker from "./GameChecker"
 import { Redirect } from "react-router-dom";
 
 
-function TestGame({ user, game, setGame }){
+function TestGame({ user, setUser, game, setGame, setReloadRatingToggle }){
 
   // const [gameStatus, setGameStatus] = useState("game is running")
   // const [game, setGame] = useState({turn: "none", players: [{user: {username: 'n/a'}}, {user: {username: 'n/a'}}]})
@@ -98,12 +98,106 @@ function TestGame({ user, game, setGame }){
     quickPatch({status: "ended"})
   }
 
+  // calculateRatings("draw")
+
+  function calculateRatings(result) {
+
+    let playerA = game.players[0].user
+    let playerB = game.players[1].user
+    console.log(playerA)
+    console.log(playerB)
+    let ratingA = Number(playerA.elo_rating)
+    let ratingB = Number(playerB.elo_rating)
+    console.log(ratingA)
+
+    let expectedScoreA = 1 / (1 + 10 ** ((ratingB - ratingA)/400))
+    let expectedScoreB = 1 / (1 + 10 ** ((ratingA - ratingB)/400))
+    
+    console.log(expectedScoreA)
+
+    let K = 20;
+    let scoreA
+    let scoreB
+
+    if (result === 'draw') {
+      scoreA = 0.5;
+      scoreB = 0.5;
+      console.log("score is 0.5 0.5")
+
+    }
+    else if (result === `${game.players[0].user.username} won`) {
+      scoreA = 1.0;
+      scoreB = 0.0;
+      console.log("score is 1.0 0.0")
+
+    }
+    else {
+      scoreA = 0.0;
+      scoreB = 1.0;
+      console.log("score is 0.0 1.0")
+    }
+
+    let newRatingA = ratingA + (K * (scoreA - expectedScoreA))
+    let newRatingB = ratingB + (K * (scoreB - expectedScoreB))
+
+    console.log(newRatingA)
+    console.log(newRatingB)
+
+    // if (user.username === game.players[0].user.username) {
+    //   setUser({...user, elo_rating: newRatingA})
+    //   console.log("setUser from player1 with newRatingA")
+
+    // }
+    // else if (user.username === game.players[1].user.username) {
+    //   setUser({...user, elo_rating: newRatingB})
+    //   console.log("setUser from player2 with newRatingA")
+
+    // }
+    // else {
+    //   console.log('setUser new elo rating error!')
+    // }
+
+    updateRatings(newRatingA, newRatingB)
+  }
+
+
+  function updateRatings(newRatingA, newRatingB) {
+
+    let patchA = {
+      elo_rating: newRatingA
+    }
+
+    let patchB = {
+      elo_rating: newRatingB
+    }
+    
+    fetch(`/users/${game.players[0].user.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(patchA)
+    }).then((res) => res.json())
+    .then(j => console.log(j))
+
+    fetch(`/users/${game.players[1].user.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(patchB)
+    }).then((res) => res.json())
+    .then(j => console.log(j))
+  }
+
   function generateResult() {
     let results = ["draw", `${game.players[0].user.username} won`, `${game.players[1].user.username} won`]
     let result = results[Math.floor(Math.random() * (results.length))]
+    // let result = results[2]
+
     console.log(result)
     quickPatch({status: result})
-
+    calculateRatings(result)
   }
 
   function returnToLobby() {
@@ -113,6 +207,8 @@ function TestGame({ user, game, setGame }){
     else if (game.players.length < 2) {
       quickPatch({status: 'voided'})
     }
+    setReloadRatingToggle(true)
+
     setRedirect(true)
   }
   

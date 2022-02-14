@@ -7,6 +7,7 @@ import TestGame from "./GameContainer/TestGame";
 import Lobby from "./GameContainer/Lobby";
 import Game from "./GameContainer/Game.js";
 import Me from "./GameContainer/Me";
+import User from "./GameContainer/User";
 
 import "./App.css"
 
@@ -15,6 +16,8 @@ function App() {
   const [user, setUser] = useState(null);
   // const [gameId, setGameId] = useState(null);
   const [game, setGame] = useState(null);
+  const [reloadRatingToggle, setReloadRatingToggle] = useState(false);
+
 
 
   useEffect(() => {
@@ -35,11 +38,14 @@ function App() {
           <Route path="/me">
             <Me user={user} setUser={setUser}/>
           </Route>
+          <Route path="/users/:id">
+            <User />
+          </Route>
           <Route path="/test">
-            <TestGame user={user} game={game} setGame={setGame}/>
+            <TestGame user={user} setUser={setUser} game={game} setGame={setGame} setReloadRatingToggle={setReloadRatingToggle}/>
           </Route>
           <Route path="/lobby">
-            <Lobby user={user} setGame={setGame}/>
+            <Lobby user={user} setUser={setUser} setGame={setGame} reloadRatingToggle={reloadRatingToggle} setReloadRatingToggle={setReloadRatingToggle}/>
           </Route>
           <Route path="/login">
             <Login user={user} setUser={setUser} />
