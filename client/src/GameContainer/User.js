@@ -161,9 +161,9 @@ function User({ }) {
         {/* insert logo here */}
       </div>
       <div>
-        <div id="me-h1-container">
-          <h1 id="me-h1">{viewUser ? viewUser.username : "loading..."}'s profile</h1>
-          { viewUser ? <div className="me-history-rating"> current rating: {Math.round(viewUser.elo_rating)}</div> : null}
+        <div id="me-user-container">
+          <div id="me-user-username">{viewUser ? viewUser.username : "loading..."}</div>
+          { viewUser ? <div className="me-user-rating">{Math.round(viewUser.elo_rating)}</div> : null}
         </div>
         <div id="me-history-container">
           <h2 id="me-history-h2">game history</h2>

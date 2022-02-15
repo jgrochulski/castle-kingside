@@ -145,9 +145,9 @@ function Me({ user, setUser }) {
         {/* insert logo here */}
       </div>
       <div>
-        <div id="me-h1-container">
-          <h1 id="me-h1">hi, {user.username}</h1>
-          { user ? <div className="me-history-rating">your current rating is {Math.round(user.elo_rating)}</div> : null}
+        <div id="me-user-container">
+          <div id="me-user-username">hi, {user.username}</div>
+          { user ? <div className="me-user-rating">{Math.round(user.elo_rating)}</div> : null}
         </div>
         <div id="me-history-container">
           <h2 id="me-history-h2">game history</h2>

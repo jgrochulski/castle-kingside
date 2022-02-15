@@ -95,7 +95,7 @@ function TestGame({ user, setUser, game, setGame, setReloadRatingToggle }){
 
   function endGame() {
     // setGameStatus('game is over')
-    quickPatch({status: "ended"})
+    // quickPatch({status: "ended"})
   }
 
   // calculateRatings("draw")

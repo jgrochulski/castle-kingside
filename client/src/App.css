@@ -456,7 +456,11 @@ div.existing-login-text {
   color: rgb(97, 126, 255);
   font-weight: 600;
   display: inline-flex;
+}
 
+.game-item-host-username:hover{
+  color: rgb(0, 47, 255);
+  /* font-weight: 700; */
 }
 
 .game-item-host-rating{
@@ -535,16 +539,29 @@ div.existing-login-text {
   border-radius: 4px;
 }
 
-#me-h1-container {
+
+#me-user-container {
   width: fit-content;
   height: fit-content;
   margin: 10px auto 15px auto;
-  /* background-color: red; */
 }
 
-h1#me-h1 {
-  text-align: center;
-  margin: 0 0 15px 0;
+#me-user-username {
+  width: fit-content;
+  height: fit-content;
+  font-weight: 600;
+  font-size: 28px;
+  display: inline;
+}
+
+.me-user-rating {
+  width: fit-content;
+  height: fit-content;
+  color: rgb(78, 78, 78);
+  font-weight: 600;
+  font-size: 1em;
+  display: inline;
+  vertical-align: super;
 }
 
 h2#me-history-h2 {
