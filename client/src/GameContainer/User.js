@@ -32,13 +32,14 @@ function User({ }) {
       })
 
     },[])
+  
+  // console.log(gameHistory)
 
-
-  if (gameHistory === undefined && viewUser) {
+  if (gameHistory === undefined && viewUser.id) {
     loadHistory()
   }
 
-  if (gameHistory != undefined && gameHistory != ["no games played"] && formattedGameHistory.length == 0) {
+  if (gameHistory != undefined && gameHistory != ["no games played"] && formattedGameHistory.length == 0 && viewUser.id) {
     formatGameHistory()
     console.log('format it')
   }
@@ -55,7 +56,7 @@ function User({ }) {
           let validGames = [];
           for (let i = 0; i < games.length; i++) {
             // if (!games[i].status.includes('pending') && !games[i].status.includes('in progress')) {
-            if (games[i].status != "voided") {
+            if (games[i].status != "voided" && games[i].status != "pending") {
               validGames.push(games[i])
             }
           }
@@ -78,6 +79,15 @@ function User({ }) {
     let sortHolder = [];
     
     gameHistory.map((game) => {
+
+        console.log(game.id)
+      console.log(game.players[1].user.username)
+      // console.log(viewUser.username)
+
+      // console.log("running")
+      // if (!game.players[1].user.username) {
+      //   console.log(game.id)
+      // }
       
       let opponent = game.players[0].user.username == viewUser.username ? game.players[1].user : game.players[0].user
 
@@ -152,7 +162,8 @@ function User({ }) {
       </div>
       <div>
         <div id="me-h1-container">
-          <h1 id="me-h1">{viewUser.username}'s profile</h1>
+          <h1 id="me-h1">{viewUser ? viewUser.username : "loading..."}'s profile</h1>
+          { viewUser ? <div className="me-history-rating"> current rating: {Math.round(viewUser.elo_rating)}</div> : null}
         </div>
         <div id="me-history-container">
           <h2 id="me-history-h2">game history</h2>

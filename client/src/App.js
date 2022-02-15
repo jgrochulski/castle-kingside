@@ -20,6 +20,7 @@ function App() {
 
 
 
+
   useEffect(() => {
     fetch("/me").then((response) => {
       if (response.ok) {
@@ -45,7 +46,7 @@ function App() {
             <TestGame user={user} setUser={setUser} game={game} setGame={setGame} setReloadRatingToggle={setReloadRatingToggle}/>
           </Route>
           <Route path="/lobby">
-            <Lobby user={user} setUser={setUser} setGame={setGame} reloadRatingToggle={reloadRatingToggle} setReloadRatingToggle={setReloadRatingToggle}/>
+            <Lobby user={user} setUser={setUser} setGame={setGame} reloadRatingToggle={reloadRatingToggle} setReloadRatingToggle={setReloadRatingToggle} />
           </Route>
           <Route path="/login">
             <Login user={user} setUser={setUser} />

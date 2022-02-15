@@ -32,7 +32,7 @@ class LobbiesController < ApplicationController
   private 
 
   def lobby_params
-    params.permit(:id, :username, :score)
+    params.permit(:id, :username, :score, :user_id)
   end
 
 end

@@ -1,3 +1,3 @@
 class LobbySerializer < ActiveModel::Serializer
-  attributes :id, :username, :score
+  attributes :id, :username, :score, :user_id
 end

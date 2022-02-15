@@ -17,7 +17,7 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
   useEffect(() => {
     loadGames()
     reloadRatingToggle ? reloadRating() : postUserLobby()
-    fetchUserLobby()
+    // fetchUserLobby()
 
 
     const lobbyInterval = setInterval(() => {
@@ -83,9 +83,12 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({username: user.username, score: Math.round(rating)}),
+      body: JSON.stringify({username: user.username, user_id: user.id, score: Math.round(rating)}),
     }).then((res) => res.json())
-    .then((json) => console.log(json))
+    .then((json) => {
+      console.log(json)
+      fetchUserLobby()
+    })
   }
 
   function deleteUserLobby(){
@@ -262,6 +265,10 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
     console.log("redirect to game, with waiting screen")
   }
 
+  function handleViewUser(id){
+    setRedirect(`/users/${id}`)
+  }
+
   return (
       <div id="lobby-container">
         <h1>{greeting}</h1>
@@ -274,7 +281,7 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
               {game.players.length === 0 ?
               <div className="game-item-host">pending...</div> :
               <div className="game-item-host">
-                <div className="game-item-host-username">{game.players[0].user.username}</div>
+                <div className="game-item-host-username" onClick={() => handleViewUser(game.players[0].user.id)}>{game.players[0].user.username}</div>
                 <div className="game-item-host-rating">{Math.round(game.players[0].user.elo_rating)}</div>
               </div>
               }
@@ -293,7 +300,7 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
           {!lobbyUsers ? "error: no users in lobby" : 
           lobbyUsers.map(user => (
             <div className="lobby-game-item">
-              <div className="game-item-host">{user.username}</div>
+              <div className="game-item-host" onClick={() => handleViewUser(user.user_id)}>{user.username}</div>
               <div className="game-item-text">rating: {user.score ? user.score : "n/a"}</div>
             </div>
           ))}
