@@ -39,7 +39,7 @@ function Chess({ user, game, setGame }){
 
 
       <button className="test-button" onClick={returnToLobby}>Return to Lobby</button>
-      <button className="test-button" onClick={() => console.log(game)}>log game</button>
+      <button className="test-button" onClick={() => console.log(game.state)}>log game</button>
       
       {redirect? <Redirect to={redirect}/> : null}
     </div>

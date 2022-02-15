@@ -1,148 +1,60 @@
 import Square from "./Square.js";
 import { useState, useEffect } from "react";
 
-function ChessBoard({ labelToggle, turn, setTurn, setHistory, history, turnNum, setTurnNum, numberedHistory, setNumberedHistory }) {
+function ChessBoard({ user, game, setGame, labelToggle }) {
 
-  let gameObj = {
-    a1: "",
-    b1: "",
-    c1: "",
-    d1: "",
-    e1: "",
-    f1: "",
-    g1: "",
-    h1: "",
-    a2: "",
-    b2: "",
-    c2: "",
-    d2: "",
-    e2: "",
-    f2: "",
-    g2: "",
-    h2: "",
-    a3: "",
-    b3: "",
-    c3: "",
-    d3: "",
-    e3: "",
-    f3: "",
-    g3: "",
-    h3: "",
-    a4: "",
-    b4: "",
-    c4: "",
-    d4: "",
-    e4: "",
-    f4: "",
-    g4: "",
-    h4: "",
-    a5: "",
-    b5: "",
-    c5: "",
-    d5: "",
-    e5: "",
-    f5: "",
-    g5: "",
-    h5: "",
-    a6: "",
-    b6: "",
-    c6: "",
-    d6: "",
-    e6: "",
-    f6: "",
-    g6: "",
-    h6: "",
-    a7: "",
-    b7: "",
-    c7: "",
-    d7: "",
-    e7: "",
-    f7: "",
-    g7: "",
-    h7: "",
-    a8: "",
-    b8: "",
-    c8: "",
-    d8: "",
-    e8: "",
-    f8: "",
-    g8: "",
-    h8: ""
-  }
 
   const [clickHolder, setClickHolder] = useState([])
-  const [game, setGame] = useState(gameObj)
+  const [gameState, setGameState] = useState(JSON.parse(game.state))
+  const [history, setHistory] = useState("a2:a4")
+  const [turn, setTurn] = useState("white")
 
-  useEffect(() => {
-    fetch("/games/220").then((response) => {
-      if (response.ok) {
-        response.json().then((game) => {
-          console.log(JSON.parse(game.state))
-          setGame(JSON.parse(game.state))
-        });
-      }
-    });
-  }, []);
+  if (game.turn === "player1" && turn != "white") {
+    setTurn("white")
+  }
+
+  console.log(gameState)
+
 
   function moveLateral(start, distance) {
     let x_value = start.split('')[0];
     let y_value = start[1]
-    // console.log("x_value: " + x_value)
     let x_index = x_value.charCodeAt(0);
-    // console.log("x_index: " + x_index)
-
     let x_index_end = x_index + distance
     let x_value_end = String.fromCharCode(x_index_end)
 
-    // console.log("x_value_end: " + x_value_end)
-
     let final = x_value_end + y_value
 
-    // console.log("lateral return: " + final)
-
     return final
-
   }
-  // moveLateral("c4", -2)
-
   function moveVertical(start, distance) {
     let x_value = start.split('')[0];
     let y_value = parseInt(start[1])
     let y_value_end = y_value + distance
 
-    // console.log("y_value_end: " + y_value_end)
-
     let final = x_value + y_value_end
 
-    // console.log("veritcal return: " + final)
-
     return final
-
   }
-  // moveVertical("c4", 1)
-
   function moveDiagonal(start, distance, x, y) {
     let lateralTransform = moveLateral(start, distance * x);
     let verticalTransoform = moveVertical(lateralTransform, distance * y);
-    // console.log("Diagonal: " + verticalTransoform)
     return verticalTransoform;
   }
-  // moveDiagonal("c4", 4, 1, 1)
-
   function isValidMove(piece, start, end) {
     let validMoves = [];
-    if (piece === 'white-pawn' && turn === 'white') {
-      if (game[moveVertical(start, 1)] === "") {
-        if (parseInt(start[1]) == 2 && game[moveVertical(start, 2)] === "") {
+    if (piece === 'white-pawn' && game.turn === 'player1') {
+      if (gameState[moveVertical(start, 1)] === "") {
+        if (parseInt(start[1]) == 2 && gameState[moveVertical(start, 2)] === "") {
           validMoves.push(moveVertical(start, 2))
         }
         validMoves.push(moveVertical(start, 1))
         console.log(validMoves)
       }
     }
-    if (piece === 'black-pawn' && turn === 'black') {
-      if (game[moveVertical(start, -1)] === "") {
-        if (parseInt(start[1]) == 7 && game[moveVertical(start, -2)] === "") {
+    if (piece === 'black-pawn' && game.turn === 'player2') {
+      if (gameState[moveVertical(start, -1)] === "") {
+        if (parseInt(start[1]) == 7 && gameState[moveVertical(start, -2)] === "") {
           validMoves.push(moveVertical(start, -2))
         }
         validMoves.push(moveVertical(start, -1))
@@ -153,33 +65,33 @@ function ChessBoard({ labelToggle, turn, setTurn, setHistory, history, turnNum, 
   }
 
   function isValidAttack(piece, start, end) {
-    if (piece === 'white-pawn' && turn === 'white') {
-      if (game[end] === 'black-pawn') {
+    if (piece === 'white-pawn' && game.turn === 'player1') {
+      if (gameState[end] === 'black-pawn') {
         if (end === moveDiagonal(start, 1, 1, 1) || end == moveDiagonal(start, 1, -1, 1)) {
           return true
         }
       }
-      else if (game[moveVertical(end, -1)] === 'black-pawn') {
+      else if (gameState[moveVertical(end, -1)] === 'black-pawn') {
         if (end === moveDiagonal(start, 1, 1, 1) || end == moveDiagonal(start, 1, -1, 1)) {
           if (history[history.length - 1] === `${moveVertical(end, 1)}:${moveVertical(end, -1)}`) {
             console.log('en passant')
-            game[moveVertical(end, -1)] = "";
+            gameState[moveVertical(end, -1)] = "";
             return true
           }
         }
       }
     }
-    if (piece === 'black-pawn' && turn === 'black') {
-      if (game[end] === 'white-pawn') {
+    if (piece === 'black-pawn' && game.turn === 'black') {
+      if (gameState[end] === 'white-pawn') {
         if (end === moveDiagonal(start, 1, 1, -1) || end == moveDiagonal(start, 1, -1, -1)) {
           return true
         }
       }
-      else if (game[moveVertical(end, 1)] === 'white-pawn') {
+      else if (gameState[moveVertical(end, 1)] === 'white-pawn') {
         if (end === moveDiagonal(start, 1, 1, -1) || end == moveDiagonal(start, 1, -1, -1)) {
           if (history[history.length - 1] === `${moveVertical(end, -1)}:${moveVertical(end, 1)}`) {
             console.log('en passant')
-            game[moveVertical(end, 1)] = "";
+            gameState[moveVertical(end, 1)] = "";
             return true
           }
         }
@@ -202,23 +114,23 @@ function ChessBoard({ labelToggle, turn, setTurn, setHistory, history, turnNum, 
         let firstClick = clickHolder[0]
         let secondClick = id
 
-        let piece = game[firstClick]
+        let piece = gameState[firstClick]
 
         if (isValidMove(piece, firstClick, secondClick) || isValidAttack(piece, firstClick, secondClick)) {
           console.log('valid move')
-          let newGame = {...game}
+          let newGame = {...gameState}
           newGame[firstClick] = ""
           newGame[secondClick] = piece
-          setHistory([...history, `${firstClick}:${secondClick}`])
-          setGame(newGame)
-          if (turn === 'black') {
-            setTurnNum(turnNum + 1)
-            setNumberedHistory([...numberedHistory, `${firstClick}:${secondClick} `])
+          // setHistory([...history, `${firstClick}:${secondClick}`]) -- revisit
+          setGameState(newGame)
+          if (game.turn === 'player2') {
+            // setTurnNum(turnNum + 1) -- revisit
+            // setNumberedHistory([...numberedHistory, `${firstClick}:${secondClick} `]) -- revisit
           }
           else {
-            setNumberedHistory([...numberedHistory, `${turnNum}. ${firstClick}:${secondClick} `])
+            // setNumberedHistory([...numberedHistory, `${turnNum}. ${firstClick}:${secondClick} `]) -- revisit
           }
-          setTurn(turn == 'white' ? 'black' : 'white')
+          // setTurn(turn == 'player1' ? 'player2' : 'player1') -- revisit
           
         }
         setClickHolder([])
@@ -228,8 +140,8 @@ function ChessBoard({ labelToggle, turn, setTurn, setHistory, history, turnNum, 
 
       // console.log("here")
     }
-    else if (game[id].slice(0, 5) === turn && clickHolder.length == 0) {
-      console.log(gameObj[id])
+    else if (gameState[id].slice(0, 5) === turn && clickHolder.length == 0) {
+      console.log(gameState[id])
       setClickHolder([id])
       
     }
@@ -252,13 +164,12 @@ function ChessBoard({ labelToggle, turn, setTurn, setHistory, history, turnNum, 
     for (let j = 0; j < 8; j++) {
       let color = toggle ? "black-square" : "white-square";
 
-      grid.push(<Square game={game} color={color} code_x={j + 97} y={8 - i} key={`${i}${j}`} labelToggle={labelToggle} clickHolder={clickHolder} clickHandler={clickHandler}/>)
+      grid.push(<Square game={gameState} color={color} code_x={j + 97} y={8 - i} key={`${i}${j}`} labelToggle={labelToggle} clickHolder={clickHolder} clickHandler={clickHandler}/>)
 
       if (j !== 7) {
         toggle = !toggle;
       }
       else {
-        // grid.push(<br/>)
       }
     }
   }

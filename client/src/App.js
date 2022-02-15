@@ -53,7 +53,7 @@ function App() {
             <Signup user={user} setUser={setUser} />
           </Route>
           <Route path="/">
-            <GameContainer user={user} setUser={setUser} game={game} setGame={setGame} setReloadRatingToggle={setReloadRatingToggle}/>
+            <Lobby user={user} setUser={setUser} setGame={setGame} reloadRatingToggle={reloadRatingToggle} setReloadRatingToggle={setReloadRatingToggle} />
           </Route>
           
         </Switch>
