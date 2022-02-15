@@ -7,8 +7,9 @@ function History({ numberedHistory }) {
 
 
   return (
-    <div className="history">
-      {numberedHistory}
+    <div id="move-history-container">
+      <div id="move-history-title">history: </div>
+      <div id="move-history-list">{numberedHistory}</div>
     </div>
   );
 }

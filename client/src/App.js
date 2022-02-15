@@ -5,21 +5,17 @@ import Login from "./GameContainer/Login";
 import Signup from "./GameContainer/Signup";
 import TestGame from "./GameContainer/TestGame";
 import Lobby from "./GameContainer/Lobby";
-import Game from "./GameContainer/Game.js";
 import Me from "./GameContainer/Me";
 import User from "./GameContainer/User";
+import Chess from "./GameContainer/Chess";
+import Header from "./Header";
 
 import "./App.css"
 
 function App() {
-  const [count, setCount] = useState(0);
   const [user, setUser] = useState(null);
-  // const [gameId, setGameId] = useState(null);
   const [game, setGame] = useState(null);
   const [reloadRatingToggle, setReloadRatingToggle] = useState(false);
-
-
-
 
   useEffect(() => {
     fetch("/me").then((response) => {
@@ -29,18 +25,20 @@ function App() {
     });
   }, []);
 
+
   return (
     <BrowserRouter>
       <div className="App">
+        <Header user={user} setUser={setUser}/>
         <Switch>
-          <Route path="/game">
-            <Game user={user} game={game} />
-          </Route>
           <Route path="/me">
             <Me user={user} setUser={setUser}/>
           </Route>
           <Route path="/users/:id">
             <User />
+          </Route>
+          <Route path="/chess">
+            <Chess user={user} game={game}/>
           </Route>
           <Route path="/test">
             <TestGame user={user} setUser={setUser} game={game} setGame={setGame} setReloadRatingToggle={setReloadRatingToggle}/>
@@ -55,7 +53,7 @@ function App() {
             <Signup user={user} setUser={setUser} />
           </Route>
           <Route path="/">
-            <GameContainer user={user} setUser={setUser} />
+            <GameContainer user={user} setUser={setUser} game={game} setGame={setGame} setReloadRatingToggle={setReloadRatingToggle}/>
           </Route>
           
         </Switch>

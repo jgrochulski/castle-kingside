@@ -11,7 +11,6 @@ function GameChecker({ game, setGame, reloadGame }) {
 
   // console.log(latestStatus.id)
 
-
   if (!latestStatus && game.id) {
     fetch(`/games/${game.id}`)
       .then(resp => {
@@ -28,8 +27,6 @@ function GameChecker({ game, setGame, reloadGame }) {
         }
       })
     }
-
-
 
   function checkGame(){
     fetch(`/games/${latestStatus.id}`)
@@ -53,8 +50,6 @@ function GameChecker({ game, setGame, reloadGame }) {
     })
   }
 
-
-
   useEffect(() => {
     
     const gameInterval = setInterval(() => {
@@ -65,7 +60,6 @@ function GameChecker({ game, setGame, reloadGame }) {
     return () => clearInterval(gameInterval);
   }, []);
   
-
 
   return (
     <div id="checker-status">

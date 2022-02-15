@@ -4,85 +4,85 @@ import { useState, useEffect } from "react";
 function ChessBoard({ labelToggle, turn, setTurn, setHistory, history, turnNum, setTurnNum, numberedHistory, setNumberedHistory }) {
 
   let gameObj = {
-    "a1": "",
-    "b1": "",
-    "c1": "",
-    "d1": "",
-    "e1": "",
-    "f1": "",
-    "g1": "",
-    "h1": "",
-    "a2": "white-pawn",
-    "b2": "white-pawn",
-    "c2": "white-pawn",
-    "d2": "white-pawn",
-    "e2": "white-pawn",
-    "f2": "white-pawn",
-    "g2": "white-pawn",
-    "h2": "white-pawn",
-    "a3": "",
-    "b3": "",
-    "c3": "",
-    "d3": "",
-    "e3": "",
-    "f3": "",
-    "g3": "",
-    "h3": "",
-    "a4": "",
-    "b4": "",
-    "c4": "",
-    "d4": "",
-    "e4": "",
-    "f4": "",
-    "g4": "",
-    "h4": "",
-    "a5": "",
-    "b5": "",
-    "c5": "",
-    "d5": "",
-    "e5": "",
-    "f5": "",
-    "g5": "",
-    "h5": "",
-    "a6": "",
-    "b6": "",
-    "c6": "",
-    "d6": "",
-    "e6": "",
-    "f6": "",
-    "g6": "",
-    "h6": "",
-    "a7": "black-pawn",
-    "b7": "black-pawn",
-    "c7": "black-pawn",
-    "d7": "black-pawn",
-    "e7": "black-pawn",
-    "f7": "black-pawn",
-    "g7": "black-pawn",
-    "h7": "black-pawn",
-    "a8": "",
-    "b8": "",
-    "c8": "",
-    "d8": "",
-    "e8": "",
-    "f8": "",
-    "g8": "",
-    "h8": ""
+    a1: "",
+    b1: "",
+    c1: "",
+    d1: "",
+    e1: "",
+    f1: "",
+    g1: "",
+    h1: "",
+    a2: "",
+    b2: "",
+    c2: "",
+    d2: "",
+    e2: "",
+    f2: "",
+    g2: "",
+    h2: "",
+    a3: "",
+    b3: "",
+    c3: "",
+    d3: "",
+    e3: "",
+    f3: "",
+    g3: "",
+    h3: "",
+    a4: "",
+    b4: "",
+    c4: "",
+    d4: "",
+    e4: "",
+    f4: "",
+    g4: "",
+    h4: "",
+    a5: "",
+    b5: "",
+    c5: "",
+    d5: "",
+    e5: "",
+    f5: "",
+    g5: "",
+    h5: "",
+    a6: "",
+    b6: "",
+    c6: "",
+    d6: "",
+    e6: "",
+    f6: "",
+    g6: "",
+    h6: "",
+    a7: "",
+    b7: "",
+    c7: "",
+    d7: "",
+    e7: "",
+    f7: "",
+    g7: "",
+    h7: "",
+    a8: "",
+    b8: "",
+    c8: "",
+    d8: "",
+    e8: "",
+    f8: "",
+    g8: "",
+    h8: ""
   }
 
   const [clickHolder, setClickHolder] = useState([])
   const [game, setGame] = useState(gameObj)
 
-  // useEffect(() => {
-  //   fetch("/games/50").then((response) => {
-  //     if (response.ok) {
-  //       response.json().then((game) => {
-  //         console.log(JSON.parse(game.game_state))
-  //         setGame(JSON.parse(game.game_state))
-  //       });
-  //     }
-  //   });
-  // }, []);
+  useEffect(() => {
+    fetch("/games/220").then((response) => {
+      if (response.ok) {
+        response.json().then((game) => {
+          console.log(JSON.parse(game.state))
+          setGame(JSON.parse(game.state))
+        });
+      }
+    });
+  }, []);
 
   function moveLateral(start, distance) {
     let x_value = start.split('')[0];
