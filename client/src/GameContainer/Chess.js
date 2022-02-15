@@ -3,6 +3,8 @@ import { Redirect } from "react-router-dom";
 import TurnIndicator from "./TurnIndicator";
 import ChessBoard from "./ChessBoard";
 import History from "./History";
+import LabelButton from "./LabelButton";
+
 
 
 
@@ -35,11 +37,12 @@ function Chess({ user, game, setGame }){
         setGame={setGame}
         labelToggle={labelToggle}
       />
-      <History numberedHistory={game.history}/>  
+      <History numberedHistory={game.history}/>
+      <LabelButton labelToggle={labelToggle} setLabelToggle={setLabelToggle} />
 
 
       <button className="test-button" onClick={returnToLobby}>Return to Lobby</button>
-      <button className="test-button" onClick={() => console.log(game.state)}>log game</button>
+      <button className="test-button" onClick={() => console.log(game)}>log game</button>
       
       {redirect? <Redirect to={redirect}/> : null}
     </div>

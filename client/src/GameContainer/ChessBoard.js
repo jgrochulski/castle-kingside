@@ -5,15 +5,16 @@ function ChessBoard({ user, game, setGame, labelToggle }) {
 
 
   const [clickHolder, setClickHolder] = useState([])
-  const [gameState, setGameState] = useState(JSON.parse(game.state))
+  const [gameState, setGameState] = useState(game.state)
   const [history, setHistory] = useState("a2:a4")
-  const [turn, setTurn] = useState("white")
+  // const [turn, setTurn] = useState("black")
+  const [turnNum, setTurnNum] = useState(0)
+  const [numberedHistory, setNumberedHistory] = useState("")
 
-  if (game.turn === "player1" && turn != "white") {
-    setTurn("white")
-  }
+  // if (game.turn === "player1" && turn != "white") {
+  //   setTurn("white")
+  // }
 
-  console.log(gameState)
 
 
   function moveLateral(start, distance) {
@@ -81,7 +82,7 @@ function ChessBoard({ user, game, setGame, labelToggle }) {
         }
       }
     }
-    if (piece === 'black-pawn' && game.turn === 'black') {
+    if (piece === 'black-pawn' && game.turn === 'player2') {
       if (gameState[end] === 'white-pawn') {
         if (end === moveDiagonal(start, 1, 1, -1) || end == moveDiagonal(start, 1, -1, -1)) {
           return true
@@ -121,16 +122,16 @@ function ChessBoard({ user, game, setGame, labelToggle }) {
           let newGame = {...gameState}
           newGame[firstClick] = ""
           newGame[secondClick] = piece
-          // setHistory([...history, `${firstClick}:${secondClick}`]) -- revisit
+          setHistory([...history, `${firstClick}:${secondClick}`])
           setGameState(newGame)
           if (game.turn === 'player2') {
-            // setTurnNum(turnNum + 1) -- revisit
-            // setNumberedHistory([...numberedHistory, `${firstClick}:${secondClick} `]) -- revisit
+            setTurnNum(turnNum + 1)
+            setNumberedHistory([...numberedHistory, `${firstClick}:${secondClick} `])
           }
           else {
-            // setNumberedHistory([...numberedHistory, `${turnNum}. ${firstClick}:${secondClick} `]) -- revisit
+            setNumberedHistory([...numberedHistory, `${turnNum}. ${firstClick}:${secondClick} `])
           }
-          // setTurn(turn == 'player1' ? 'player2' : 'player1') -- revisit
+          // setTurn(turn == 'player1' ? 'player2' : 'player1')
           
         }
         setClickHolder([])
@@ -140,39 +141,36 @@ function ChessBoard({ user, game, setGame, labelToggle }) {
 
       // console.log("here")
     }
-    else if (gameState[id].slice(0, 5) === turn && clickHolder.length == 0) {
+    else if (((gameState[id].slice(0, 5) === "white" && game.turn === "player1") || (gameState[id].slice(0, 5) === "black" && game.turn === "player2")) && clickHolder.length == 0) {
       console.log(gameState[id])
       setClickHolder([id])
       
     }
   }
 
-  // console.log(clickHolder)
 
+function generateGrid() {
 
+    let grid = [];
+    let toggle = false;
 
-  let grid = [];
-  let toggle = false;
+    for (let i = 0; i < 8; i++) {
+      for (let j = 0; j < 8; j++) {
+        let color = toggle ? "black-square" : "white-square";
 
-  // for (let i = 0; i < 8; i++) {
-  //   grid.push(<Row toggle={toggle} key={i} y={8 - i} />)
-  //   toggle = !toggle;
-  // }
+        grid.push(<Square game={gameState} color={color} code_x={j + 97} y={8 - i} key={`${i}${j}`} labelToggle={labelToggle} clickHolder={clickHolder} clickHandler={clickHandler}/>)
 
-
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      let color = toggle ? "black-square" : "white-square";
-
-      grid.push(<Square game={gameState} color={color} code_x={j + 97} y={8 - i} key={`${i}${j}`} labelToggle={labelToggle} clickHolder={clickHolder} clickHandler={clickHandler}/>)
-
-      if (j !== 7) {
-        toggle = !toggle;
-      }
-      else {
+        if (j !== 7) {
+          toggle = !toggle;
+        }
+        else {
+        }
       }
     }
+    return grid
   }
+
+  const grid = generateGrid()
 
   return (
     <div className="chess-board">

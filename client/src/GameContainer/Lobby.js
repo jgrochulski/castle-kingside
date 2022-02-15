@@ -342,7 +342,10 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
     fetch("/games/223").then((response) => {
       if (response.ok) {
         response.json().then((game) => {
-          setGame(game)
+          let parsedState = JSON.parse(game.state)
+          console.log(parsedState)
+          let parsedGame = {...game, state: parsedState}
+          setGame(parsedGame)
           setRedirect('/chess')
         });
       }
