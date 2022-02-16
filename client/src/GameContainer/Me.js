@@ -31,7 +31,7 @@ function Me({ user, setUser }) {
           let validGames = [];
           for (let i = 0; i < games.length; i++) {
             // if (!games[i].status.includes('pending') && !games[i].status.includes('in progress')) {
-            if (games[i].status != "voided" && games[i].status != "in progress") {
+            if (games[i].status != "voided" && games[i].status != "in progress" && games[i].status != "pending") {
               validGames.push(games[i])
             }
           }
@@ -135,7 +135,7 @@ function Me({ user, setUser }) {
     }).then((res) => res.json())
     .then(j => setUser(j))
   }
-  
+
   function handleViewUser(id){
     setRedirect(`/users/${id}`)
   }

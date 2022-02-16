@@ -112,7 +112,7 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
         .then(games => {
           let validGames = [];
           for (let i = 0; i < games.length; i++) {
-            if (games[i].status == 'running' || games[i].status == 'pending') {
+            if (games[i].status == 'in progress' || games[i].status == 'pending') {
               validGames.push(games[i])
             }
           }
@@ -396,6 +396,8 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
         </div>
         <button className="login-button" onClick={() => createGame()}>create new game</button>
         <button className="login-button" onClick={() => setRedirect('/me')}>view profile</button>
+        <button className="login-button" onClick={() => setRedirect('/highscores')}>highscores</button>
+        
         {/* <button className="login-button" onClick={() => deleteUserLobby()}>del user lobby</button> */}
         {redirect? <Redirect to={redirect}/> : null}
       </div>

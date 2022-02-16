@@ -9,6 +9,7 @@ import Me from "./GameContainer/Me";
 import User from "./GameContainer/User";
 import Chess from "./GameContainer/Chess";
 import Header from "./Header";
+import Highscores from "./GameContainer/Highscores";
 
 import "./App.css"
 
@@ -54,6 +55,10 @@ function App() {
           </Route>
           <Route path="/signup">
             <Signup user={user} setUser={setUser} />
+          </Route>
+          <Route path="/highscores">
+            <Header user={user} setUser={setUser}/>
+            <Highscores />
           </Route>
           <Route path="/">
             <Login user={user} setUser={setUser} />

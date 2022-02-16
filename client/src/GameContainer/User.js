@@ -99,7 +99,7 @@ function User({ }) {
       if (game.status == 'draw') {
         outcome = 'draw'
       }
-      else if (game.status == `${opponent} won` || game.status == `${viewUser.username} resigned`) {
+      else if (game.status != `${viewUser.username} won`) {
         outcome = 'loss'
       }
       else {

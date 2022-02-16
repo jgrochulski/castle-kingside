@@ -16,7 +16,7 @@
   width: fit-content;
   height: fit-content;
   background-color: rgb(231, 231, 231);
-  margin: 20% auto 0 auto;
+  margin: 100px auto 0 auto;
   padding: 10px 20px 10px 20px;
   border-radius: 5px;
 }
@@ -76,6 +76,7 @@
   height: fit-content;
   color: rgb(97, 126, 255);
   font-weight: 600;
+  font-size: 20px;
   display: inline-flex;
 }
 
@@ -84,7 +85,7 @@
   height: fit-content;
   color: rgb(78, 78, 78);
   font-weight: 600;
-  font-size: 10px;
+  font-size: 12px;
   display: inline-flex;
   vertical-align: super;
 }
@@ -140,7 +141,7 @@
 #move-history-list {
   width: 330px;
   height: 20px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   color:rgb(119, 119, 119);
   display: inline-flex;
@@ -347,6 +348,7 @@ h1#login-h1 {
   /* background-color: white; */
 }
 
+
 .input-label {
   font-size: 0px;
   margin-left: 12px;
@@ -361,6 +363,19 @@ h1#login-h1 {
 }
 
 input.login-input {
+  box-sizing: border-box;
+  width: 100%;
+  height: fit-content;
+  margin: 3px 0 5px 0;
+  padding: 15px 15px 15px 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 0 2px 0px rgba(0, 0, 0, 0.137);
+
+}
+
+input.search-input {
   box-sizing: border-box;
   width: 100%;
   height: fit-content;
@@ -696,6 +711,7 @@ div.existing-login-text {
   padding: 10px 80px 10px 80px;
 }
 
+
 #me-logo {
   height: 40px;
   width: 40px;
@@ -877,3 +893,78 @@ h2#me-history-h2 {
 }
 
 /* me done */
+
+
+/* highscores ---------------------- */
+
+.highscores-container {
+  width: fit-content;
+  height: fit-content;
+  background-color: rgb(236, 238, 243);
+  border-radius: 5px;
+  /* outline: solid 1px rgb(217, 218, 223); */
+  margin: 100px auto 0 auto;
+  padding: 10px 80px 10px 80px;
+}
+
+#highscores-h1{
+  width: fit-content;
+  height: fit-content;
+  margin: 0px auto 0 auto;
+}
+
+#search-input-container {
+  height: fit-content;
+  width: 340px;
+  margin: 0 auto 0 auto;
+  /* background-color: white; */
+}
+
+#search-form{
+  height: fit-content;
+  width: fit-content;
+  margin: 0 auto 0 auto;
+
+}
+
+input.search-input {
+  box-sizing: border-box;
+  width: 310px;
+  height: fit-content;
+  margin: 3px auto 10px auto;
+  padding: 10px 15px 10px 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  font-weight: 400;
+  border: none;
+  box-shadow: 0 0 2px 0px rgba(0, 0, 0, 0.137);
+  display: block;
+
+}
+
+input.search-input:hover {
+  outline: solid 2px rgb(221, 221, 221);
+
+}
+
+input.search-input:focus {
+  outline: none;
+}
+
+input.search-input:focus::placeholder {
+  font-size: 0;
+  transition: 0.3s;
+}
+
+.input-label {
+  font-size: 0px;
+  margin-left: 12px;
+  color:rgba(0, 0, 0, 0.787);
+  font-weight: 600;
+}
+
+.input-label:focus-within {
+  font-size: 14px;
+  transition: 0.3s;
+
+}
