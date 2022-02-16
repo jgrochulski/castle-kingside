@@ -386,7 +386,7 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
         <div id="lobby-games-list">
         <h2 id="me-history-h2">current users</h2>
 
-          {!lobbyUsers ? "error: no users in lobby" : 
+          {!lobbyUsers ? "loading users..." : 
           lobbyUsers.map(user => (
             <div className="lobby-game-item" key={user.id}>
               <div className="game-item-host-username" onClick={() => handleViewUser(user.user_id)}>{user.username}</div>

@@ -21,6 +21,91 @@
   border-radius: 5px;
 }
 
+#chess-game-title {
+  width: fit-content;
+  height: fit-content;
+  font-size: 22px;
+  font-weight: 600;
+  color: black;
+  margin: 0px auto 0px auto;
+}
+
+#chess-game-status {
+  width: fit-content;
+  height: fit-content;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgb(78, 78, 78);
+  margin: 0px auto 5px auto;
+}
+
+#chess-header {
+  width: fit-content;
+  height: fit-content;
+  /* background-color: rgb(212, 174, 174); */
+  margin: 0px auto 5px auto;
+  /* justify-content: space-around; */
+}
+
+.chess-header-item {
+  width: 150px;
+  height: fit-content;
+  display: inline-flex;
+  /* background-color: white; */
+  padding: 8px;
+  border-radius: 4px;
+}
+
+#chi {
+  /* float: right */
+  justify-content: flex-end;
+}
+
+.chess-header-item-label {
+  width: fit-content;
+  height: fit-content;
+  color: rgb(97, 126, 255);
+  font-weight: 600;
+  font-size: 12px;
+  display: block;
+  margin: 0 5px 0 0 ;
+}
+
+.chess-header-item-username {
+  width: fit-content;
+  height: fit-content;
+  color: rgb(97, 126, 255);
+  font-weight: 600;
+  display: inline-flex;
+}
+
+.chess-header-item-rating {
+  width: fit-content;
+  height: fit-content;
+  color: rgb(78, 78, 78);
+  font-weight: 600;
+  font-size: 10px;
+  display: inline-flex;
+  vertical-align: super;
+}
+
+#chess-header-opponent {
+  /* float: right; */
+  /* margin-left: 30px */
+}
+
+#chess-header-vs{
+  /* background-color: rgb(97, 126, 255); */
+  width: fit-content;
+  height: 20px;
+  display: inline-flex;
+  font-size: 16px;
+  font-weight: 600;
+  color: black;
+  text-align: center;
+  margin: 5px;
+}
+
 .turn-indicator{
   width: fit-content;
   height: fit-content;
@@ -39,6 +124,7 @@
   background-color: white;
   padding: 5px 10px 5px 10px;
   border-radius: 3px;
+
 }
 
 #move-history-title {
@@ -61,6 +147,7 @@
   margin: 0;
   white-space: nowrap;
   overflow-x: auto;
+  scrollbar-width: 2px;
 }
 
 .game-container {

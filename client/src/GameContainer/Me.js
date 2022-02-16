@@ -31,7 +31,7 @@ function Me({ user, setUser }) {
           let validGames = [];
           for (let i = 0; i < games.length; i++) {
             // if (!games[i].status.includes('pending') && !games[i].status.includes('in progress')) {
-            if (games[i].status != "voided") {
+            if (games[i].status != "voided" && games[i].status != "in progress") {
               validGames.push(games[i])
             }
           }
@@ -135,6 +135,10 @@ function Me({ user, setUser }) {
     }).then((res) => res.json())
     .then(j => setUser(j))
   }
+  
+  function handleViewUser(id){
+    setRedirect(`/users/${id}`)
+  }
 
 
 
@@ -160,7 +164,7 @@ function Me({ user, setUser }) {
                 {game.outcome == "draw" ? <div className="me-history-item-outcome-draw">{game.outcome}</div> : null}
                 {game.outcome == "loss" ? <div className="me-history-item-outcome-loss">{game.outcome}</div> : null}
                 <div className="me-history-item-opponent">
-                  <div className="me-history-item-opponent-username">{game.opponent.username}</div>
+                  <div className="me-history-item-opponent-username" onClick={() => handleViewUser(game.opponent.id)}>{game.opponent.username}</div>
                   <div className="me-history-item-opponent-rating">{Math.round(game.opponent.elo_rating)}</div>
 
                 </div>
@@ -170,11 +174,11 @@ function Me({ user, setUser }) {
           : <div className="me-history-none">no games played yet...</div>}
           </div>
           <button className="me-button" onClick={() => resetRating()}>Reset Rating</button>
-          <button className="me-button" onClick={() => setRedirect(true)}>Return to Lobby</button>
+          <button className="me-button" onClick={() => setRedirect('/lobby')}>Return to Lobby</button>
         </div>
         {alert ? <Alert status={alert} /> : null}
       </div>
-      {redirect? <Redirect to="/lobby"/> : null}
+      {redirect? <Redirect to={redirect}/> : null}
       {/*  ------------------------------------------   to this  */}
     </div>
     

@@ -3,7 +3,7 @@ import { useState } from "react"
 function History({ history }) {
 
 console.log(history)
-let formattedHistory = " "
+let formattedHistory = "..."
 if (history) {
   let split = history.split(", ")
   console.log(split)

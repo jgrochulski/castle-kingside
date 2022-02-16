@@ -44,10 +44,6 @@ function ChessBoard({ user, game, setGame, labelToggle, userTurn }) {
       endGame("player1")
     }
   }
-
-  
-
-
   function moveLateral(start, distance) {
     let x_value = start.split('')[0];
     let y_value = start[1]
@@ -304,7 +300,7 @@ function ChessBoard({ user, game, setGame, labelToggle, userTurn }) {
   console.log(game.status)
 
   return (
-    <div className={user.username == userTurn && game.status != "pending" ? "chess-board-blue" : "chess-board-grey"}>
+    <div className={user.username == userTurn && game.status != "pending" && game.status.slice(-3) != "won" ? "chess-board-blue" : "chess-board-grey"}>
       {user.username != userTurn ? <div id="chess-whiteout"></div> : null}
       {game.status === "pending" ? <div id="chess-whiteout-waiting"><div id="whiteout-text">waiting for other player to join...</div></div> : null}
       {game.status.slice(-3) === "won" ? <div id="chess-whiteout-waiting"><div id="whiteout-text">game over</div></div> : null}

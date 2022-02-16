@@ -34,15 +34,22 @@ function Chess({ user, game, setGame, setReloadRatingToggle }){
 
   return (
     <div id="chess-container">
-      <div>game#{game.id}</div>
-      <div>moves: {game.counter}</div>
-      <div>status: {game.status}</div>
+      <div id="chess-game-title">game#{game.id}</div>
+      <div id="chess-game-status">{game.status}</div>
 
+      <div id="chess-header">
+        <div id="chi" className="chess-header-item">
+          <div className="chess-header-item-username">{user.username}</div>
+          <div className="chess-header-item-rating">{Math.round(user.elo_rating)}</div>
+        </div>
+        <div id="chess-header-vs">vs</div>
+        <div id="chess-header-opponent" className="chess-header-item">
+          <div className="chess-header-item-username">{opponent.username ? opponent.username : "waiting..."}</div>
+          <div className="chess-header-item-rating">{Math.round(opponent.elo_rating) ? Math.round(opponent.elo_rating) : null}</div>
+        </div>
+      </div>
 
-      <div>playing against: {opponent.username}</div>
-      <div>playing against: {Math.round(opponent.elo_rating)}</div>
-
-      <TurnIndicator turn={game.turn} status={game.status} players={game.players}/>
+      <TurnIndicator user={user.username} turn={game.turn} status={game.status} players={game.players}/>
       
       <ChessBoard
         user={user}
