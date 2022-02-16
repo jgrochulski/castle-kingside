@@ -1,4 +1,4 @@
-function TurnIndicator({ turn, status }) {
+function TurnIndicator({ turn, status, players }) {
 
   let message = "";
 
@@ -6,7 +6,7 @@ function TurnIndicator({ turn, status }) {
     message = "waiting..."
   }
   else {
-    message = turn === "player1" ? "white to play" : "black to play"
+    message = turn === "player1" ? players[0].user.username + " to play as white" : players[1].user.username + " to play as black"
   }
 
   return (

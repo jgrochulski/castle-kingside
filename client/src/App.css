@@ -34,14 +34,16 @@
 
 #move-history-container {
   width: 400px;
-  height: fit-content;
-  margin: 5px auto 5px auto;
+  height: 20px;
+  margin: 5px auto 10px auto;
   background-color: white;
   padding: 5px 10px 5px 10px;
   border-radius: 3px;
 }
 
 #move-history-title {
+  width: 65px;
+  height: 20px;
   font-size: 16px;
   font-weight: 600;
   color:rgb(71, 84, 202);
@@ -50,12 +52,14 @@
 }
 
 #move-history-list {
-  width: 300px;
+  width: 330px;
+  height: 20px;
   font-size: 16px;
   font-weight: 600;
   color:rgb(119, 119, 119);
   display: inline-flex;
   margin: 0;
+  white-space: nowrap;
   overflow-x: auto;
 }
 
@@ -68,7 +72,7 @@
 .chess-board-blue {
   width: 400px;
   height: 400px;
-  margin: 0 auto 20px auto;
+  margin: 0 auto 10px auto;
   background-color: rgb(94, 108, 233);
   padding: 10px;
   /* display: flex; */
@@ -78,7 +82,7 @@
 .chess-board-grey {
   width: 400px;
   height: 400px;
-  margin: 0 auto 20px auto;
+  margin: 0 auto 10px auto;
   background-color: rgb(138, 138, 138);
   padding: 10px;
   /* display: flex; */

@@ -5,13 +5,48 @@ function ChessBoard({ user, game, setGame, labelToggle, userTurn }) {
 
 
   const [clickHolder, setClickHolder] = useState([])
-  const [history, setHistory] = useState(game.history ? game.history.split(",") : [])
+  // const [history, setHistory] = useState(game.history ? game.history.split(",") : [])
 
-  const gameState = game.state
 
   const grid = generateGrid()
+  let history = game.history ? game.history.split(", ") : []
+
+  // for (const cell in game.state){
+  //   if (cell == 'a1')
+  // }
+  if (game.status == "in progress") {
+    checkGameIsOver()
+  }
+
+  function checkGameIsOver() {
+    if (
+      game.state.a1 == "black-pawn" ||
+      game.state.b1 == "black-pawn" ||
+      game.state.c1 == "black-pawn" ||
+      game.state.d1 == "black-pawn" ||
+      game.state.e1 == "black-pawn" ||
+      game.state.f1 == "black-pawn" ||
+      game.state.g1 == "black-pawn" ||
+      game.state.h1 == "black-pawn"
+    ) {
+      endGame("player2")
+    }
+    if (
+      game.state.a8 == "white-pawn" ||
+      game.state.b8 == "white-pawn" ||
+      game.state.c8 == "white-pawn" ||
+      game.state.d8 == "white-pawn" ||
+      game.state.e8 == "white-pawn" ||
+      game.state.f8 == "white-pawn" ||
+      game.state.g8 == "white-pawn" ||
+      game.state.h8 == "white-pawn"
+    ) {
+      endGame("player1")
+    }
+  }
 
   
+
 
   function moveLateral(start, distance) {
     let x_value = start.split('')[0];
@@ -69,6 +104,7 @@ function ChessBoard({ user, game, setGame, labelToggle, userTurn }) {
       }
       else if (game.state[moveVertical(end, -1)] === 'black-pawn') {
         if (end === moveDiagonal(start, 1, 1, 1) || end == moveDiagonal(start, 1, -1, 1)) {
+          console.log(history[history.length - 1])
           if (history[history.length - 1] === `${moveVertical(end, 1)}:${moveVertical(end, -1)}`) {
             console.log('en passant')
             game.state[moveVertical(end, -1)] = "";
@@ -97,7 +133,7 @@ function ChessBoard({ user, game, setGame, labelToggle, userTurn }) {
   function endTurn(newGame) {
     const nextTurn = game.turn === "player1" ? "player2" : "player1"
     console.log(history)
-    updateGame({state: JSON.stringify(newGame), turn: nextTurn, history: history.join(","), counter: game.counter + 1})
+    updateGame({state: JSON.stringify(newGame), turn: nextTurn, history: history.join(", "), counter: game.counter + 1})
     reloadGame()
   }
   function updateGame(info){
@@ -148,7 +184,7 @@ function ChessBoard({ user, game, setGame, labelToggle, userTurn }) {
             let newGame = {...game.state}
             newGame[firstClick] = ""
             newGame[secondClick] = piece
-            setHistory([...history, `${firstClick}:${secondClick}`])
+            history.push(`${firstClick}:${secondClick}`)
             endTurn(newGame)
           }
           setClickHolder([])
@@ -183,6 +219,87 @@ function ChessBoard({ user, game, setGame, labelToggle, userTurn }) {
     }
     return grid
   }
+  function calculateRatings(result) {
+
+    let playerA = game.players[0].user
+    let playerB = game.players[1].user
+    console.log(playerA)
+    console.log(playerB)
+    let ratingA = Number(playerA.elo_rating)
+    let ratingB = Number(playerB.elo_rating)
+    console.log(ratingA)
+
+    let expectedScoreA = 1 / (1 + 10 ** ((ratingB - ratingA)/400))
+    let expectedScoreB = 1 / (1 + 10 ** ((ratingA - ratingB)/400))
+    
+    console.log(expectedScoreA)
+
+    let K = 20;
+    let scoreA
+    let scoreB
+
+    if (result === 'draw') {
+      scoreA = 0.5;
+      scoreB = 0.5;
+      console.log("score is 0.5 0.5")
+
+    }
+    else if (result === `${game.players[0].user.username} won`) {
+      scoreA = 1.0;
+      scoreB = 0.0;
+      console.log("score is 1.0 0.0")
+
+    }
+    else {
+      scoreA = 0.0;
+      scoreB = 1.0;
+      console.log("score is 0.0 1.0")
+    }
+
+    let newRatingA = ratingA + (K * (scoreA - expectedScoreA))
+    let newRatingB = ratingB + (K * (scoreB - expectedScoreB))
+
+    console.log(newRatingA)
+    console.log(newRatingB)
+
+    updateRatings(newRatingA, newRatingB)
+  }
+  function updateRatings(newRatingA, newRatingB) {
+
+    let patchA = {
+      elo_rating: newRatingA
+    }
+
+    let patchB = {
+      elo_rating: newRatingB
+    }
+    
+    fetch(`/users/${game.players[0].user.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(patchA)
+    }).then((res) => res.json())
+    .then(j => console.log(j))
+
+    fetch(`/users/${game.players[1].user.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(patchB)
+    }).then((res) => res.json())
+    .then(j => console.log(j))
+  }
+
+  function endGame(winner) {
+    console.log(winner)
+    const result = winner === "player1" ? game.players[0].user.username + " won" : game.players[1].user.username + " won"
+    console.log(result)
+    updateGame({status: result})
+    calculateRatings(result)
+  }
 
   console.log(game.status)
 
@@ -190,6 +307,7 @@ function ChessBoard({ user, game, setGame, labelToggle, userTurn }) {
     <div className={user.username == userTurn && game.status != "pending" ? "chess-board-blue" : "chess-board-grey"}>
       {user.username != userTurn ? <div id="chess-whiteout"></div> : null}
       {game.status === "pending" ? <div id="chess-whiteout-waiting"><div id="whiteout-text">waiting for other player to join...</div></div> : null}
+      {game.status.slice(-3) === "won" ? <div id="chess-whiteout-waiting"><div id="whiteout-text">game over</div></div> : null}
       
       {grid}
       {/* <button className="test-button" onClick={reloadGame}>reload game</button> */}

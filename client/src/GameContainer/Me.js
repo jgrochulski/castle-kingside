@@ -65,7 +65,7 @@ function Me({ user, setUser }) {
       if (game.status == 'draw') {
         outcome = 'draw'
       }
-      else if (game.status == `${opponent} won` || game.status == `${user.username} resigned`) {
+      else if (game.status == `${opponent.username} won` || game.status == `${user.username} resigned`) {
         outcome = 'loss'
       }
       else {

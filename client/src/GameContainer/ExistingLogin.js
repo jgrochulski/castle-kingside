@@ -26,7 +26,7 @@ function ExistingLogin({ user, setUser, setRedirect }) {
         <div className="existing-login-text">Please log out to switch users.</div>
       </div>
       <button id="login-submit" onClick={handleLogout}>log out</button>
-      <button id="login-submit" onClick={() => setRedirect(true)}>return to game</button>
+      <button id="login-submit" onClick={() => setRedirect(true)}>return to lobby</button>
     </div>
   );
 }

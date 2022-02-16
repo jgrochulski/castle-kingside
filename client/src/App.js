@@ -29,21 +29,24 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <Header user={user} setUser={setUser}/>
         <Switch>
           <Route path="/me">
+            <Header user={user} setUser={setUser}/>
             <Me user={user} setUser={setUser}/>
           </Route>
           <Route path="/users/:id">
+            <Header user={user} setUser={setUser}/>
             <User />
           </Route>
           <Route path="/chess">
-            <Chess user={user} game={game} setGame={setGame}/>
+            <Header user={user} setUser={setUser}/>
+            <Chess user={user} game={game} setGame={setGame} setReloadRatingToggle={setReloadRatingToggle}/>
           </Route>
           <Route path="/test">
             <TestGame user={user} setUser={setUser} game={game} setGame={setGame} setReloadRatingToggle={setReloadRatingToggle}/>
           </Route>
           <Route path="/lobby">
+            <Header user={user} setUser={setUser}/>
             <Lobby user={user} setUser={setUser} setGame={setGame} reloadRatingToggle={reloadRatingToggle} setReloadRatingToggle={setReloadRatingToggle} />
           </Route>
           <Route path="/login">
@@ -53,7 +56,7 @@ function App() {
             <Signup user={user} setUser={setUser} />
           </Route>
           <Route path="/">
-            <Lobby user={user} setUser={setUser} setGame={setGame} reloadRatingToggle={reloadRatingToggle} setReloadRatingToggle={setReloadRatingToggle} />
+            <Login user={user} setUser={setUser} />
           </Route>
           
         </Switch>

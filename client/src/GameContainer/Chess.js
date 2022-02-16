@@ -10,7 +10,7 @@ import GameChecker from "./GameChecker";
 
 
 
-function Chess({ user, game, setGame }){
+function Chess({ user, game, setGame, setReloadRatingToggle }){
 
   const [redirect, setRedirect] = useState(false);
   const [labelToggle, setLabelToggle] = useState(false);
@@ -22,24 +22,27 @@ function Chess({ user, game, setGame }){
   let opponent = "waiting for opponent...";
 
   if (game.players.length > 1) {
-    opponent = user.username === game.players[0].user.username ? game.players[1].user.username : game.players[0].user.username
+    opponent = user.username === game.players[0].user.username ? game.players[1].user : game.players[0].user
   }
   
 
   function returnToLobby() {
+    setReloadRatingToggle(true)
     setRedirect("/lobby")
   }
   
 
   return (
     <div id="chess-container">
-      <div>you: {user.username}</div>
-      <div>opponent: {opponent}</div>
       <div>game#{game.id}</div>
-      <div>turn: {game.turn}</div>
-      <div>game status: {game.status}</div>
-      <div>history: {game.history}</div>
-      <TurnIndicator turn={game.turn} status={game.status}/>
+      <div>moves: {game.counter}</div>
+      <div>status: {game.status}</div>
+
+
+      <div>playing against: {opponent.username}</div>
+      <div>playing against: {Math.round(opponent.elo_rating)}</div>
+
+      <TurnIndicator turn={game.turn} status={game.status} players={game.players}/>
       
       <ChessBoard
         user={user}
@@ -48,9 +51,10 @@ function Chess({ user, game, setGame }){
         labelToggle={labelToggle}
         userTurn={userTurn}
       />
+      <History history={game.history}/>
       <LabelButton labelToggle={labelToggle} setLabelToggle={setLabelToggle} />
       <button className="test-button" onClick={returnToLobby}>Return to Lobby</button>
-      {user && userTurn != user.username && game.status != 'ended' ? <GameChecker game={game} setGame={setGame} /> : null}
+      {user && userTurn != user.username && game.status.slice(-3) != 'won' ? <GameChecker game={game} setGame={setGame} /> : null}
       {user && game.status === 'pending' ? <GameChecker game={game} setGame={setGame} message={"waiting for other player to join..."}/> : null}
       
       {redirect? <Redirect to={redirect}/> : null}

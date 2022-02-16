@@ -395,14 +395,8 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
           ))}
         </div>
         <button className="login-button" onClick={() => createGame()}>create new game</button>
-        <button className="login-button" onClick={() => loadGames()}>refresh games</button>
         <button className="login-button" onClick={() => setRedirect('/me')}>view profile</button>
-        <button className="login-button" onClick={() => setRedirect('/')}>home</button>
-        <button className="login-button" onClick={handleChess}>chess</button>
-
-
         {/* <button className="login-button" onClick={() => deleteUserLobby()}>del user lobby</button> */}
-
         {redirect? <Redirect to={redirect}/> : null}
       </div>
   );
