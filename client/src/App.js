@@ -38,7 +38,7 @@ function App() {
             <User />
           </Route>
           <Route path="/chess">
-            <Chess user={user} game={game}/>
+            <Chess user={user} game={game} setGame={setGame}/>
           </Route>
           <Route path="/test">
             <TestGame user={user} setUser={setUser} game={game} setGame={setGame} setReloadRatingToggle={setReloadRatingToggle}/>

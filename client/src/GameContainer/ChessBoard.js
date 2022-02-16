@@ -11,6 +11,9 @@ function ChessBoard({ user, game, setGame, labelToggle }) {
   const [turnNum, setTurnNum] = useState(0)
   const [numberedHistory, setNumberedHistory] = useState("")
 
+  const grid = generateGrid()
+
+
   // if (game.turn === "player1" && turn != "white") {
   //   setTurn("white")
   // }
@@ -64,7 +67,6 @@ function ChessBoard({ user, game, setGame, labelToggle }) {
     }
     return validMoves.includes(end)
   }
-
   function isValidAttack(piece, start, end) {
     if (piece === 'white-pawn' && game.turn === 'player1') {
       if (gameState[end] === 'black-pawn') {
@@ -100,18 +102,56 @@ function ChessBoard({ user, game, setGame, labelToggle }) {
     }
   }
 
+  function endTurn(newGame) {
+    const nextTurn = game.turn === "player1" ? "player2" : "player1"
+    updateGame({state: JSON.stringify(newGame), turn: nextTurn, history: history, counter: game.counter + 1})
+    reloadGame()
+  }
+
+  function updateGame(info){
+    fetch(`/games/${game.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(info)
+    }).then((res) => res.json())
+    .then(j => console.log(j))
+  }
+
+  function reloadGame(){  
+    fetch(`/games/${game.id}`)
+    .then(resp => {
+      if (resp.ok) {
+        resp.json()
+        .then(game => {
+          // console.log(game)
+          const formatGame = {...game, state: JSON.parse(game.state)}
+          console.log(formatGame)
+          setGame(formatGame)
+          setGameState(formatGame.state)
+        })
+      }
+      else {
+        console.log('fetch error')
+      }
+    })
+  }
+
+
+
   function clickHandler(e) {
     let id = e.target.id
     console.log(id)
     
-    if (clickHolder.length > 0) {
+    if (clickHolder.length > 0) { // if this is the second click...
       if (id === clickHolder[0]) {
-        console.log('deselected')
+        console.log('deselected') // deselect if double click
         setClickHolder([])
 
       }
       else {
-        setClickHolder([...clickHolder, id])
+        setClickHolder([...clickHolder, id]) // otherwise add second click to holder
         let firstClick = clickHolder[0]
         let secondClick = id
 
@@ -123,7 +163,8 @@ function ChessBoard({ user, game, setGame, labelToggle }) {
           newGame[firstClick] = ""
           newGame[secondClick] = piece
           setHistory([...history, `${firstClick}:${secondClick}`])
-          setGameState(newGame)
+          endTurn(newGame)
+          // setGameState(newGame) -- can we get away without using this?
           if (game.turn === 'player2') {
             setTurnNum(turnNum + 1)
             setNumberedHistory([...numberedHistory, `${firstClick}:${secondClick} `])
@@ -170,7 +211,6 @@ function generateGrid() {
     return grid
   }
 
-  const grid = generateGrid()
 
   return (
     <div className="chess-board">
