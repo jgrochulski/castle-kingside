@@ -17,14 +17,14 @@
   height: fit-content;
   background-color: rgb(231, 231, 231);
   margin: 20% auto 0 auto;
-  padding: 10px;
+  padding: 10px 20px 10px 20px;
   border-radius: 5px;
 }
 
 .turn-indicator{
   width: fit-content;
   height: fit-content;
-  margin: 5px auto 5px auto;
+  margin: 5px auto 10px auto;
   background-color: white;
   padding: 5px 10px 5px 10px;
   border-radius: 3px;
@@ -33,7 +33,7 @@
 }
 
 #move-history-container {
-  width: 400;
+  width: 400px;
   height: fit-content;
   margin: 5px auto 5px auto;
   background-color: white;
@@ -45,14 +45,17 @@
   font-size: 16px;
   font-weight: 600;
   color:rgb(71, 84, 202);
-  display: inline;
+  display: inline-flex;
+  margin: 0;
 }
 
 #move-history-list {
+  width: 300px;
   font-size: 16px;
   font-weight: 600;
   color:rgb(119, 119, 119);
-  display: inline;
+  display: inline-flex;
+  margin: 0;
   overflow-x: auto;
 }
 
@@ -62,14 +65,54 @@
   margin: 20% auto 0 auto;
 }
 
-.chess-board {
+.chess-board-blue {
   width: 400px;
   height: 400px;
-  margin: 0 auto 0 auto;
-  background-color: rgb(224, 181, 143);
+  margin: 0 auto 20px auto;
+  background-color: rgb(94, 108, 233);
   padding: 10px;
   /* display: flex; */
   font-size: 0px;
+}
+
+.chess-board-grey {
+  width: 400px;
+  height: 400px;
+  margin: 0 auto 20px auto;
+  background-color: rgb(138, 138, 138);
+  padding: 10px;
+  /* display: flex; */
+  font-size: 0px;
+}
+
+#chess-whiteout{
+  width: 400px;
+  height: 400px;
+  position: absolute;
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+#chess-whiteout-waiting{
+  width: 400px;
+  height: 400px;
+  position: absolute;
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.493);
+}
+
+#whiteout-text {
+  width: fit-content;
+  height: fit-content;
+  padding: 15px 20px 15px 20px;
+  margin: 175px auto 25% auto;
+  background-color: rgba(71, 71, 71, 0.931);
+  border-radius: 3px;
+  z-index: 1001;
+  text-align: center;
+  color: white;
+  font-weight: 600;
+  font-size: 20px;
 }
 
 .square {

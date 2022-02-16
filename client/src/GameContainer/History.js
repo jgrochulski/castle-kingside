@@ -2,8 +2,7 @@ import { useState } from "react"
 
 function History({ numberedHistory }) {
 
-
-  
+console.log(numberedHistory)
 
 
   return (

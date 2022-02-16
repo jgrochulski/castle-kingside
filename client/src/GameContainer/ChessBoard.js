@@ -1,24 +1,17 @@
 import Square from "./Square.js";
 import { useState, useEffect } from "react";
 
-function ChessBoard({ user, game, setGame, labelToggle }) {
+function ChessBoard({ user, game, setGame, labelToggle, userTurn }) {
 
 
   const [clickHolder, setClickHolder] = useState([])
-  const [gameState, setGameState] = useState(game.state)
-  const [history, setHistory] = useState("a2:a4")
-  // const [turn, setTurn] = useState("black")
-  const [turnNum, setTurnNum] = useState(0)
-  const [numberedHistory, setNumberedHistory] = useState("")
+  const [history, setHistory] = useState(game.history ? game.history.split(",") : [])
+
+  const gameState = game.state
 
   const grid = generateGrid()
 
-
-  // if (game.turn === "player1" && turn != "white") {
-  //   setTurn("white")
-  // }
-
-
+  
 
   function moveLateral(start, distance) {
     let x_value = start.split('')[0];
@@ -48,66 +41,65 @@ function ChessBoard({ user, game, setGame, labelToggle }) {
   function isValidMove(piece, start, end) {
     let validMoves = [];
     if (piece === 'white-pawn' && game.turn === 'player1') {
-      if (gameState[moveVertical(start, 1)] === "") {
-        if (parseInt(start[1]) == 2 && gameState[moveVertical(start, 2)] === "") {
+      if (game.state[moveVertical(start, 1)] === "") {
+        if (parseInt(start[1]) == 2 && game.state[moveVertical(start, 2)] === "") {
           validMoves.push(moveVertical(start, 2))
         }
         validMoves.push(moveVertical(start, 1))
-        console.log(validMoves)
+        // console.log(validMoves)
       }
     }
     if (piece === 'black-pawn' && game.turn === 'player2') {
-      if (gameState[moveVertical(start, -1)] === "") {
-        if (parseInt(start[1]) == 7 && gameState[moveVertical(start, -2)] === "") {
+      if (game.state[moveVertical(start, -1)] === "") {
+        if (parseInt(start[1]) == 7 && game.state[moveVertical(start, -2)] === "") {
           validMoves.push(moveVertical(start, -2))
         }
         validMoves.push(moveVertical(start, -1))
-        console.log(validMoves)
+        // console.log(validMoves)
       }
     }
     return validMoves.includes(end)
   }
   function isValidAttack(piece, start, end) {
     if (piece === 'white-pawn' && game.turn === 'player1') {
-      if (gameState[end] === 'black-pawn') {
+      if (game.state[end] === 'black-pawn') {
         if (end === moveDiagonal(start, 1, 1, 1) || end == moveDiagonal(start, 1, -1, 1)) {
           return true
         }
       }
-      else if (gameState[moveVertical(end, -1)] === 'black-pawn') {
+      else if (game.state[moveVertical(end, -1)] === 'black-pawn') {
         if (end === moveDiagonal(start, 1, 1, 1) || end == moveDiagonal(start, 1, -1, 1)) {
           if (history[history.length - 1] === `${moveVertical(end, 1)}:${moveVertical(end, -1)}`) {
             console.log('en passant')
-            gameState[moveVertical(end, -1)] = "";
+            game.state[moveVertical(end, -1)] = "";
             return true
           }
         }
       }
     }
     if (piece === 'black-pawn' && game.turn === 'player2') {
-      if (gameState[end] === 'white-pawn') {
+      if (game.state[end] === 'white-pawn') {
         if (end === moveDiagonal(start, 1, 1, -1) || end == moveDiagonal(start, 1, -1, -1)) {
           return true
         }
       }
-      else if (gameState[moveVertical(end, 1)] === 'white-pawn') {
+      else if (game.state[moveVertical(end, 1)] === 'white-pawn') {
         if (end === moveDiagonal(start, 1, 1, -1) || end == moveDiagonal(start, 1, -1, -1)) {
           if (history[history.length - 1] === `${moveVertical(end, -1)}:${moveVertical(end, 1)}`) {
             console.log('en passant')
-            gameState[moveVertical(end, 1)] = "";
+            game.state[moveVertical(end, 1)] = "";
             return true
           }
         }
       }
     }
   }
-
   function endTurn(newGame) {
     const nextTurn = game.turn === "player1" ? "player2" : "player1"
-    updateGame({state: JSON.stringify(newGame), turn: nextTurn, history: history, counter: game.counter + 1})
+    console.log(history)
+    updateGame({state: JSON.stringify(newGame), turn: nextTurn, history: history.join(","), counter: game.counter + 1})
     reloadGame()
   }
-
   function updateGame(info){
     fetch(`/games/${game.id}`, {
       method: "PATCH",
@@ -118,18 +110,15 @@ function ChessBoard({ user, game, setGame, labelToggle }) {
     }).then((res) => res.json())
     .then(j => console.log(j))
   }
-
   function reloadGame(){  
     fetch(`/games/${game.id}`)
     .then(resp => {
       if (resp.ok) {
         resp.json()
         .then(game => {
-          // console.log(game)
           const formatGame = {...game, state: JSON.parse(game.state)}
           console.log(formatGame)
           setGame(formatGame)
-          setGameState(formatGame.state)
         })
       }
       else {
@@ -137,60 +126,44 @@ function ChessBoard({ user, game, setGame, labelToggle }) {
       }
     })
   }
-
-
-
   function clickHandler(e) {
     let id = e.target.id
     console.log(id)
-    
-    if (clickHolder.length > 0) { // if this is the second click...
-      if (id === clickHolder[0]) {
-        console.log('deselected') // deselect if double click
-        setClickHolder([])
+    if (user.username === userTurn) {
+      if (clickHolder.length > 0) { // if this is the second click...
+        if (id === clickHolder[0]) {
+          console.log('deselected') // deselect if double click
+          setClickHolder([])
 
-      }
-      else {
-        setClickHolder([...clickHolder, id]) // otherwise add second click to holder
-        let firstClick = clickHolder[0]
-        let secondClick = id
-
-        let piece = gameState[firstClick]
-
-        if (isValidMove(piece, firstClick, secondClick) || isValidAttack(piece, firstClick, secondClick)) {
-          console.log('valid move')
-          let newGame = {...gameState}
-          newGame[firstClick] = ""
-          newGame[secondClick] = piece
-          setHistory([...history, `${firstClick}:${secondClick}`])
-          endTurn(newGame)
-          // setGameState(newGame) -- can we get away without using this?
-          if (game.turn === 'player2') {
-            setTurnNum(turnNum + 1)
-            setNumberedHistory([...numberedHistory, `${firstClick}:${secondClick} `])
-          }
-          else {
-            setNumberedHistory([...numberedHistory, `${turnNum}. ${firstClick}:${secondClick} `])
-          }
-          // setTurn(turn == 'player1' ? 'player2' : 'player1')
-          
         }
-        setClickHolder([])
-        console.log(history)
+        else {
+          setClickHolder([...clickHolder, id]) // otherwise add second click to holder
+          let firstClick = clickHolder[0]
+          let secondClick = id
+
+          let piece = game.state[firstClick]
+
+          if (isValidMove(piece, firstClick, secondClick) || isValidAttack(piece, firstClick, secondClick)) {
+            console.log('valid move')
+            let newGame = {...game.state}
+            newGame[firstClick] = ""
+            newGame[secondClick] = piece
+            setHistory([...history, `${firstClick}:${secondClick}`])
+            endTurn(newGame)
+          }
+          setClickHolder([])
+        }
       }
-
-
-      // console.log("here")
+      else if (((game.state[id].slice(0, 5) === "white" && game.turn === "player1") || (game.state[id].slice(0, 5) === "black" && game.turn === "player2")) && clickHolder.length == 0) {
+        setClickHolder([id])
+        
+      }
     }
-    else if (((gameState[id].slice(0, 5) === "white" && game.turn === "player1") || (gameState[id].slice(0, 5) === "black" && game.turn === "player2")) && clickHolder.length == 0) {
-      console.log(gameState[id])
-      setClickHolder([id])
-      
+    else {
+      console.log("wait your turn")
     }
   }
-
-
-function generateGrid() {
+  function generateGrid() {
 
     let grid = [];
     let toggle = false;
@@ -199,7 +172,7 @@ function generateGrid() {
       for (let j = 0; j < 8; j++) {
         let color = toggle ? "black-square" : "white-square";
 
-        grid.push(<Square game={gameState} color={color} code_x={j + 97} y={8 - i} key={`${i}${j}`} labelToggle={labelToggle} clickHolder={clickHolder} clickHandler={clickHandler}/>)
+        grid.push(<Square game={game.state} color={color} code_x={j + 97} y={8 - i} key={`${i}${j}`} labelToggle={labelToggle} clickHolder={clickHolder} clickHandler={clickHandler}/>)
 
         if (j !== 7) {
           toggle = !toggle;
@@ -211,11 +184,18 @@ function generateGrid() {
     return grid
   }
 
+  console.log(game.status)
 
   return (
-    <div className="chess-board">
+    <div className={user.username == userTurn && game.status != "pending" ? "chess-board-blue" : "chess-board-grey"}>
+      {user.username != userTurn ? <div id="chess-whiteout"></div> : null}
+      {game.status === "pending" ? <div id="chess-whiteout-waiting"><div id="whiteout-text">waiting for other player to join...</div></div> : null}
+      
       {grid}
+      {/* <button className="test-button" onClick={reloadGame}>reload game</button> */}
+
     </div>
+
   );
 }
 

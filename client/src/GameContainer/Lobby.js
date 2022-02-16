@@ -168,8 +168,11 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
               if (resp.ok) {
                 resp.json()
                 .then(game => {
-                  setGame(game)
-                  setRedirect('/test')
+                  let parsedState = JSON.parse(game.state)
+                  console.log(parsedState)
+                  let parsedGame = {...game, state: parsedState}
+                  setGame(parsedGame) // ------ set game w/ player ------- here !!
+                  setRedirect('/chess')
                   console.log('game is set')
                 })
               }
@@ -266,7 +269,7 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
       state: gamepack,
       status: "pending",
       turn: "player1",
-      history: "",
+      history: null,
       counter: 0
     }
 
@@ -303,8 +306,11 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
                     if (resp.ok) {
                       resp.json()
                       .then(game => {
-                        setGame(game) // ------ set game w/ player ------- here !!
-                        setRedirect('/test')
+                        let parsedState = JSON.parse(game.state)
+                        console.log(parsedState)
+                        let parsedGame = {...game, state: parsedState}
+                        setGame(parsedGame) // ------ set game w/ player ------- here !!
+                        setRedirect('/chess')
                         console.log('game is set')
                       })
                     }
@@ -339,7 +345,7 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
   }
 
   function handleChess(){
-    fetch("/games/223").then((response) => {
+    fetch("/games/226").then((response) => {
       if (response.ok) {
         response.json().then((game) => {
           let parsedState = JSON.parse(game.state)
