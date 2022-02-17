@@ -25,6 +25,8 @@ function Highscores({ }) {
             users.sort((a, b) => (
               b.elo_rating - a.elo_rating
             ))
+            users.map((user, i) => (user.rank = i + 1))
+            // console.log(users)
             setUsers(users)
           })
         }
@@ -75,13 +77,11 @@ function Highscores({ }) {
           {users.length > 0 ?
             users.filter(user => user.username.includes(filter)).map((user, i) => (
               <div className="me-history-item" key={i}>
-                <div className="me-history-item-title">Rank: {i + 1}</div>
+                <div className="me-history-item-title">Rank: {user.rank}</div>
                 <div className="me-history-item-opponent">
                   <div className="me-history-item-opponent-username" onClick={() => handleViewUser(user.id)}>{user.username}</div>
                   <div className="me-history-item-opponent-rating">{Math.round(user.elo_rating)}</div>
-
                 </div>
-                {/* <div className="me-history-item-time">{user.games[user.games.length - 1]} ago</div> */}
               </div>
             ))
           : <div className="me-history-none">loading users...</div>}
