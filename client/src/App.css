@@ -4,20 +4,207 @@
   height: 1200px;
 } */
 
+#header-container {
+  height: fit-content;
+  width: 100%;
+  padding: 10px 0 1px 0;
+  background-color: rgb(238, 238, 238);
+}
+
+#chess-container {
+  box-sizing: border-box;
+  width: fit-content;
+  height: fit-content;
+  background-color: rgb(231, 231, 231);
+  margin: 100px auto 0 auto;
+  padding: 10px 20px 10px 20px;
+  border-radius: 5px;
+}
+
+#chess-game-title {
+  width: fit-content;
+  height: fit-content;
+  font-size: 22px;
+  font-weight: 600;
+  color: black;
+  margin: 0px auto 0px auto;
+}
+
+#chess-game-status {
+  width: fit-content;
+  height: fit-content;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgb(78, 78, 78);
+  margin: 0px auto 5px auto;
+}
+
+#chess-header {
+  width: fit-content;
+  height: fit-content;
+  /* background-color: rgb(212, 174, 174); */
+  margin: 0px auto 5px auto;
+  /* justify-content: space-around; */
+}
+
+.chess-header-item {
+  width: 150px;
+  height: fit-content;
+  display: inline-flex;
+  /* background-color: white; */
+  padding: 8px;
+  border-radius: 4px;
+}
+
+#chi {
+  /* float: right */
+  justify-content: flex-end;
+}
+
+.chess-header-item-label {
+  width: fit-content;
+  height: fit-content;
+  color: rgb(97, 126, 255);
+  font-weight: 600;
+  font-size: 12px;
+  display: block;
+  margin: 0 5px 0 0 ;
+}
+
+.chess-header-item-username {
+  width: fit-content;
+  height: fit-content;
+  color: rgb(97, 126, 255);
+  font-weight: 600;
+  font-size: 20px;
+  display: inline-flex;
+}
+
+.chess-header-item-rating {
+  width: fit-content;
+  height: fit-content;
+  color: rgb(78, 78, 78);
+  font-weight: 600;
+  font-size: 12px;
+  display: inline-flex;
+  vertical-align: super;
+}
+
+#chess-header-opponent {
+  /* float: right; */
+  /* margin-left: 30px */
+}
+
+#chess-header-vs{
+  /* background-color: rgb(97, 126, 255); */
+  width: fit-content;
+  height: 20px;
+  display: inline-flex;
+  font-size: 16px;
+  font-weight: 600;
+  color: black;
+  text-align: center;
+  margin: 5px;
+}
+
+.turn-indicator{
+  width: fit-content;
+  height: fit-content;
+  margin: 5px auto 10px auto;
+  background-color: white;
+  padding: 5px 10px 5px 10px;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+#move-history-container {
+  width: 400px;
+  height: 20px;
+  margin: 5px auto 10px auto;
+  background-color: white;
+  padding: 5px 10px 5px 10px;
+  border-radius: 3px;
+
+}
+
+#move-history-title {
+  width: 65px;
+  height: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color:rgb(71, 84, 202);
+  display: inline-flex;
+  margin: 0;
+}
+
+#move-history-list {
+  width: 330px;
+  height: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color:rgb(119, 119, 119);
+  display: inline-flex;
+  margin: 0;
+  white-space: nowrap;
+  overflow-x: auto;
+  scrollbar-width: 2px;
+}
+
 .game-container {
   width: 500px;
   height: 500px;
   margin: 20% auto 0 auto;
 }
 
-.chess-board {
+.chess-board-blue {
   width: 400px;
   height: 400px;
-  margin: 0 auto 0 auto;
-  background-color: rgb(224, 181, 143);
+  margin: 0 auto 10px auto;
+  background-color: rgb(94, 108, 233);
   padding: 10px;
   /* display: flex; */
   font-size: 0px;
+}
+
+.chess-board-grey {
+  width: 400px;
+  height: 400px;
+  margin: 0 auto 10px auto;
+  background-color: rgb(138, 138, 138);
+  padding: 10px;
+  /* display: flex; */
+  font-size: 0px;
+}
+
+#chess-whiteout{
+  width: 400px;
+  height: 400px;
+  position: absolute;
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+#chess-whiteout-waiting{
+  width: 400px;
+  height: 400px;
+  position: absolute;
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.493);
+}
+
+#whiteout-text {
+  width: fit-content;
+  height: fit-content;
+  padding: 15px 20px 15px 20px;
+  margin: 175px auto 25% auto;
+  background-color: rgba(71, 71, 71, 0.931);
+  border-radius: 3px;
+  z-index: 1001;
+  text-align: center;
+  color: white;
+  font-weight: 600;
+  font-size: 20px;
 }
 
 .square {
@@ -39,8 +226,8 @@
 }
 
 .black-square {
-  background-color: rgb(97, 97, 97);
-  border:rgb(97, 97, 97) 4px solid;
+  background-color: rgb(124, 124, 124);
+  border:rgb(124, 124, 124) 4px solid;
 }
 
 .square:hover {
@@ -82,14 +269,6 @@ button.label-toggle:active {
   background-color: rgb(224, 181, 143);
 }
 
-.turn-indicator {
-  width: 100px;
-  height: 20px;
-  margin: 10px auto 0 auto;
-  /* background-color: rgb(216, 216, 216); */
-  border: none;
-  /* border-radius: 5px; */
-}
 
 .history {
   width: 300px;
@@ -169,6 +348,7 @@ h1#login-h1 {
   /* background-color: white; */
 }
 
+
 .input-label {
   font-size: 0px;
   margin-left: 12px;
@@ -183,6 +363,19 @@ h1#login-h1 {
 }
 
 input.login-input {
+  box-sizing: border-box;
+  width: 100%;
+  height: fit-content;
+  margin: 3px 0 5px 0;
+  padding: 15px 15px 15px 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 0 2px 0px rgba(0, 0, 0, 0.137);
+
+}
+
+input.search-input {
   box-sizing: border-box;
   width: 100%;
   height: fit-content;
@@ -404,7 +597,8 @@ div.existing-login-text {
   width: 380px;
   margin: 0 auto 20px auto;
   background-color: white;
-  padding: 10px;
+  padding: 10px 10px 30px 10px;
+  border-radius: 5px;
 }
 
 .lobby-game-item{
@@ -515,8 +709,9 @@ div.existing-login-text {
   border-radius: 5px;
   /* outline: solid 1px rgb(217, 218, 223); */
   margin: 100px auto 0 auto;
-  padding: 10px 80px 10px 80px;
+  padding: 10px 80px 60px 80px;
 }
+
 
 #me-logo {
   height: 40px;
@@ -536,7 +731,7 @@ div.existing-login-text {
 
   /* background-color: rgb(236, 238, 243); */
   background-color: white;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 
 
@@ -566,7 +761,7 @@ div.existing-login-text {
 
 h2#me-history-h2 {
   text-align: center;
-  margin: 0 0 10px 0;
+  margin: 5px 0 10px 0;
   color: rgb(117, 117, 117);
 }
 
@@ -584,7 +779,7 @@ h2#me-history-h2 {
   width: 340px;
   margin: 0 auto 20px auto;
   
-  padding: 10px 5px 10px 5px;
+  padding: 0px 5px 0px 5px;
 }
 
 .me-history-item {
@@ -699,3 +894,78 @@ h2#me-history-h2 {
 }
 
 /* me done */
+
+
+/* highscores ---------------------- */
+
+.highscores-container {
+  width: fit-content;
+  height: fit-content;
+  background-color: rgb(236, 238, 243);
+  border-radius: 5px;
+  /* outline: solid 1px rgb(217, 218, 223); */
+  margin: 100px auto 0 auto;
+  padding: 10px 80px 60px 80px;
+}
+
+#highscores-h1{
+  width: fit-content;
+  height: fit-content;
+  margin: 0px auto 0 auto;
+}
+
+#search-input-container {
+  height: fit-content;
+  width: 340px;
+  margin: 0 auto 0 auto;
+  /* background-color: white; */
+}
+
+#search-form{
+  height: fit-content;
+  width: fit-content;
+  margin: 0 auto 0 auto;
+
+}
+
+input.search-input {
+  box-sizing: border-box;
+  width: 310px;
+  height: fit-content;
+  margin: 3px auto 10px auto;
+  padding: 10px 15px 10px 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  font-weight: 400;
+  border: none;
+  box-shadow: 0 0 2px 0px rgba(0, 0, 0, 0.137);
+  display: block;
+
+}
+
+input.search-input:hover {
+  outline: solid 2px rgb(221, 221, 221);
+
+}
+
+input.search-input:focus {
+  outline: none;
+}
+
+input.search-input:focus::placeholder {
+  font-size: 0;
+  transition: 0.3s;
+}
+
+.input-label {
+  font-size: 0px;
+  margin-left: 12px;
+  color:rgba(0, 0, 0, 0.787);
+  font-weight: 600;
+}
+
+.input-label:focus-within {
+  font-size: 14px;
+  transition: 0.3s;
+
+}

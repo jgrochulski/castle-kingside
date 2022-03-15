@@ -22,7 +22,7 @@ function User({ }) {
         if (resp.ok) {
           resp.json()
           .then(user => {
-            console.log(user)
+            // console.log(user)
             setViewUser(user)
           })
         }
@@ -51,7 +51,7 @@ function User({ }) {
       if (resp.ok) {
         resp.json()
         .then(user => {
-          console.log(user)
+          // console.log(user)
           let games = user.games
           let validGames = [];
           for (let i = 0; i < games.length; i++) {
@@ -80,8 +80,8 @@ function User({ }) {
     
     gameHistory.map((game) => {
 
-        console.log(game.id)
-      console.log(game.players[1].user.username)
+      // console.log(game.id)
+      // console.log(game.players[1].user.username)
       // console.log(viewUser.username)
 
       // console.log("running")
@@ -91,7 +91,7 @@ function User({ }) {
       
       let opponent = game.players[0].user.username == viewUser.username ? game.players[1].user : game.players[0].user
 
-      console.log(opponent)
+      // console.log(opponent)
 
 
       let outcome;
@@ -99,7 +99,7 @@ function User({ }) {
       if (game.status == 'draw') {
         outcome = 'draw'
       }
-      else if (game.status == `${opponent} won` || game.status == `${viewUser.username} resigned`) {
+      else if (game.status != `${viewUser.username} won`) {
         outcome = 'loss'
       }
       else {
@@ -108,7 +108,7 @@ function User({ }) {
 
       let currentDate = new Date();
       let timeSinceGame = Math.floor((new Date(game.updated_at) - currentDate) / -1000);
-      console.log(timeSinceGame)
+      // console.log(timeSinceGame)
 
       let formattedTimeSinceGame;
       
@@ -131,7 +131,7 @@ function User({ }) {
         formattedTimeSinceGame = timeSinceGame + "s"
       }
 
-      console.log(formattedTimeSinceGame)
+      // console.log(formattedTimeSinceGame)
 
       let formattedGame = {
         id: game.id,
@@ -152,7 +152,30 @@ function User({ }) {
 
   }
 
+  function handleViewUser(id){
+    // console.log(id)
+    setRedirect(`/users/${id}`)
+    fetch(`/users/${userId}`)
+      .then(resp => {
+        if (resp.ok) {
+          resp.json()
+          .then(user => {
+            // console.log(user)
+            // setGameHistory(undefined)
+            // setFormattedGameHistory([])
+            // setViewUser(user)
+            window.location.reload(false);
+            // loadHistory()
+            // formatGameHistory()
+          })
+        }
+        else {
+          console.log('fetch error')
+        }
+      })
 
+    
+  }
 
 
   return (
@@ -163,7 +186,7 @@ function User({ }) {
       <div>
         <div id="me-user-container">
           <div id="me-user-username">{viewUser ? viewUser.username : "loading..."}</div>
-          { viewUser ? <div className="me-user-rating">{Math.round(viewUser.elo_rating)}</div> : null}
+          { viewUser.elo_rating ? <div className="me-user-rating">{Math.round(viewUser.elo_rating)}</div> : null}
         </div>
         <div id="me-history-container">
           <h2 id="me-history-h2">game history</h2>
@@ -176,7 +199,7 @@ function User({ }) {
                 {game.outcome == "draw" ? <div className="me-history-item-outcome-draw">{game.outcome}</div> : null}
                 {game.outcome == "loss" ? <div className="me-history-item-outcome-loss">{game.outcome}</div> : null}
                 <div className="me-history-item-opponent">
-                  <div className="me-history-item-opponent-username">{game.opponent.username}</div>
+                  <div className="me-history-item-opponent-username" onClick={() => handleViewUser(game.opponent.id)}>{game.opponent.username}</div>
                   <div className="me-history-item-opponent-rating">{Math.round(game.opponent.elo_rating)}</div>
 
                 </div>
@@ -185,11 +208,11 @@ function User({ }) {
             ))
           : <div className="me-history-none">no games played yet...</div>}
           </div>
-          <button className="me-button" onClick={() => setRedirect(true)}>Return to Lobby</button>
+          <button className="me-button" onClick={() => setRedirect('/lobby')}>return to lobby</button>
         </div>
         {alert ? <Alert status={alert} /> : null}
       </div>
-      {redirect? <Redirect to="/lobby"/> : null}
+      {redirect? <Redirect to={redirect}/> : null}
       {/*  ------------------------------------------   to this  */}
     </div>
     

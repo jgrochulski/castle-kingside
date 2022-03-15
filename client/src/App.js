@@ -5,21 +5,18 @@ import Login from "./GameContainer/Login";
 import Signup from "./GameContainer/Signup";
 import TestGame from "./GameContainer/TestGame";
 import Lobby from "./GameContainer/Lobby";
-import Game from "./GameContainer/Game.js";
 import Me from "./GameContainer/Me";
 import User from "./GameContainer/User";
+import Chess from "./GameContainer/Chess";
+import Header from "./Header";
+import Highscores from "./GameContainer/Highscores";
 
 import "./App.css"
 
 function App() {
-  const [count, setCount] = useState(0);
   const [user, setUser] = useState(null);
-  // const [gameId, setGameId] = useState(null);
   const [game, setGame] = useState(null);
   const [reloadRatingToggle, setReloadRatingToggle] = useState(false);
-
-
-
 
   useEffect(() => {
     fetch("/me").then((response) => {
@@ -29,23 +26,28 @@ function App() {
     });
   }, []);
 
+
   return (
     <BrowserRouter>
       <div className="App">
         <Switch>
-          <Route path="/game">
-            <Game user={user} game={game} />
-          </Route>
           <Route path="/me">
+            <Header user={user} setUser={setUser}/>
             <Me user={user} setUser={setUser}/>
           </Route>
           <Route path="/users/:id">
+            <Header user={user} setUser={setUser}/>
             <User />
+          </Route>
+          <Route path="/chess">
+            <Header user={user} setUser={setUser}/>
+            <Chess user={user} game={game} setGame={setGame} setReloadRatingToggle={setReloadRatingToggle}/>
           </Route>
           <Route path="/test">
             <TestGame user={user} setUser={setUser} game={game} setGame={setGame} setReloadRatingToggle={setReloadRatingToggle}/>
           </Route>
           <Route path="/lobby">
+            <Header user={user} setUser={setUser}/>
             <Lobby user={user} setUser={setUser} setGame={setGame} reloadRatingToggle={reloadRatingToggle} setReloadRatingToggle={setReloadRatingToggle} />
           </Route>
           <Route path="/login">
@@ -54,8 +56,12 @@ function App() {
           <Route path="/signup">
             <Signup user={user} setUser={setUser} />
           </Route>
+          <Route path="/highscores">
+            <Header user={user} setUser={setUser}/>
+            <Highscores />
+          </Route>
           <Route path="/">
-            <GameContainer user={user} setUser={setUser} />
+            <Login user={user} setUser={setUser} />
           </Route>
           
         </Switch>

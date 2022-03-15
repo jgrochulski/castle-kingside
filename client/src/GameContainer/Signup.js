@@ -125,7 +125,7 @@ function Signup({ setUser }) {
         </form>
         <a className="login-link" href="/login">already have an account? login instead</a>
       </div>
-      {redirect? <Redirect to="/login"/> : null}
+      {redirect? <Redirect to="/lobby"/> : null}
       {alert ? <Alert status={alert} /> : null}
     </div>
     

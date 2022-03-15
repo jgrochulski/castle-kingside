@@ -112,7 +112,7 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
         .then(games => {
           let validGames = [];
           for (let i = 0; i < games.length; i++) {
-            if (games[i].status == 'running' || games[i].status == 'pending') {
+            if (games[i].status == 'in progress' || games[i].status == 'pending') {
               validGames.push(games[i])
             }
           }
@@ -168,8 +168,11 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
               if (resp.ok) {
                 resp.json()
                 .then(game => {
-                  setGame(game)
-                  setRedirect('/test')
+                  let parsedState = JSON.parse(game.state)
+                  console.log(parsedState)
+                  let parsedGame = {...game, state: parsedState}
+                  setGame(parsedGame) // ------ set game w/ player ------- here !!
+                  setRedirect('/chess')
                   console.log('game is set')
                 })
               }
@@ -190,15 +193,84 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
     
   }
 
+  let gameObj = {
+    a1: "",
+    b1: "",
+    c1: "",
+    d1: "",
+    e1: "",
+    f1: "",
+    g1: "",
+    h1: "",
+    a2: "white-pawn",
+    b2: "white-pawn",
+    c2: "white-pawn",
+    d2: "white-pawn",
+    e2: "white-pawn",
+    f2: "white-pawn",
+    g2: "white-pawn",
+    h2: "white-pawn",
+    a3: "",
+    b3: "",
+    c3: "",
+    d3: "",
+    e3: "",
+    f3: "",
+    g3: "",
+    h3: "",
+    a4: "",
+    b4: "",
+    c4: "",
+    d4: "",
+    e4: "",
+    f4: "",
+    g4: "",
+    h4: "",
+    a5: "",
+    b5: "",
+    c5: "",
+    d5: "",
+    e5: "",
+    f5: "",
+    g5: "",
+    h5: "",
+    a6: "",
+    b6: "",
+    c6: "",
+    d6: "",
+    e6: "",
+    f6: "",
+    g6: "",
+    h6: "",
+    a7: "black-pawn",
+    b7: "black-pawn",
+    c7: "black-pawn",
+    d7: "black-pawn",
+    e7: "black-pawn",
+    f7: "black-pawn",
+    g7: "black-pawn",
+    h7: "black-pawn",
+    a8: "",
+    b8: "",
+    c8: "",
+    d8: "",
+    e8: "",
+    f8: "",
+    g8: "",
+    h8: ""
+  }
+
+  let gamepack = JSON.stringify(gameObj)
+
   function createGame(){
     // console.log("create game, remember new id")
 
     let gameSeed = {
-      state: "chess",
+      state: gamepack,
       status: "pending",
       turn: "player1",
-      history: "",
-      counter: 10
+      history: null,
+      counter: 0
     }
 
     // outer fetch ---- set game w/o player ---------------- start
@@ -234,8 +306,11 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
                     if (resp.ok) {
                       resp.json()
                       .then(game => {
-                        setGame(game) // ------ set game w/ player ------- here !!
-                        setRedirect('/test')
+                        let parsedState = JSON.parse(game.state)
+                        console.log(parsedState)
+                        let parsedGame = {...game, state: parsedState}
+                        setGame(parsedGame) // ------ set game w/ player ------- here !!
+                        setRedirect('/chess')
                         console.log('game is set')
                       })
                     }
@@ -269,6 +344,20 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
     setRedirect(`/users/${id}`)
   }
 
+  function handleChess(){
+    fetch("/games/226").then((response) => {
+      if (response.ok) {
+        response.json().then((game) => {
+          let parsedState = JSON.parse(game.state)
+          console.log(parsedState)
+          let parsedGame = {...game, state: parsedState}
+          setGame(parsedGame)
+          setRedirect('/chess')
+        });
+      }
+    });
+  }
+
   return (
       <div id="lobby-container">
         <h1>{greeting}</h1>
@@ -297,19 +386,19 @@ function Lobby({ user, setUser, setGameId, setGame, reloadRatingToggle, setReloa
         <div id="lobby-games-list">
         <h2 id="me-history-h2">current users</h2>
 
-          {!lobbyUsers ? "error: no users in lobby" : 
+          {!lobbyUsers ? "loading users..." : 
           lobbyUsers.map(user => (
-            <div className="lobby-game-item">
+            <div className="lobby-game-item" key={user.id}>
               <div className="game-item-host-username" onClick={() => handleViewUser(user.user_id)}>{user.username}</div>
               <div className="game-item-text">rating: {user.score ? user.score : "n/a"}</div>
             </div>
           ))}
         </div>
         <button className="login-button" onClick={() => createGame()}>create new game</button>
-        <button className="login-button" onClick={() => loadGames()}>refresh games</button>
         <button className="login-button" onClick={() => setRedirect('/me')}>view profile</button>
+        <button className="login-button" onClick={() => setRedirect('/highscores')}>highscores</button>
+        
         {/* <button className="login-button" onClick={() => deleteUserLobby()}>del user lobby</button> */}
-
         {redirect? <Redirect to={redirect}/> : null}
       </div>
   );

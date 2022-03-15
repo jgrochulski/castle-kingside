@@ -15,9 +15,7 @@ function TestGame({ user, setUser, game, setGame, setReloadRatingToggle }){
 
   // }
 
-  const [redirect, setRedirect] = useState(false);
-
-  
+  const [redirect, setRedirect] = useState(false); // return to lobby redirect
 
 
   function resetGame(){
@@ -43,7 +41,7 @@ function TestGame({ user, setUser, game, setGame, setReloadRatingToggle }){
     })
   }
 
-  function reloadGame(){
+  function reloadGame(){  
     fetch(`/games/${game.id}`)
     .then(resp => {
       if (resp.ok) {
@@ -80,7 +78,7 @@ function TestGame({ user, setUser, game, setGame, setReloadRatingToggle }){
   function endTurn() {
     if (userTurn == user.username) {
       // setGame({...game, turn: 'player2', history: game.history + userTurn[0], counter: game.counter - 1})
-      quickPatch({turn: nextTurn, history: game.history + userTurn[0], counter: game.counter - 1})
+      quickPatch({turn: nextTurn, history: game.history + userTurn[0], counter: game.counter + 1})
       reloadGame()
     }
   }
@@ -142,20 +140,6 @@ function TestGame({ user, setUser, game, setGame, setReloadRatingToggle }){
 
     console.log(newRatingA)
     console.log(newRatingB)
-
-    // if (user.username === game.players[0].user.username) {
-    //   setUser({...user, elo_rating: newRatingA})
-    //   console.log("setUser from player1 with newRatingA")
-
-    // }
-    // else if (user.username === game.players[1].user.username) {
-    //   setUser({...user, elo_rating: newRatingB})
-    //   console.log("setUser from player2 with newRatingA")
-
-    // }
-    // else {
-    //   console.log('setUser new elo rating error!')
-    // }
 
     updateRatings(newRatingA, newRatingB)
   }
@@ -233,16 +217,13 @@ function TestGame({ user, setUser, game, setGame, setReloadRatingToggle }){
           {/* <button onClick={gameStart}>Start Game</button> */}
           <div id="test-game-status">{game.status}</div>
           <div id="test-game-turn">{userTurn}'s turn</div>
-
           <button className="test-button" onClick={endTurn}>End Turn</button>
           {/* <button onClick={simTurn}>Sim Turn</button> */}
-
           {/* <button className="test-button" onClick={endGame}>End Game</button> */}
           <div id="test-game-state">history: {game.history}</div>
-          <button className="test-button" onClick={resetGame}>Reset Game</button>
+          {/* <button className="test-button" onClick={resetGame}>Reset Game</button> */}
           <button className="test-button" onClick={generateResult}>Generate Result</button>
           <button className="test-button" onClick={returnToLobby}>Return to Lobby</button>
-
           {user && userTurn != user.username && game.status != 'ended' ? <GameChecker game={game} setGame={setGame} reloadGame={reloadGame}/> : null}
           {/* {gameStatus == 'waiting for other' ? <GameChecker game={game} setGame={setGame} reloadGame={reloadGame}/> : null} */}
           {redirect? <Redirect to="/lobby"/> : null}
