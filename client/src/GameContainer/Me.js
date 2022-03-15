@@ -173,8 +173,8 @@ function Me({ user, setUser }) {
             ))
           : <div className="me-history-none">no games played yet...</div>}
           </div>
-          <button className="me-button" onClick={() => resetRating()}>Reset Rating</button>
-          <button className="me-button" onClick={() => setRedirect('/lobby')}>Return to Lobby</button>
+          {/* <button className="me-button" onClick={() => resetRating()}>Reset Rating</button> */}
+          <button className="me-button" onClick={() => setRedirect('/lobby')}>return to lobby</button>
         </div>
         {alert ? <Alert status={alert} /> : null}
       </div>

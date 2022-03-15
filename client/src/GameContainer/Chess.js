@@ -60,7 +60,7 @@ function Chess({ user, game, setGame, setReloadRatingToggle }){
       />
       <History history={game.history}/>
       <LabelButton labelToggle={labelToggle} setLabelToggle={setLabelToggle} />
-      <button className="test-button" onClick={returnToLobby}>Return to Lobby</button>
+      <button className="test-button" onClick={returnToLobby}>return to lobby</button>
       {user && userTurn != user.username && game.status.slice(-3) != 'won' ? <GameChecker game={game} setGame={setGame} /> : null}
       {user && game.status === 'pending' ? <GameChecker game={game} setGame={setGame} message={"waiting for other player to join..."}/> : null}
       

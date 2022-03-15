@@ -86,7 +86,7 @@ function Highscores({ }) {
             ))
           : <div className="me-history-none">loading users...</div>}
           </div>
-          <button className="me-button" onClick={() => setRedirect('/lobby')}>Return to Lobby</button>
+          <button className="me-button" onClick={() => setRedirect('/lobby')}>return to lobby</button>
 
         </div>
         {alert ? <Alert status={alert} /> : null}
