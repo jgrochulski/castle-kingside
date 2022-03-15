@@ -1,4 +1,5 @@
 # README
+
 <img
   src="/screenshots/signup_login.png"
   alt="liveChess user signup and login screenshot"
@@ -58,4 +59,3 @@
   src="/screenshots/search_highscores.png"
   alt="liveChess searchable highscores screenshot"
   title="searchable user highscores based on elo rating">
-  
